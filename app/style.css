@@ -10,11 +10,13 @@ body > div{
     margin: 0 auto;
     text-align: center;
     display: grid;
-    grid-template-columns: 29% 29% 29%;
-    grid-template-rows: 400px;
+    /*grid-template-columns: 33% 0.5% 33% 0.5% 33%;*/
+    grid-template-columns: 33% 33% 33%;
+    grid-template-rows: 450px;
 
 }
 body > div > div{
+    /*width: 33%;*/
     background-color: white;
     margin: 1px;
 }
