@@ -1,22 +1,30 @@
 header(
     style=
     "background: url(/index/slide.jpg) no-repeat;" +
-    "background-size: 100%" +
-    ""
-
+    "background-size: 100%"
 )
     img(
         src="index/logo2.png"
-        width="78px"
-        height="64px"
+        width="75px"
+        height="75px"
+        style="padding: 10px;"
     )
     a(href='#' style='text-decoration:none; color:white') Курсы
     a(href='#' style='text-decoration:none; color:white') Песочница
     a(href='#' style='text-decoration:none; color:white') Форум
     a(href='#' style='text-decoration:none; color:white') Играть
     a(href='#' style='text-decoration:none; color:white') Топ
-    div
-        img(src=user_avatar)
+    img(
+        src=user_avatar
+        style=
+        "border-radius:50%;" +
+        "margin: 10px;" +
+        "float: right;" +
+        "border: 4px solid #fdd835;"
+        width="75px"
+        height="75px"
+    )
+
 
 style.
     @keyframes pulse {
@@ -76,7 +84,3 @@ button(
     "animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1), shake 0.5s infinite;" +
     "z-index: 10;"
 ) Баг
-
-
-
-
