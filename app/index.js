@@ -27,6 +27,19 @@ async function Route(app, db, req, res) {
         case "/":
             await RouteIndex(app, db, req, res);
             break;
+        case "/index/logo.png":
+            res.sendFile(path.join(__dirname, "../docs/Макет/исходники/Лого.png"));
+            break;
+        case "/index/vk.png":
+            res.sendFile(path.join(__dirname, "../docs/Макет/исходники/vk.png"));
+            break;
+        case "/index/tv.png":
+            res.sendFile(path.join(__dirname, "../docs/Макет/исходники/tv.png"));
+            break;
+        case "/index/ok.png":
+            res.sendFile(path.join(__dirname, "../docs/Макет/исходники/ok.png"));
+            break;
+
         default:
             await Route_Error(res, 404, "Страница не найдена", "Габе жив");
             break;
