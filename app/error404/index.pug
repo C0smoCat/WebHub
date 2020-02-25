@@ -1,0 +1,27 @@
+doctype html
+html(lang="ru")
+head
+    meta(charset="utf-8")
+    title #{error_code}
+    link(
+        href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900"
+        rel="stylesheet"
+    )
+    script
+        include script.js
+    style
+        include style.css
+body
+    //input(
+    //    type="file"
+    //    id="input"
+    //    onchange="SelectFile(this.files)"
+    //)
+    div(id="notfound")
+        div(class="notfound")
+            div(class="notfound-404")
+                h1(id="kosmo") #{error_code}
+            h2 #{error_msg}
+            p #{error_desc}
+            a(href="#") На главную
+// This templates was made by Colorlib (https://colorlib.com)
