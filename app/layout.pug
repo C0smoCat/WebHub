@@ -1,17 +1,17 @@
 doctype html
 html(lang="ru")
-head
-    meta(charset="utf-8")
-    block head
-    style
-        include style.css
-include ./header.pug
-body
-    div(
-        class="content-body"
-        style="max-width: 1000px;\n" +
-        "margin: auto;" +
-        "padding: 15px;"
-    )
-        block content
-include ./footer.pug
+    head
+        meta(charset="utf-8")
+        block head
+        style
+            include style.css
+    include ./header.pug
+    body
+        div(
+            class="content-body"
+            style="max-width: 1000px;\n" +
+            "margin: auto;" +
+            "padding: 15px;"
+        )
+            block content
+    include ./footer.pug

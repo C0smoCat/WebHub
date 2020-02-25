@@ -1,18 +1,23 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: Arial;
-}
-
 html {
+    font-family: Arial;
     background-color: #202020;
 }
 body{
-    /*display: grid;*/
-    grid-template-columns: 2px;
-    grid-template-rows: 2px;
+    margin: 0;
+    padding: 0;
 }
+body > div{
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 29% 29% 29%;
+    grid-template-rows: 400px;
 
+}
+body > div > div{
+    background-color: white;
+    margin: 1px;
+}
 
 footer {
     width: 100%;
