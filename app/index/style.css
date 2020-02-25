@@ -6,23 +6,6 @@ html {
     background-color: #202020;
 }
 
-footer {
-    height: 104px;
-    width: 100%;
-    background-color: #494949;
-    position: absolute;
-    bottom: 0;
-}
-footer > img{
-    float: left;
-}
-footer > div{
-    float: right;
-}
-footer > p{
-    width: max-content;
-
-}
 @media only screen and (max-width: 767px) {
 
 }

@@ -1,6 +1,11 @@
+*{
+    margin: 0;
+    padding: 0;
+}
 html {
     background-color: #202020;
 }
+
 
 footer {
     height: 104px;
@@ -8,9 +13,21 @@ footer {
     background-color: #494949;
     position: absolute;
     bottom: 0;
-
+    text-align: center;
 }
-
+footer > img{
+    float: left;
+}
+footer > div{
+    float: right;
+}
+footer > p{
+    display: contents;
+}
+footer > h1{
+    float: left;
+    text-align: left;
+}
 @media only screen and (max-width: 767px) {
 
 }
