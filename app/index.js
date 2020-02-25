@@ -30,6 +30,9 @@ async function Route(app, db, req, res) {
         case "/index/logo.png":
             res.sendFile(path.join(__dirname, "../docs/Макет/исходники/Лого.png"));
             break;
+        case "/index/logo2.png":
+            res.sendFile(path.join(__dirname, "../docs/Макет/исходники/logo.png"));
+            break;
         case "/index/vk.png":
             res.sendFile(path.join(__dirname, "../docs/Макет/исходники/vk.png"));
             break;
@@ -38,6 +41,9 @@ async function Route(app, db, req, res) {
             break;
         case "/index/ok.png":
             res.sendFile(path.join(__dirname, "../docs/Макет/исходники/ok.png"));
+            break;
+        case "/index/slide.png":
+            res.sendFile(path.join(__dirname, "../docs/Макет/исходники/Слайдер.png"));
             break;
 
         default:
