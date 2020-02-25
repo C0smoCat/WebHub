@@ -1,5 +1,8 @@
 header(
-    style="background: url(/index/slide.jpg) no-repeat; background-size: 100%;"
+    style=
+    "background: url(/index/slide.jpg) no-repeat;" +
+    "background-size: 100%"
+
 )
     img(
         src="index/logo2.png"
@@ -13,6 +16,65 @@ header(
     a(href='#' style='text-decoration:none; color:white') Топ
     div
         img(src=user_avatar)
+
+style.
+    @keyframes pulse {
+        to {
+            box-shadow: 0 0 0 145px rgba(232, 76, 61, 0);
+        }
+    }
+
+    @keyframes shake {
+        0% {
+            transform: translate(1px, 1px) rotate(0deg);
+        }
+        10% {
+            transform: translate(-1px, -2px) rotate(-1deg);
+        }
+        20% {
+            transform: translate(-3px, 0px) rotate(1deg);
+        }
+        30% {
+            transform: translate(3px, 2px) rotate(0deg);
+        }
+        40% {
+            transform: translate(1px, -1px) rotate(1deg);
+        }
+        50% {
+            transform: translate(-1px, 2px) rotate(-1deg);
+        }
+        60% {
+            transform: translate(-3px, 1px) rotate(0deg);
+        }
+        70% {
+            transform: translate(3px, 1px) rotate(-1deg);
+        }
+        80% {
+            transform: translate(-1px, -1px) rotate(1deg);
+        }
+        90% {
+            transform: translate(1px, 2px) rotate(0deg);
+        }
+        100% {
+            transform: translate(1px, -2px) rotate(-1deg);
+        }
+    }
+button(
+    id="open-button"
+    class="open-button"
+    style="background-color: rgba(232, 76, 61, 1);\n" +
+    "color: white;\n" +
+    "font-size: 40px;\n" +
+    "padding: 16px 20px;\n" +
+    "border: none;\n" +
+    "border-radius: 100px 10px 20px 50px;\n" +
+    "cursor: pointer;\n" +
+    "position: fixed;\n" +
+    "right: 28px;\n" +
+    "box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);\n" +
+    "animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1), shake 0.5s infinite;" +
+    "z-index: 10;"
+) Баг
 
 
 
