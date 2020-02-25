@@ -3,8 +3,14 @@
     padding: 0;
     font-family: Arial;
 }
+
 html {
     background-color: #202020;
+}
+body{
+    /*display: grid;*/
+    grid-template-columns: 2px;
+    grid-template-rows: 2px;
 }
 
 
