@@ -2,11 +2,6 @@ html {
     background-color: #202020;
 }
 
-a {
-    text-decoration: none;
-    color: white
-}
-
 footer {
     height: 104px;
     width: 100%;
@@ -14,17 +9,6 @@ footer {
     position: absolute;
     bottom: 0;
 
-}
-
-header {
-    height: 104px;
-    width: 100%;
-    background-image: url("");
-}
-
-header > img {
-    width: 78px;
-    height: 64px;
 }
 
 @media only screen and (max-width: 767px) {

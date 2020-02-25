@@ -4,9 +4,9 @@ module.exports = {
     databaseConfig: {
         connectionLimit: 5,
         host: "localhost",
-        user: "root_bot",
-        database: "schedule_bot",
-        password: "1234",
+        user: "root",
+        database: "webhub",
+        password: "",
         port: 3306,
         charset: "UTF8_GENERAL_CI",
         debug: false
