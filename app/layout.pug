@@ -7,5 +7,11 @@ head
         include style.css
 include ./header.pug
 body
-    block content
+    div(
+        class="content-body"
+        style="max-width: 1000px;\n" +
+        "margin: auto;" +
+        "padding: 15px;"
+    )
+        block content
 include ./footer.pug
