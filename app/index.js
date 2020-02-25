@@ -24,10 +24,19 @@ async function Route(app, db, req, res) {
         case "/phpmyadmin":
             await RouteAdminer(app, db, req, res);
             break;
+        case "/":
+            await RouteIndex(app, db, req, res);
+            break;
         default:
             await Route_Error(res, 404, "Страница не найдена", "Габе жив");
             break;
     }
+}
+
+async function RouteIndex(app, db, req, res) {
+    res.render(path.join(__dirname, "index", "index.pug"), {
+        basedir: path.join(__dirname, "index")
+    });
 }
 
 async function RouteAdminer(app, db, req, res) {
