@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    font-family: Arial;
 }
 html {
     background-color: #202020;
@@ -8,7 +9,6 @@ html {
 
 
 footer {
-    height: 104px;
     width: 100%;
     background-color: #494949;
     position: absolute;
@@ -16,15 +16,19 @@ footer {
     text-align: center;
 }
 footer > img{
+    margin: 25px;
     float: left;
 }
 footer > div{
+    margin: 32px;
     float: right;
 }
 footer > p{
-    display: contents;
+    margin-top: 40px;
+    display: inline-block;
 }
-footer > h1{
+footer > h2{
+    margin-top: 33px;
     float: left;
     text-align: left;
 }
