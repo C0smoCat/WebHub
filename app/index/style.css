@@ -1,4 +1,4 @@
-.content-body {
+#three-big-thing {
     text-align: center;
     display: grid;
     grid-template-columns: auto auto auto;
@@ -6,31 +6,30 @@
     grid-column-gap: 2%;
 }
 
-/* TODO: переделать "body>div>div>div..." используя классы/id */
-
-body > div > div {
+#three-big-thing > div {
     border-radius: 19px;
     font-weight: bold;
+    padding: 15px;
 }
 
-body > div > div > h1 {
+#three-big-thing > div > h1 {
     margin: 40% 0 0;
     font-family: "Lucida Console", serif;
     font-weight: lighter;
     font-size: 1200%;
 }
 
-body > div > div > p {
+#three-big-thing > div > p {
     margin-top: 15%;
     font-size: 260%;
 }
 
-body > div > div > div > h3 {
+#three-big-thing > div > div > h3 {
     margin: 8% 0 0;
     font-size: 400%;
 }
 
-body > div > div > div > p {
+#three-big-thing > div > div > p {
     margin: 0;
     font-size: 210%;
 }

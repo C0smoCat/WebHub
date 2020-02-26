@@ -1,68 +1,82 @@
-/*html {*/
-/*    font-family: Arial;*/
-/*    background-color: #202020;*/
-/*}*/
-/*body{*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*}*/
-/*body > div{*/
-/*    text-align: center;*/
-/*    display: grid;*/
-/*    grid-template-columns: 32% auto 32%;*/
-/*    grid-template-rows: 450px;*/
-/*    grid-column-gap: 2%;*/
-/*}*/
-/*body > div > div{*/
-/*    background-color: white;*/
-/*    border-radius: 19px;*/
-/*}*/
-/*body > div > div > h1{*/
-/*    margin: 40% 0 0;*/
-/*    font-family: "Lucida Console";*/
-/*    font-weight: lighter;*/
-/*    font-size: 1200%;*/
-/*}*/
-/*body > div > div > p{*/
-/*    margin-top: 15%;*/
-/*    font-family: "Lucida Console";*/
-/*    font-size: 260%;*/
-/*}*/
-/*body > div > div > div > h3{*/
-/*    margin: 8% 0 0;*/
-/*    font-size: 400%;*/
-/*}*/
-/*body > div > div > div > p{*/
-/*    margin: 0;*/
-/*    font-size: 210%;*/
-/*}*/
+/* Пока не используется */
+
+html {
+    font-family: Arial;
+    background-color: #202020;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body > div {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 32% auto 32%;
+    grid-template-rows: 450px;
+    grid-column-gap: 2%;
+}
+
+body > div > div {
+    background-color: white;
+    border-radius: 19px;
+}
+
+body > div > div > h1 {
+    margin: 40% 0 0;
+    font-family: "Lucida Console";
+    font-weight: lighter;
+    font-size: 1200%;
+}
+
+body > div > div > p {
+    margin-top: 15%;
+    font-family: "Lucida Console";
+    font-size: 260%;
+}
+
+body > div > div > div > h3 {
+    margin: 8% 0 0;
+    font-size: 400%;
+}
+
+body > div > div > div > p {
+    margin: 0;
+    font-size: 210%;
+}
 
 
-/*footer {*/
-/*    width: 100%;*/
-/*    background-color: #494949;*/
-/*    position: relative;*/
-/*    float: bottom;*/
-/*    text-align: center;*/
-/*    display: inline-block;*/
-/*}*/
-/*footer > img{*/
-/*    margin: 25px;*/
-/*    float: left;*/
-/*}*/
-/*footer > div{*/
-/*    margin: 32px;*/
-/*    float: right;*/
-/*}*/
-/*footer > p{*/
-/*    margin-top: 40px;*/
-/*    display: inline-block;*/
-/*}*/
-/*footer > h2{*/
-/*    margin-top: 33px;*/
-/*    float: left;*/
-/*    text-align: left;*/
-/*}*/
-/*@media only screen and (max-width: 767px) {*/
+footer {
+    width: 100%;
+    background-color: #494949;
+    position: relative;
+    float: bottom;
+    text-align: center;
+    display: inline-block;
+}
 
-/*}*/
+footer > img {
+    margin: 25px;
+    float: left;
+}
+
+footer > div {
+    margin: 32px;
+    float: right;
+}
+
+footer > p {
+    margin-top: 40px;
+    display: inline-block;
+}
+
+footer > h2 {
+    margin-top: 33px;
+    float: left;
+    text-align: left;
+}
+
+@media only screen and (max-width: 767px) {
+
+}
