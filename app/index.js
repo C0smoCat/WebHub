@@ -43,7 +43,7 @@ async function RouteIndex(app, db, req, res) {
         count_online: Math.randomInt(1000, 10000),
         count_users: Math.randomInt(10000, 100000),
         count_lessons: Math.randomInt(1000, 10000),
-        user_avatar: `/ava${Math.randomInt(1, 13)}.png`
+        user_avatar: `/avatars/ava${Math.randomInt(1, 13)}.png`
     });
 }
 
