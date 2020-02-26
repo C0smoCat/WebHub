@@ -2,23 +2,36 @@ extends ../layout
 
 block head
     title Главная
+    style
+        include style.css
 
 block content
     block slider
-    div
+    div(style={
+        background: "rgb(233, 207, 0)",
+        background: "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)"
+    })
         h1 JS
         p JavaScript
-    div
+    div(style={
+        background: "rgb(184, 0, 251)",
+        background: "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)",
+        color: "#fff"
+    })
         h1 C#
         p CSharp
-    div
+    div(style={
+        background: "rgb(255, 141, 0)",
+        background: "linear-gradient(135deg, rgba(255,141,0,1) 0%, rgba(255,109,0,1) 100%)",
+        color: "#fff"
+    })
         div
-            h3 2283
+            h3 #{count_online}
             p онлайн
         div
-            h3 227
+            h3 #{count_users}
             p пользователей
         div
-            h3 10101
+            h3 #{count_lessons}
             p уроков
 

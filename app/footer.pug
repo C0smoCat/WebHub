@@ -1,24 +1,59 @@
-footer
+footer(style={
+    width: "100%",
+    "background-color": "#494949",
+    position: "relative",
+    float: "bottom",
+    "text-align": "center",
+    display: "inline-block"
+})
     img(
         src='/index/logo.png'
         width="61px"
         height="50px"
+        style={
+            margin: "25px",
+            float: "left"
+        }
     )
-    h2
-        a(href='#' style='text-decoration:none; color:white') О нас
-    p(style='color:white;') Copyright © 2019-2020 Powered by Donat
-    div
-        a(href='#')
+    h2(style={
+        "margin-top": "33px",
+        float: "left",
+        "text-align": "left"
+    })
+        a(href='#' style={
+            "margin-top": "40px",
+            "text-decoration": "none",
+            color: "white"
+        }) О нас
+    p(style={
+        color: "white",
+        "margin-top": "40px",
+        display: "inline-block"
+    }) Copyright © 2019-2020 Powered by Donat
+    div(style={
+        margin: "32px",
+        float: "right"
+    })
+        a(
+            href='#'
+            style={margin: "5px"}
+        )
             img(
                 src='/index/vk.png'
                 width="32px"
             )
-        a(href='#')
+        a(
+            href='#'
+            style={margin: "5px"}
+        )
             img(
                 src='/index/tv.png'
                 width="32px"
             )
-        a(href='#')
+        a(
+            href='#'
+            style={margin: "5px"}
+        )
             img(
                 src='/index/ok.png'
                 width="32px"

@@ -6,12 +6,19 @@ html(lang="ru")
         style
             include style.css
     include ./header.pug
-    body
+    body(style={
+        "font-family": "Arial",
+        "background-color": "#202020",
+        margin: 0,
+        padding: 0
+    })
         div(
             class="content-body"
-            style="max-width: 1000px;\n" +
-            "margin: auto;" +
-            "padding: 15px;"
+            style={
+                "max-width": "1500px",
+                margin: "auto",
+                padding: "15px"
+            }
         )
             block content
     include ./footer.pug
