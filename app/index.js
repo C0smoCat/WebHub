@@ -229,6 +229,13 @@ async function Route_Courses(app, db, req, res) {
                 ]
             }
         ],
+        user: {
+            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+            is_authorised: true,
+            coins: Math.randomInt(0, 1000),
+            is_premium: false,
+            crown_type: Math.randomInt(0, 4)
+        },
         basedir: path.join(__dirname, "error404")
     });
 }
