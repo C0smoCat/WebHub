@@ -51,19 +51,19 @@ async function RouteIndex(app, db, req, res) {
             login: "Васян Пупкин",
             text: "Прошёл 228 курсов мне защло топ сайт",
             status: "кондитер",
-            avatar: "/avatars/ava13.png"
+            avatar: "/avatars/ava13.jpeg"
         },
         comment2: {
             login: "Газиз",
             text: "Мне приснился кошмар где я кодил 5 дней подряд, а на 7 сделал Вовин сапёр.",
             status: "знаток mail.ru",
-            avatar: "/avatars/ava13.png"
+            avatar: "/avatars/ava14.jpg"
         },
         comment3: {
             login: "Azino777",
             text: "Сайт *****, курсы дешёвые. Можно заработать гораздо больше, всего лишь...",
             status: "online кино",
-            avatar: "/avatars/ava13.png"
+            avatar: "/avatars/ava15.jpg"
         },
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,

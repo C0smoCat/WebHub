@@ -1,9 +1,10 @@
+/*Три большого что-то (начало)*/
 #three-big-thing {
     margin: 0 auto;
     text-align: center;
     display: grid;
     grid-template-columns: 32% 32% 32%;
-    grid-template-rows: auto;
+    grid-template-rows: 600px;
     grid-column-gap: 2%;
 }
 
@@ -28,7 +29,7 @@
 }
 
 .some-big-thing > div > h3 {
-    margin: 11% 0 0;
+    margin: 16% 0 0;
     font-size: 330%;
 }
 
@@ -36,11 +37,49 @@
     margin: 0;
     font-size: 165%;
 }
+/*Три большого что-то (конец)*/
+/*Три коммента (начало)*/
+#three-comments {
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    grid-template-rows: 400px;
+    grid-column-gap: 2%;
+}
 
+.comm > p {
+    color: #e2e2e2;
+    position: relative;
+    padding:20px;
+    background-color: #464646;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+}
+.comm > p:after, .comm > p:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.comm > p:after {
+    border-top-color: #464646;
+    border-width: 18px;
+    left: 25%;
+    margin-left: -18px;
+}
+
+/*Три коммента (конец)*/
+/*Медиа для слепых написано (начало)*/
 @media only screen and (max-width: 767px) {
 
 }
-
+/*Медиа для слепых было написано (Конец)*/
 body {
     background: #99aeff;
 }
