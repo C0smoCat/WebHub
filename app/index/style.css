@@ -44,42 +44,49 @@
     text-align: center;
     display: grid;
     grid-template-columns: 32% 32% 32%;
-    grid-template-rows: 400px;
+    grid-template-rows: auto;
     grid-column-gap: 2%;
 }
-
-.comm > p {
+.cloud {
+    text-align: left;
+    margin: 20px 0 20px 0;
     color: #e2e2e2;
     position: relative;
-    padding:20px;
+    padding: 10px 35px;
     background-color: #464646;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
     border-radius: 30px;
 }
-.comm > p:after, .comm > p:before {
+.cloud:after{
     top: 100%;
-    border: solid transparent;
     content: " ";
     height: 0;
     width: 0;
     position: absolute;
     pointer-events: none;
-}
-
-.comm > p:after {
+    border: 18px solid transparent;
     border-top-color: #464646;
-    border-width: 18px;
     left: 25%;
     margin-left: -18px;
 }
 
+.userCom > div {
+    border-radius: 50%;
+    width: 73px;
+    height: 73px;
+    overflow: hidden;
+    float: left;
+}
+.userCom > div > img{
+    height: 73px;
+}
 /*Три коммента (конец)*/
-/*Медиа для слепых написано (начало)*/
+/*Медиа, для слепых написано (начало)*/
 @media only screen and (max-width: 767px) {
 
 }
-/*Медиа для слепых было написано (Конец)*/
+/*Медиа, для слепых было написано (Конец)*/
 body {
     background: #99aeff;
 }

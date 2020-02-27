@@ -90,21 +90,27 @@ block content
                     p уроков
     div(id="three-comments")
         div(class="comm")
-            p #{comment1.text}
-            div
-                img(src=comment1.avatar)
+            div(class='cloud')
+                p #{comment1.text}
+            div(class='userCom')
+                div
+                    img(src=comment1.avatar)
                 h1 #{comment1.login}
                 h3 #{comment1.status}
         div(class="comm")
-            p #{comment2.text}
-            div
-                img(src=comment2.avatar)
+            div(class='cloud')
+                p #{comment2.text}
+            div(class='userCom')
+                div
+                    img(src=comment2.avatar)
                 h1 #{comment2.login}
                 h3 #{comment2.status}
         div(class="comm")
-            p #{comment3.text}
-            div
-                img(src=comment3.avatar)
+            div(class='cloud')
+                p #{comment3.text}
+            div(class='userCom')
+                div
+                    img(src=comment3.avatar)
                 h1 #{comment3.login}
                 h3 #{comment3.status}
 mixin slider(id, items)
