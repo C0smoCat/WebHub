@@ -3,7 +3,7 @@
     text-align: center;
     display: grid;
     grid-template-columns: 32% 32% 32%;
-    grid-template-rows: 400%;
+    grid-template-rows: 400% 200%;
     grid-column-gap: 2%;
     max-width: 1000px;
 }
