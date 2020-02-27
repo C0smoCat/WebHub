@@ -4,13 +4,53 @@ block head
     title Главная
     style
         include style.css
+    style
+        include tiny-slider.css
+    style.
+        .slider2-element {
+            position: relative;
+            margin: 15px;
+            border-radius: 25px;
+            overflow: hidden;
+
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+            -webkit-transform: translateY(0);
+            -webkit-transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            /*ширину задаем в js*/
+        }
+
+        .slider2-element:hover {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            transform: scale(1.01, 1.01)
+        }
+
+        .slider2-element > div {
+            position: absolute;
+            bottom: 0px;
+            background: rgba(7, 7, 7, 0.75);
+            color: white;
+            width: 100%;
+        }
+
+        .slider2-element > div > p {
+            text-align: center;
+        }
+
+        .slider2-element > img {
+            height: 300px;
+            width: 100%;
+        }
     script
         include script.js
+    script
+        include tiny-slider.js
 
 block content
     //- block slider
     //- Вова, block slider не пойдёт, тут нужен mixin (типа функция)
     //- https://pugjs.org/language/mixins.html#mixin-blocks
+    +slider(0, slider_items)
     div(id="three-big-thing")
         div(class="atvImg")
             div(
@@ -48,3 +88,10 @@ block content
                 div
                     h3 #{count_lessons}
                     p уроков
+mixin slider(id, items)
+    div(class="slider2")
+        each val in items
+            div(class="slider2-element correct-item")
+                img(src=val.img)
+                div
+                    p #{val.text}

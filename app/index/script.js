@@ -99,7 +99,7 @@ function atvImg() {
             angle = angle + 360;
 
         if (elem.firstChild.classList.contains("over"))
-            imgCSS += ' scale3d(1.03,1.03,1.03)';
+            imgCSS += ' scale3d(1.02,1.02,1.02)';
         elem.firstChild.style.transform = imgCSS;
 
         shine.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,${(pageY - offsets.top - bdst) / h * 0.4}) 0%,rgba(255,255,255,0) 80%)`;
@@ -118,4 +118,24 @@ function atvImg() {
     }
 }
 
+function MakeSlider() {
+    tns({
+        axis: "horizontal",
+        mode: "carousel",
+        container: '.slider2',
+        controls: false,
+        slideBy: 'page',
+        nav: false,
+        arrowKeys: true,
+        autoplayHoverPause: true,
+        autoplayButton: false,
+        loop: true,
+        autoplay: false,
+        touch: true,
+        mouseDrag: true,
+        fixedWidth: 400
+    });
+}
+
 window.addEventListener("load", atvImg);
+window.addEventListener("load", MakeSlider);
