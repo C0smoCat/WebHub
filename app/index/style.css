@@ -1,38 +1,41 @@
 #three-big-thing {
+    margin: 0 auto;
     text-align: center;
     display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-rows: auto;
+    grid-template-columns: 32% 32% 32%;
+    grid-template-rows: 400%;
     grid-column-gap: 2%;
+    max-width: 1000px;
 }
 
 .some-big-thing {
     /*border-radius: 19px;*/
     height: inherit;
     font-weight: bold;
-    padding: 15px;
+    padding: 1px;
 }
 
 .some-big-thing > h1 {
-    margin: 40% 0 0;
-    font-family: "Lucida Console", serif;
+    margin: 35% 0 0 0;
+    font-family: "Lucida Console";
     font-weight: lighter;
     font-size: 1200%;
 }
 
 .some-big-thing > p {
-    margin-top: 15%;
-    font-size: 260%;
+    font-family: "Lucida Console";
+    margin-top: 10%;
+    font-size: 250%;
 }
 
 .some-big-thing > div > h3 {
-    margin: 8% 0 0;
-    font-size: 400%;
+    margin: 11% 0 0;
+    font-size: 330%;
 }
 
 .some-big-thing > div > p {
     margin: 0;
-    font-size: 210%;
+    font-size: 165%;
 }
 
 @media only screen and (max-width: 767px) {
