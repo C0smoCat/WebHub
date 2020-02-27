@@ -61,38 +61,12 @@ async function RouteIndex(app, db, req, res) {
         },
         comment3: {
             login: "Azino777",
-            text: `Error: ENOENT: no such file or directory, stat 'C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava14.png'
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /lock.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /lock.png от ::1: 0.136ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /gabe.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /gabe.png от ::1: 0.524ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /udishka.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /udishka.png от ::1: 0.220ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /slider.jpg ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /slider.jpg от ::1: 0.327ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /logoJS.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /logoJS.png от ::1: 0.441ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /avatars/ava13.jpeg ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /avatars/ava13.jpeg от ::1: 0.189ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /avatars/ava14.jpg ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /avatars/ava14.jpg от ::1: 0.115ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /avatars/ava15.jpg ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /avatars/ava15.jpg от ::1: 0.287ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /logo2.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /logo2.png от ::1: 0.155ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /vk.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /vk.png от ::1: 0.078ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /tv.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /tv.png от ::1: 0.094ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /ok.png ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /ok.png от ::1: 0.118ms
-weblog Request from ::1(http://localhost:8080/) GET localhost:8080 /favicon.ico ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7 Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36
-timelog Обработка запроса /favicon.ico от ::1: 161.917ms`,
+            text: "Сайт *****, курсы дешёвые. Можно заработать гораздо больше, всего лишь...",
             status: "online кино",
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`
+            avatar: `/avatars/ava${Math.randomInt(1, 13)}.png`
         },
         user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+            avatar: `/avatars/ava${Math.randomInt(1, 13)}.png`,
             is_authorised: true,
             coins: Math.randomInt(0, 1000),
             is_premium: false,

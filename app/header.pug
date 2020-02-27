@@ -26,16 +26,16 @@ header(
         height="44px"
     )
     if user.is_authorised
-        p #{user.coins}
-        img(src="lock.png"
-            style={
-                float: "right",
-                margin: "5px",
-                "border-radius": "10%"
-            }
-            height="60px"
-            width="60px"
-        )
+        div(style={
+            float: "right",
+            margin: "5px",
+            "border-radius": "10%"
+        })
+            img(src="lock.png"
+                height="60px"
+                width="60px"
+            )
+            p #{user.coins}
     img(
         id="open-button"
         src="/gabe.png"
@@ -84,6 +84,7 @@ style.
     .topnav > li > a:hover {
         color: #fff;
     }
+
     @keyframes shake {
         0% {
             transform: translate(1px, 1px) rotate(0deg);
