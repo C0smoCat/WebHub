@@ -31,6 +31,10 @@ async function Route(app, db, req, res) {
             case "/":
                 await RouteIndex(app, db, req, res);
                 break;
+            case "/courses":
+            case "/courses/":
+                await Route_Courses(app, db, req, res);
+                break;
             default:
                 await Route_Error(res, 404, "Страница не найдена", "Габе жив");
                 break;
@@ -43,7 +47,31 @@ async function RouteIndex(app, db, req, res) {
         count_online: Math.randomInt(1000, 10000),
         count_users: Math.randomInt(10000, 100000),
         count_lessons: Math.randomInt(1000, 10000),
-        user_avatar: `/avatars/ava${Math.randomInt(1, 13)}.png`,
+        comment1: {
+            login: "Васян Пупкин",
+            text: "Прошёл 228 курсов мне защло топ сайт",
+            status: "кондитер",
+            avatar: "/avatars/ava13.png"
+        },
+        comment2: {
+            login: "Газиз",
+            text: "Мне приснился кошмар где я кодил 5 дней подряд, а на 7 сделал Вовин сапёр.",
+            status: "знаток mail.ru",
+            avatar: "/avatars/ava13.png"
+        },
+        comment3: {
+            login: "Azino777",
+            text: "Сайт *****, курсы дешёвые. Можно заработать гораздо больше, всего лишь...",
+            status: "online кино",
+            avatar: "/avatars/ava13.png"
+        },
+        user: {
+            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+            is_authorised: true,
+            coins: Math.randomInt(0, 1000),
+            is_premium: false,
+            crown_type: Math.randomInt(0, 4)
+        },
         slider_items: [
             {
                 img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
@@ -74,6 +102,134 @@ async function RouteIndex(app, db, req, res) {
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             }
         ]
+    });
+}
+
+async function Route_Courses(app, db, req, res) {
+    res.render(path.join(__dirname, "courses", "index.pug"), {
+        themes: [
+            {
+                title: "Основы",
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                lessons: [
+                    {
+                        title: "Что такое C#",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    },
+                    {
+                        title: "Переменные",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    },
+                    {
+                        title: "Hello World!",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    },
+                    {
+                        title: "Вывод текста",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    }
+                ]
+            },
+            {
+                title: "Основы 2",
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                progress: 0.5,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                lessons: [
+                    {
+                        title: "Что такое C#",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    },
+                    {
+                        title: "Переменные",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    },
+                    {
+                        title: "Hello World!",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    },
+                    {
+                        title: "Вывод текста",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    },
+                    {
+                        title: "Переменные2",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true
+                    },
+                    {
+                        title: "Hello World!2",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    },
+                    {
+                        title: "Вывод текста2",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    }
+                ]
+            },
+            {
+                title: "Основы 3",
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                progress: 0,
+                is_complete: false,
+                is_lock: true,
+                is_exam_complete: false,
+                lessons: [
+                    {
+                        title: "Что такое C#",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    },
+                    {
+                        title: "Переменные",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    },
+                    {
+                        title: "Hello World!",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    },
+                    {
+                        title: "Вывод текста",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 0,
+                        is_complete: false
+                    }
+                ]
+            }
+        ],
+        basedir: path.join(__dirname, "error404")
     });
 }
 

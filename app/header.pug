@@ -15,7 +15,7 @@ header(
         }
     )
     img(
-        src=user_avatar
+        src=user.avatar
         style={
             "border-radius": "50%",
             margin: "5px",
@@ -39,15 +39,15 @@ header(
     )
     ul(class="topnav" id="myTopnav")
         li
-            a(class="active" href="#home") Курсы
+            a(class="active" href="#course") Курсы
         li
-            a(href="#news") Песочница
+            a(href="#sandbox") Песочница
         li
-            a(href="#contact") Форум
+            a(href="#forum") Форум
         li
-            a(href="#about") Играть
+            a(href="#play") Играть
         li
-            a(href="#about") Топ
+            a(href="#leaderboard") Топ
 style.
     .topnav {
         list-style-type: none;
@@ -107,3 +107,16 @@ style.
             transform: translate(1px, -2px) rotate(-1deg);
         }
     }
+
+#user
+    if user.description
+        h2.green Description
+        p.description= user.description
+    else if authorised
+        h2.blue Description
+        p.description.
+            User has no description,
+            why not add one...
+    else
+        h2.red Description
+        p.description User has no description
