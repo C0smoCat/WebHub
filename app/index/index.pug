@@ -1,63 +1,25 @@
 extends ../layout
 
 block head
-    title Главная
+    title Главная - WebHub
     style
         include style.css
     style
         include tiny-slider.css
-    style.
-        .slider2-element {
-            position: relative;
-            margin: 15px;
-            border-radius: 25px;
-            overflow: hidden;
-
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-            -webkit-transform: translateY(0);
-            -webkit-transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            /*ширину задаем в js*/
-        }
-
-        .slider2-element:hover {
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            transform: scale(1.01, 1.01)
-        }
-
-        .slider2-element > div {
-            position: absolute;
-            bottom: 0px;
-            background: rgba(7, 7, 7, 0.75);
-            color: white;
-            width: 100%;
-        }
-
-        .slider2-element > div > p {
-            text-align: center;
-        }
-
-        .slider2-element > img {
-            height: 300px;
-            width: 100%;
-        }
     script
         include script.js
     script
         include tiny-slider.js
 
 block content
-    //- block slider
-    //- Вова, block slider не пойдёт, тут нужен mixin (типа функция)
-    //- https://pugjs.org/language/mixins.html#mixin-blocks
-    +slider(0, slider_items)
-    div(id="three-big-thing")
+    +slider(slider_items)
+    div(class="three-big-thing")
         div(class="atvImg")
             div(
                 class="atvImg-layer some-big-thing"
                 style={
-                    background: "rgb(233, 207, 0)",
-                    background: "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)"
+                    background: "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)",
+                    color: "#111"
                 })
                 h1 JS
                 p JavaScript
@@ -65,7 +27,6 @@ block content
             div(
                 class="atvImg-layer some-big-thing"
                 style={
-                    background: "rgb(184, 0, 251)",
                     background: "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)",
                     color: "#fff"
                 })
@@ -75,7 +36,6 @@ block content
             div(
                 class="atvImg-layer some-big-thing"
                 style={
-                    background: "rgb(255, 141, 0)",
                     background: "linear-gradient(135deg, rgba(255,141,0,1) 0%, rgba(255,109,0,1) 100%)",
                     color: "#fff"
                 })
@@ -88,34 +48,49 @@ block content
                 div
                     h3 #{count_lessons}
                     p уроков
-    div(id="three-comments")
-        div(class="comm")
-            div(class='cloud')
-                p #{comment1.text}
-            div(class='userCom')
-                div
-                    img(src=comment1.avatar)
-                h1 #{comment1.login}
-                h3 #{comment1.status}
-        div(class="comm")
-            div(class='cloud')
-                p #{comment2.text}
-            div(class='userCom')
-                div
-                    img(src=comment2.avatar)
-                h1 #{comment2.login}
-                h3 #{comment2.status}
-        div(class="comm")
-            div(class='cloud')
-                p #{comment3.text}
-            div(class='userCom')
-                div
-                    img(src=comment3.avatar)
-                h1 #{comment3.login}
-                h3 #{comment3.status}
-mixin slider(id, items)
+    +make-comments(comment1, comment2, comment3)
+
+mixin slider(items)
     div(class="slider2")
         each val in items
             div(class="slider2-element correct-item")
                 img(src=val.img)
-                p #{val.text}
+                div
+                    p #{val.text}
+
+
+mixin make-comments(comment1, comment2, comment3)
+    div(class="three-comments")
+        +make-comment(comment1)
+        +make-comment(comment2)
+        +make-comment(comment3)
+
+//- "Улучшенные комментарии"
+mixin make-comment(comment)
+    div(class="atvImg")
+        div(
+            class="comm atvImg-layer"
+            style={
+                background: "#464646",
+                height: "inherit",
+                width: "inherit"
+            }
+        )
+            div(class='cloud')
+                p #{comment.text}
+            div(class='userCom')
+                div
+                    img(src=comment.avatar)
+                h1 #{comment.login}
+                h3 #{comment.status}
+
+//- Обычные комментарии, просто расскоменть вместо верхних
+//- mixin make-comment(comment)
+//-     div(class="comm")
+//-         div(class='cloud')
+//-             p #{comment.text}
+//-         div(class='userCom')
+//-             div
+//-                 img(src=comment.avatar)
+//-             h1 #{comment.login}
+//-             h3 #{comment.status}

@@ -1,66 +1,100 @@
+- const backgroud = Math.randomizeArray(["/slider.jpg", "/udishka.png", "/vasyan.jpeg"]);
 header(
     style={
-        background: "url(/slider.jpg) no-repeat",
+        background: "url(" + backgroud + ") no-repeat",
         "background-color": "#494949",
         display: "flow-root",
-        "background-size": "100%"
+        "background-size": "100%",
+        "min-height": (is_big_topnav || false) ? "400px" : "0",
+        "background-repeat-y": "repeat",
+        position: "relative"
     })
-    img(
-        src="/logo.png"
-        width="46px"
-        height="46px"
-        style={
-            margin: "5px",
-            float: "left",
-        }
-    )
-    img(
-        src=user.avatar
-        style={
-            "border-radius": "50%",
-            margin: "5px",
-            float: "right",
-            border: "2px solid #fdd835"
-        }
-        width="44px"
-        height="44px"
-    )
+    if (is_big_topnav || false)
+        div(style={
+            position: "absolute",
+            bottom: "0px",
+            background: "rgba(7, 7, 7, 0.75)",
+            color: "white",
+            width: "100%"
+        })
+            p(style={"text-align": "center"}) Большая шапка!
+    a(href='/')
+        img(
+            class="hover-logo"
+            src="/logo.png"
+            width="46px"
+            height="46px"
+        )
+    a(href=user.is_authorised ? "/user" : "/login")
+        img(
+            class="hover-logo"
+            src=user.avatar
+            style={
+                "border-radius": "50%",
+                margin: "5px",
+                float: "right",
+                border: "2px solid #fdd835"
+            }
+            width="44px"
+            height="44px"
+        )
     if user.is_authorised
         div(style={
             float: "right",
-            margin: "5px",
-            "border-radius": "10%"
+            margin: "5px"
         })
-            img(src="lock.png"
-                height="60px"
-                width="60px"
-            )
-            p #{user.coins}
+            //- img(src="lock.png"
+            //-     height="46px"
+            //-     width="46px"
+            //- )
+            p(style={
+                float: "right",
+                margin: "0px",
+                color: "#eee",
+                display: "inline-block",
+                color: "#f2f2f2",
+                "text-align": "center",
+                padding: "10px",
+                "text-decoration": "none",
+                "font-size": "22px"
+            }) $ #{user.coins}
     img(
         id="open-button"
         src="/gabe.png"
         width="55px"
         height="45px"
+        onclick="let borks=['Борк!','Борк!','Боророк!','Курлык!'];alert(borks[Math.floor(Math.random()*borks.length)]);if(Math.random()<0.1){let imgs=document.querySelectorAll('img');for(let img of imgs){img.style.animation='shake 0.5s infinite';img.style.animationDelay=(-Math.random()*10).toString()+'s';}}"
         style={
             float: "right",
             margin: "5px",
             cursor: "pointer",
-            animation: "pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1), shake 0.5s infinite"
+            animation: "shake 0.5s infinite"
         }
     )
     ul(class="topnav" id="myTopnav")
         li
-            a(class="active" href="/courses") Курсы
+            a(class=current_page === "courses" ? "active" : "" href="/courses") Курсы
         li
-            a(href="#sandbox") Песочница
+            a(class=current_page === "sandbox" ? "active" : "" href="/sandbox") Песочница
         li
-            a(href="#forum") Форум
+            a(class=current_page === "forum" ? "active" : "" href="/forum") Форум
         if user.is_authorised
             li
-                a(href="#play") Играть
+                a(class=current_page === "play" ? "active" : "" href="/play") Играть
             li
-                a(href="#leaderboard") Топ
+                a(class=current_page === "leaderboard" ? "active" : "" href="/leaderboard") Топ
 style.
+    .hover-logo {
+        transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        margin: 5px;
+        float: left;
+    }
+
+    .hover-logo:hover {
+        filter: drop-shadow(0px 0px 5px #222);
+        transform: scale(1.1, 1.1)
+    }
+
     .topnav {
         list-style-type: none;
         margin: 0;
@@ -70,15 +104,16 @@ style.
 
     .topnav > li > a {
         float: left;
-    }
-
-    .topnav > li > a {
         display: inline-block;
-        color: #f2f2f2;
+        color: #ddd;
         text-align: center;
         padding: 16px;
         text-decoration: none;
         font-size: 22px;
+    }
+
+    .topnav > li > .active {
+        text-decoration: underline;
     }
 
     .topnav > li > a:hover {

@@ -21,21 +21,18 @@ function atvImg() {
 
         let containerHTML = d.createElement('div');
         let shineHTML = d.createElement('div');
-        let shadowHTML = d.createElement('div');
         let layersHTML = d.createElement('div');
         let layers = [];
 
         thisImg.id = `atvImg__${l}`;
         containerHTML.className = 'atvImg-container';
         shineHTML.className = 'atvImg-shine';
-        shadowHTML.className = 'atvImg-shadow';
         layersHTML.className = 'atvImg-layers';
 
         for (let i = 0; i < totalLayerElems; i++)
             while (thisImg.childNodes.length > 0)
                 layersHTML.appendChild(thisImg.childNodes[0]);
 
-        containerHTML.appendChild(shadowHTML);
         containerHTML.appendChild(layersHTML);
         containerHTML.appendChild(shineHTML);
         thisImg.appendChild(containerHTML);
@@ -43,7 +40,6 @@ function atvImg() {
         let w = thisImg.clientWidth || thisImg.offsetWidth || thisImg.scrollWidth;
         thisImg.style.transform = `perspective(${w * 3}px)`;
 
-        continue;
         if (supportsTouch) {
             win.preventScroll = false;
 

@@ -35,7 +35,7 @@ app.set("view engine", "pug");
 
 app.use((req, res, next) => {
     let ip = req.connection.remoteAddress;
-    console.log(`weblog Request from ${ip}(${req.headers.referer}) ${req.method} ${req.headers.host} ${req.originalUrl} ${req.headers["accept-language"]} ${req.headers["user-agent"]}`);
+    console.log(`weblog Request from ${ip} [${req.headers["x-forwarded-for"]}] (${req.headers.referer}) ${req.method} ${req.headers.host} ${req.originalUrl} ${req.headers["accept-language"]} ${req.headers["user-agent"]}`);
     next();
 });
 
