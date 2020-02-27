@@ -25,6 +25,17 @@ header(
         width="44px"
         height="44px"
     )
+    if user.is_authorised
+        p #{user.coins}
+        img(src="lock.png"
+            style={
+                float: "right",
+                margin: "5px",
+                "border-radius": "10%"
+            }
+            height="60px"
+            width="60px"
+        )
     img(
         id="open-button"
         src="/gabe.png"
@@ -44,10 +55,11 @@ header(
             a(href="#sandbox") Песочница
         li
             a(href="#forum") Форум
-        li
-            a(href="#play") Играть
-        li
-            a(href="#leaderboard") Топ
+        if user.is_authorised
+            li
+                a(href="#play") Играть
+            li
+                a(href="#leaderboard") Топ
 style.
     .topnav {
         list-style-type: none;
@@ -107,16 +119,3 @@ style.
             transform: translate(1px, -2px) rotate(-1deg);
         }
     }
-
-#user
-    if user.description
-        h2.green Description
-        p.description= user.description
-    else if authorised
-        h2.blue Description
-        p.description.
-            User has no description,
-            why not add one...
-    else
-        h2.red Description
-        p.description User has no description
