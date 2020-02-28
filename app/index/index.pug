@@ -65,32 +65,12 @@ mixin make-comments(comment1, comment2, comment3)
         +make-comment(comment2)
         +make-comment(comment3)
 
-//- "Улучшенные комментарии"
 mixin make-comment(comment)
-    div(class="atvImg")
-        div(
-            class="comm atvImg-layer"
-            style={
-                background: "#464646",
-                height: "inherit",
-                width: "inherit"
-            }
-        )
-            div(class='cloud')
-                p #{comment.text}
-            div(class='userCom')
-                div
-                    img(src=comment.avatar)
-                h1 #{comment.login}
-                h3 #{comment.status}
-
-//- Обычные комментарии, просто расскоменть вместо верхних
-//- mixin make-comment(comment)
-//-     div(class="comm")
-//-         div(class='cloud')
-//-             p #{comment.text}
-//-         div(class='userCom')
-//-             div
-//-                 img(src=comment.avatar)
-//-             h1 #{comment.login}
-//-             h3 #{comment.status}
+     div(class="comm")
+         div(class='cloud')
+             p #{comment.text}
+         div(class='userCom')
+             div
+                 img(src=comment.avatar)
+             h1 #{comment.login}
+             h3 #{comment.status}
