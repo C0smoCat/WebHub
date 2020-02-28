@@ -7,18 +7,25 @@ block head
 
 block content
     //p TODO
-    div(id="Courses")
+    div(id="courses")
         hr
         each theme in themes
             ul
-                div(class="Theme")
+                div(class="theme")
                     div
                         img(src=theme.avatar width="200px" height="200px")
                         li #{theme.title} (#{theme.is_lock ? "закрыто" : (theme.is_complete ? (theme.is_exam_complete ? "пройдено" : "сдай экзамен") : (theme.progress * 100) + "%")})
                     a(href="#") Экзамен
                 ul
-                    each lesson in theme.lessons
-                        div(class="lessor")
-                            img(src=lesson.avatar width="100px" height="100px")
-                            li #{lesson.title} (#{theme.is_lock ? "закрыто" : (lesson.is_complete ? "пройдено" : (lesson.progress * 100) + "%")})
+                    - let is_long_array = theme.lessons.length > 6;
+                    - let short_lessons = is_long_array ? theme.lessons.slice(0, 5) : theme.lessons;
+                    each lesson in short_lessons
+                        a(href=lesson.url)
+                            div(class="lessor")
+                                img(src=lesson.avatar width="100px" height="100px")
+                                li #{lesson.title} (#{theme.is_lock ? "закрыто" : (lesson.is_complete ? "пройдено" : (lesson.progress * 100) + "%")})
+                    if(is_long_array)
+                        a(href="#" class='A')
+                            div(class="lNext")
+                                li Далее
             hr

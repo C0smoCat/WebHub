@@ -1,15 +1,16 @@
-#Courses{
+#courses{
     margin: 0 auto;
     width: 1200px;
+    font-weight: bold;
 }
-#Courses > ul{
+#courses > ul{
     list-style: none;
     display: grid;
     grid-template-columns: 30% auto;
     grid-column-gap: 2%;
     grid-row-gap: 2%;
 }
-#Courses > ul >  ul{
+#courses > ul >  ul{
     list-style: none;
     display: grid;
     grid-template-columns: max-content max-content max-content;
@@ -17,48 +18,61 @@
     grid-column-gap: 20px;
     grid-row-gap: 20px;
 }
-#Courses > li{
+
+#courses > ul > ul > a{
+    text-decoration: none;
+    color: #eee;
 }
 
-.Theme > div, .lessor{
+.theme > div, .lessor, .lNext{
     border-radius: 15px;
     background-color: #464646;
     text-align: center;
 }
-.Theme > div{
+.theme > div{
     width: 373px;
     height: 363px;
 }
-.lessor{
+.lessor, .lNext{
     width: 225px;
     height: 201px;
 }
-.lessor > img, .Theme > div > img{
+.lessor > img, .theme > div > img{
     margin: 15% 0 0 0;
 }
-.Theme > div > li{
+.theme > div > li{
     margin: 8% 0 0 0;
     font-size: 28px;
+    font-weight: bold;
 }
 .lessor > li{
     margin: 1% 0 0 0;
     font-size: 20px;
+    font-weight: bold;
 }
-.Theme > a{
+.theme > a{
     margin-top: 15.5px;
     padding: 3.5px 0 4.5px;
     text-align: center;
     text-decoration: none;
     font-size: 30px;
+    font-weight: bold;
     border-radius: 15px;
     color: white;
     background-color: #23b45d;
     display: block;
     width: 373px;
 }
-.Theme > a:hover{
+.theme > a:hover{
     background-color: #219851;
     transition: 0.5s;
+}
+.lNext > li, .A{
+    font-size: 58px;
+    font-weight: bold;
+}
+.lNext > li{
+    padding-top: 65px;
 }
 hr{
     border: none;
