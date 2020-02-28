@@ -5,11 +5,6 @@ block head
     style
         include style.css
     style.
-        * {
-            box-sizing: border-box;
-        }
-
-
         form.example input[type=text] {
             padding: 10px;
             font-size: 17px;
@@ -18,7 +13,6 @@ block head
             width: 80%;
             background: #464646;
         }
-
 
         form.example button {
             float: left;
@@ -35,7 +29,6 @@ block head
             background: #464646;
         }
 
-
         form.example::after {
             content: "";
             clear: both;
@@ -45,15 +38,15 @@ block head
 block content
     p TODO
     form(
-        class="example" action="action_page.php" style={margin: "20px 0"}
+        class="example"
+        action="action_page.php"
+        style={margin: "20px 0"}
     )
         input(type="text" placeholder="Поиск темы" name="search")
         button(type="submit")
             i(class="fa fa-search")
-
-
-
     each theme in themes
+        a(href=themes.url)
         div(style={
             background: "#464646",
         })
