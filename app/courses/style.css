@@ -1,16 +1,18 @@
-#courses{
+#courses {
     margin: 0 auto;
     width: 1200px;
     font-weight: bold;
 }
-#courses > ul{
+
+#courses > ul {
     list-style: none;
     display: grid;
     grid-template-columns: 30% auto;
     grid-column-gap: 2%;
     grid-row-gap: 2%;
 }
-#courses > ul >  ul{
+
+#courses > ul > ul {
     list-style: none;
     display: grid;
     grid-template-columns: max-content max-content max-content;
@@ -19,63 +21,96 @@
     grid-row-gap: 20px;
 }
 
-#courses > ul > ul > a{
+#courses > ul > ul > a {
     text-decoration: none;
     color: #eee;
 }
 
-.theme > div, .lessor, .lNext{
-    border-radius: 15px;
+.theme > div:not(.disabled):hover, .lessor:not(.disabled):hover, .lNext:hover, .theme > a:not(.disabled):hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.03, 1.03) translateY(-5px);
+}
+
+.disabled {
+    cursor: no-drop;
+}
+
+.theme > div, .lessor, .lNext {
+    border-radius: 8px;
     background-color: #464646;
     text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
-.theme > div{
+
+.theme > div {
     width: 373px;
     height: 363px;
 }
-.lessor, .lNext{
+
+.lessor, .lNext {
     width: 225px;
     height: 201px;
 }
-.lessor > img, .theme > div > img{
+
+.lessor > img, .theme > div > img {
     margin: 15% 0 0 0;
 }
-.theme > div > li{
+
+.theme > div > li {
     margin: 8% 0 0 0;
     font-size: 28px;
     font-weight: bold;
 }
-.lessor > li{
+
+.lessor > li {
     margin: 1% 0 0 0;
     font-size: 20px;
     font-weight: bold;
 }
-.theme > a{
+
+.extended-lesson {
+    display: none;
+}
+
+.theme > a {
     margin-top: 15.5px;
     padding: 3.5px 0 4.5px;
     text-align: center;
     text-decoration: none;
     font-size: 30px;
     font-weight: bold;
-    border-radius: 15px;
+    border-radius: 8px;
     color: white;
     background-color: #23b45d;
     display: block;
     width: 373px;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
-.theme > a:hover{
-    background-color: #219851;
-    transition: 0.5s;
-}
-.lNext > li, .A{
+
+.lNext > li {
     font-size: 58px;
     font-weight: bold;
-}
-.lNext > li{
     padding-top: 65px;
 }
-hr{
+
+hr {
     border: none;
+    border-radius: 8px;
     height: 5px;
-    background: linear-gradient(135deg, rgba(255,141,0,1) 0%, rgba(255,109,0,1) 100%)
+    background: linear-gradient(135deg, rgba(255, 141, 0, 1) 0%, rgba(255, 109, 0, 1) 100%);
+}
+
+.progress-bar {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #8D8D8D
+}
+
+.progress-bar > div {
+    height: inherit
 }

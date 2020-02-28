@@ -4,28 +4,71 @@ block head
     title Курсы - WebHub
     style
         include style.css
+    script
+        include script.js
 
 block content
-    //p TODO
-    div(id="courses")
-        hr
-        each theme in themes
-            ul
-                div(class="theme")
-                    div
-                        img(src=theme.avatar width="200px" height="200px")
-                        li #{theme.title} (#{theme.is_lock ? "закрыто" : (theme.is_complete ? (theme.is_exam_complete ? "пройдено" : "сдай экзамен") : (theme.progress * 100) + "%")})
-                    a(href="#") Экзамен
-                ul
-                    - let is_long_array = theme.lessons.length > 6;
-                    - let short_lessons = is_long_array ? theme.lessons.slice(0, 5) : theme.lessons;
-                    each lesson in short_lessons
-                        a(href=lesson.url)
-                            div(class="lessor")
-                                img(src=lesson.avatar width="100px" height="100px")
-                                li #{lesson.title} (#{theme.is_lock ? "закрыто" : (lesson.is_complete ? "пройдено" : (lesson.progress * 100) + "%")})
-                    if(is_long_array)
-                        a(href="#" class='A')
-                            div(class="lNext")
-                                li Далее
+    case lang
+        when "cs"
+            p Язык программирования - C#
+        when "js"
+            p Язык программирования - JavaScript
+        default
+            p Выберите язык программирования
+            p
+                a(href="/courses?lang=cs") C#
+            p
+                a(href="/courses?lang=js") JavaScript
+    if themes
+        - let allProgress = themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / themes.length;
+        p Общий прогресс: #{Math.roundN(allProgress * 100)}%
+        div(id="courses")
             hr
+            each theme in themes
+                - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
+                ul
+                    div(class="theme")
+                        div(onclick="extendedLessonClick(this)" class=(theme.is_lock && "disabled"))
+                            img(src=((user.is_authorised && !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
+                            li #{theme.title}
+                            if user.is_authorised && !theme.is_lock
+                                +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+                        a(
+                            href=(theme.is_complete && theme.exam_url)
+                            class=(!theme.is_complete && "disabled")
+                            style={background: (theme.is_complete ? (theme.is_exam_complete ? "#23B45D" : "rgba(255, 109, 0, 1)") : "#8D8D8D")}
+                        ) Экзамен
+                    ul
+                        - let is_long_array = theme.lessons.length > 6;
+                        - let short_lessons = is_long_array ? theme.lessons.slice(0, 5) : theme.lessons;
+                        - let extended_lessons = is_long_array ? theme.lessons.slice(5) : [];
+                        each lesson in short_lessons
+                            +lesson(theme, lesson, false)
+                        if(is_long_array)
+                            each lesson in extended_lessons
+                                +lesson(theme, lesson, true)
+                            div(class="lNext" onclick="extendedLessonClick(this)")
+                                li >
+                                p +#{extended_lessons.length}
+                                if (user.is_authorised && !theme.is_lock)
+                                    - let extendedPercent = extended_lessons.reduce((total, current) => total += current.progress, 0) / extended_lessons.length;
+                                    +progress-bar(extendedPercent, (extendedPercent >= 1) ? "#23B45D" : "#F3EB0C", 10)
+                hr
+
+mixin lesson(theme, lesson, is_extended)
+    a(href=(user.is_authorised && !theme.is_lock && lesson.url) class=(is_extended && "extended-lesson"))
+        div(class="lessor" class=((!user.is_authorised || theme.is_lock) && "disabled"))
+            img(src=((user.is_authorised && !theme.is_lock) ? lesson.avatar : "/lock.png") width="100px" height="100px")
+            li #{lesson.title}
+            if (user.is_authorised && !theme.is_lock)
+                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#F3EB0C", 10)
+
+mixin progress-bar(percent, color, height)
+    div(
+        class="progress-bar"
+        style={height: (height || 15) + "px"}
+    )
+        div(style={
+            width: (percent * 100) + "%",
+            background: color
+        })

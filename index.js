@@ -91,7 +91,10 @@ function ApplyFeatures() {
     Math.clamp = (t, a = 0, b = 1) =>
         t < a ? a : t > b ? b : t;
 
+    Math.roundN = (a, n = 2) =>
+        Math.round(a * (10 ** n)) / (10 ** n);
+
     Array.dedublicate = function () {
         return this.filter((a, b) => this.indexOf(a) === b);
-    }
+    };
 }

@@ -14,40 +14,43 @@ block head
 block content
     +slider(slider_items)
     div(class="three-big-thing")
-        div(class="atvImg")
-            div(
-                class="atvImg-layer some-big-thing"
-                style={
-                    background: "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)",
-                    color: "#111"
-                })
-                h1 JS
-                p JavaScript
-        div(class="atvImg")
-            div(
-                class="atvImg-layer some-big-thing"
-                style={
-                    background: "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)",
-                    color: "#fff"
-                })
-                h1 C#
-                p CSharp
-        div(class="atvImg")
-            div(
-                class="atvImg-layer some-big-thing"
-                style={
-                    background: "linear-gradient(135deg, rgba(255,141,0,1) 0%, rgba(255,109,0,1) 100%)",
-                    color: "#fff"
-                })
-                div
-                    h3 #{count_online}
-                    p онлайн
-                div
-                    h3 #{count_users}
-                    p пользователей
-                div
-                    h3 #{count_lessons}
-                    p уроков
+        a(href="/courses?lang=js")
+            div(class="atvImg")
+                div(
+                    class="atvImg-layer some-big-thing"
+                    style={
+                        background: "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)",
+                        color: "#111"
+                    })
+                    h1 JS
+                    p JavaScript
+        a(href="/courses?lang=cs")
+            div(class="atvImg")
+                div(
+                    class="atvImg-layer some-big-thing"
+                    style={
+                        background: "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)",
+                        color: "#fff"
+                    })
+                    h1 C#
+                    p CSharp
+        a(href="/about")
+            div(class="atvImg")
+                div(
+                    class="atvImg-layer some-big-thing"
+                    style={
+                        background: "linear-gradient(135deg, rgba(255,141,0,1) 0%, rgba(255,109,0,1) 100%)",
+                        color: "#fff"
+                    })
+                    div
+                        h3 #{count_online}
+                        p онлайн
+                    div
+                        h3 #{count_users}
+                        p пользователей
+                    div
+                        h3 #{count_lessons}
+                        p уроков
     +make-comments(comment1, comment2, comment3)
 
 mixin slider(items)
