@@ -6,12 +6,19 @@ block head
         include style.css
 
 block content
-    p TODO
-    ul
+    //p TODO
+    div(id="Courses")
+        hr
         each theme in themes
-            li #{theme.title} (#{theme.is_lock ? "закрыто" : (theme.is_complete ? (theme.is_exam_complete ? "пройдено" : "сдай экзамен") : (theme.progress * 100) + "%")})
-            img(src=theme.avatar width="200px" height="200px")
             ul
-                each lesson in theme.lessons
-                    li #{lesson.title} (#{theme.is_lock ? "закрыто" : (lesson.is_complete ? "пройдено" : (lesson.progress * 100) + "%")})
-                    img(src=lesson.avatar width="100px" height="100px")
+                div(class="Theme")
+                    div
+                        img(src=theme.avatar width="200px" height="200px")
+                        li #{theme.title} (#{theme.is_lock ? "закрыто" : (theme.is_complete ? (theme.is_exam_complete ? "пройдено" : "сдай экзамен") : (theme.progress * 100) + "%")})
+                    a(href="#") Экзамен
+                ul
+                    each lesson in theme.lessons
+                        div(class="lessor")
+                            img(src=lesson.avatar width="100px" height="100px")
+                            li #{lesson.title} (#{theme.is_lock ? "закрыто" : (lesson.is_complete ? "пройдено" : (lesson.progress * 100) + "%")})
+            hr

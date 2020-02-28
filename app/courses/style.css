@@ -1,0 +1,67 @@
+#Courses{
+    margin: 0 auto;
+    width: 1200px;
+}
+#Courses > ul{
+    list-style: none;
+    display: grid;
+    grid-template-columns: 30% auto;
+    grid-column-gap: 2%;
+    grid-row-gap: 2%;
+}
+#Courses > ul >  ul{
+    list-style: none;
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    grid-template-rows: max-content max-content;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+#Courses > li{
+}
+
+.Theme > div, .lessor{
+    border-radius: 15px;
+    background-color: #464646;
+    text-align: center;
+}
+.Theme > div{
+    width: 373px;
+    height: 363px;
+}
+.lessor{
+    width: 225px;
+    height: 201px;
+}
+.lessor > img, .Theme > div > img{
+    margin: 15% 0 0 0;
+}
+.Theme > div > li{
+    margin: 8% 0 0 0;
+    font-size: 28px;
+}
+.lessor > li{
+    margin: 1% 0 0 0;
+    font-size: 20px;
+}
+.Theme > a{
+    margin-top: 15.5px;
+    padding: 3.5px 0 4.5px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 30px;
+    border-radius: 15px;
+    color: white;
+    background-color: #23b45d;
+    display: block;
+    width: 373px;
+}
+.Theme > a:hover{
+    background-color: #219851;
+    transition: 0.5s;
+}
+hr{
+    border: none;
+    height: 5px;
+    background: linear-gradient(135deg, rgba(255,141,0,1) 0%, rgba(255,109,0,1) 100%)
+}
