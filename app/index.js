@@ -128,31 +128,31 @@ async function RouteIndex(app, db, req, res) {
         },
         slider_items: [
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             },
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             },
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             },
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             },
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             },
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             },
             {
-                img: Math.randomizeArray(["logoJS.png", "udishka.png", "slider.jpg"]),
+                img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
                 text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
             }
         ]
