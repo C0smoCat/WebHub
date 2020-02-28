@@ -186,25 +186,29 @@ async function Route_Courses(app, db, req, res) {
                         title: "Что такое C#",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course1/lesson2"
                     },
                     {
                         title: "Переменные",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course1/lesson3"
                     },
                     {
                         title: "Hello World!",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course1/lesson4"
                     },
                     {
                         title: "Вывод текста",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course1/lesson5"
                     }
                 ]
             },
@@ -220,43 +224,50 @@ async function Route_Courses(app, db, req, res) {
                         title: "Что такое C#",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course2/lesson1"
                     },
                     {
                         title: "Переменные",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course2/lesson2"
                     },
                     {
                         title: "Hello World!",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course2/lesson3"
                     },
                     {
                         title: "Вывод текста",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0.5,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course2/lesson4"
                     },
                     {
                         title: "Переменные2",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 1,
-                        is_complete: true
+                        is_complete: true,
+                        url: "/courses/course2/lesson5"
                     },
                     {
                         title: "Hello World!2",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course2/lesson6"
                     },
                     {
                         title: "Вывод текста2",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course2/lesson7"
                     }
                 ]
             },
@@ -272,25 +283,29 @@ async function Route_Courses(app, db, req, res) {
                         title: "Что такое C#",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course3/lesson1"
                     },
                     {
                         title: "Переменные",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course3/lesson2"
                     },
                     {
                         title: "Hello World!",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course3/lesson3"
                     },
                     {
                         title: "Вывод текста",
                         avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                         progress: 0,
-                        is_complete: false
+                        is_complete: false,
+                        url: "/courses/course3/lesson4"
                     }
                 ]
             }
@@ -320,37 +335,44 @@ async function Route_Forum(app, db, req, res) {
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 1",
-                last_message: "Габе RIP"
+                last_message: "Габе RIP",
+                url: "/forum/theme1"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 2",
-                last_message: "Габе RIP"
+                last_message: "Габе RIP",
+                url: "/forum/theme2"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 3",
-                last_message: "Габе ЖИВ"
+                last_message: "Габе ЖИВ",
+                url: "/forum/theme3"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 4",
-                last_message: "Габе ЖИВ"
+                last_message: "Габе ЖИВ",
+                url: "/forum/theme4"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 5",
-                last_message: "Габе RIP"
+                last_message: "Габе RIP",
+                url: "/forum/theme5"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 6",
-                last_message: "Габе ЖИВ"
+                last_message: "Габе ЖИВ",
+                url: "/forum/theme6"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 7",
-                last_message: "Габе ЖИВ"
+                last_message: "Габе ЖИВ",
+                url: "/forum/theme7"
             }
         ]
 
