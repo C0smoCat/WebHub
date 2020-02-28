@@ -6,6 +6,7 @@ block head
         include style.css
 
 block content
+    p TODO
     ul
         each theme in themes
             li #{theme.title} (#{theme.is_lock ? "закрыто" : (theme.is_complete ? (theme.is_exam_complete ? "пройдено" : "сдай экзамен") : (theme.progress * 100) + "%")})

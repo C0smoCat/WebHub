@@ -2,6 +2,14 @@ extends ../layout
 
 block head
     title Форум - WebHub
+    style
+        include style.css
 
 block content
     p TODO
+
+    each theme in themes
+        div
+            img(src=theme.avatar width="100px" height="100px")
+            p #{theme.title}
+            p #{theme.last_message}

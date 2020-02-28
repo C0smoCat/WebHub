@@ -99,6 +99,16 @@ async function RouteIndex(app, db, req, res) {
         status: "живой",
         avatar: `/avatars/ava5.png`
     }, {
+        login: "Bob cotik",
+        text: "Курсы интересный,люди отличные,вообщем всё замечательно,but picture shit poligon",
+        status: "продажный",
+        avatar: `/avatars/ava1.png`
+    }, {
+        login: "ye.sb",
+        text: "свадьба хорошая и конкурсы интересные ",
+        status: "самогоногон",
+        avatar: `/avatars/ava17.png`
+    }, {
         login: "Среднекоммент",
         text: "Википе́дия — общедоступная многоязычная универсальная интернет-энциклопедия со свободным контентом, реализованная на принципах вики. Расположена по адресу www.wikipedia.org. Владелец сайта — американская некоммерческая организация «Фонд Викимедиа», имеющая 37 региональных представительств",
         status: "тест-тест",
@@ -305,7 +315,45 @@ async function Route_Forum(app, db, req, res) {
             coins: Math.randomInt(0, 1000),
             is_premium: false,
             crown_type: Math.randomInt(0, 4)
-        }
+        },
+        themes: [
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 1",
+                last_message: "Габе RIP"
+            },
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 2",
+                last_message: "Габе RIP"
+            },
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 3",
+                last_message: "Габе ЖИВ"
+            },
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 4",
+                last_message: "Габе ЖИВ"
+            },
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 5",
+                last_message: "Габе RIP"
+            },
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 6",
+                last_message: "Габе ЖИВ"
+            },
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                title: "Тема 7",
+                last_message: "Габе ЖИВ"
+            }
+        ]
+
     }, (err, page) => HandleResult(err, page, res));
 }
 
