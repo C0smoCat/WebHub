@@ -70,7 +70,8 @@ mixin make-comment(comment)
          div(class='cloud')
              p #{comment.text}
          div(class='userCom')
-             div
+             div(class='userAva')
                  img(src=comment.avatar)
-             h1 #{comment.login}
-             h3 #{comment.status}
+             div(class='userLog')
+                h1 #{comment.login}
+                h3 #{comment.status}

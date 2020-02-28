@@ -71,8 +71,7 @@
     left: 25%;
     margin-left: -18px;
 }
-
-.userCom > div {
+.userAva {
     border-radius: 50%;
     width: 73px;
     height: 73px;
@@ -81,17 +80,23 @@
     float: left;
 }
 
-.userCom > div > img {
+.userAva > img {
     height: 73px;
     width: 73px;
 }
 
-.userCom > h1 {
-    color: #E8E8E8;
+.userLog{
+    display: flow-root;
+}
+
+.userLog > h1 {
+    margin: 12px 0 6px 10px;
+    color: #E9E9E9;
     text-align: left;
 }
 
-.userCom > h3 {
+.userLog > h3 {
+    margin: 0 0 0 10px;
     color: #CCC;
     text-align: left;
 }
