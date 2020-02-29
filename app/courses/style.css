@@ -89,8 +89,8 @@
 }
 
 .theme > div > li {
-    margin: 8% 0 0 0;
-    font-size: 28px;
+    margin: 8% 10px 0;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -141,4 +141,32 @@ hr {
 
 .progress-bar > div {
     height: inherit
+}
+
+@media only screen and (max-width: 1450px) {
+    #courses {
+        width: 700px;
+    }
+    .theme > div {
+        width: 220px;
+        height: 363px;
+    }
+    .lessor, .lNext {
+        width: 170px;
+        height: 201px;
+    }
+    .theme > div > li {
+        font-size: 20px;
+    }
+    .theme > a {
+        width: 220px;
+    }
+    #courses > ul > ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: max-content max-content;
+        grid-template-rows: max-content max-content max-content;
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+    }
 }
