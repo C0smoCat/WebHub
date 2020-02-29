@@ -181,35 +181,56 @@ body {
 /* Спецэффект наклона (конец) */
 
 /* Слайдер (начало) */
-.slider2-element {
-    position: relative;
-    margin: 15px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.slider2-element:hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    transform: scale(1.01, 1.01);
-}
-
-.slider2-element > div {
-    position: absolute;
-    bottom: 0;
-    background: rgba(7, 7, 7, 0.75);
-    color: white;
-    width: 100%;
-}
-
-.slider2-element > div > p {
-    text-align: center;
-}
-
-.slider2-element > img {
-    height: 300px;
-    width: 100%;
+.tns-item {
+    margin: 15px 0;
 }
 
 /* Слайдер (конец) */
+
+.lessor > li {
+    margin: 1% 0 0 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.lessor {
+    width: 225px;
+    height: 201px;
+}
+
+.lessor > img {
+    margin: 15% 0 0 0;
+}
+
+.lessor {
+    border-radius: 8px;
+    background-color: #464646;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.lessor:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.03, 1.03) translateY(-5px);
+}
+
+.slider2 > a {
+    text-decoration: none;
+    color: #eee;
+    list-style: none;
+}
+
+.progress-bar {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: #8D8D8D
+}
+
+.progress-bar > div {
+    height: inherit
+}

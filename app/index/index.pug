@@ -1,4 +1,5 @@
-extends ../layout
+extends ../layout.pug
+include ../share-mixins.pug
 
 block head
     title Главная - WebHub
@@ -12,7 +13,17 @@ block head
         include tiny-slider.js
 
 block content
-    +slider(slider_items)
+    div(style="position: relative;margin: 0 -15px;")
+        +slider(slider_items)
+        div(style={
+            "box-shadow": "inset 20px 0px 15px #202020,inset -20px 0px 15px #202020",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            "pointer-events": "none"
+        })
     div(class="three-big-thing")
         a(href="/courses?lang=js")
             div(class="atvImg")
@@ -55,12 +66,8 @@ block content
 
 mixin slider(items)
     div(class="slider2")
-        each val in items
-            div(class="slider2-element correct-item")
-                img(src=val.img)
-                div
-                    p #{val.text}
-
+        each lesson in items
+            +lesson(lesson.is_lock, lesson, false)
 
 mixin make-comments(comment1, comment2, comment3)
     div(class="three-comments")
@@ -69,12 +76,12 @@ mixin make-comments(comment1, comment2, comment3)
         +make-comment(comment3)
 
 mixin make-comment(comment)
-     div(class="comm")
-         div(class='cloud')
-             p #{comment.text}
-         div(class='userCom')
-             div(class='userAva')
-                 img(src=comment.avatar)
-             div(class='userLog')
+    div(class="comm")
+        div(class='cloud')
+            p #{comment.text}
+        div(class='userCom')
+            div(class='userAva')
+                img(src=comment.avatar)
+            div(class='userLog')
                 h1 #{comment.login}
                 h3 #{comment.status}

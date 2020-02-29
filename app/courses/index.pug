@@ -1,23 +1,36 @@
-extends ../layout
+extends ../layout.pug
+include ../share-mixins.pug
 
 block head
-    title Курсы - WebHub
-
+    title= lang_title ? `Курсы по ${lang} - WebHub` : "Курсы - WebHub"
     style
         include style.css
     script
         include script.js
 
 block content
-    div(id="language")
+    div(id="language-vertical")
         a(href="/courses?lang=cs" id='up_lan')
-            p
+            p(class=(lang === "cs")
+                style={
+                    background: lang === "cs" && "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)",
+                    "border-top-left-radius": "8px",
+                    "border-top-right-radius": "8px"
+                })
                 img(src='logo-cs.png')
         a(href="/courses?lang=js")
-            p
+            p(class=(lang === "js")
+                style={
+                    background: lang === "js" && "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)"
+                })
                 img(src='logo-js.png')
         a(href="/courses?lang=php" id='down_lan')
-            p
+            p(class=(lang === "php")
+                style={
+                    background: lang === "php" && "linear-gradient(135deg, #0070fb 0%, #022dcb 100%)",
+                    "border-bottom-left-radius": "8px",
+                    "border-bottom-right-radius": "8px"
+                })
                 img(src='logo-php.png')
     if themes
         div(id="courses")
@@ -28,7 +41,8 @@ block content
                     height: "40px",
                     position: "relative",
                     "border-radius": "8px",
-                    overflow: "hidden"
+                    overflow: "hidden",
+                    margin: "15px 0"
                 })
                     +progress-bar(allProgress, allProgress >= 1 ? "#23B45D" : "#ff7700", 40)
                     p(style={
@@ -60,28 +74,10 @@ block content
                         - let short_lessons = is_long_array ? theme.lessons.slice(0, 5) : theme.lessons;
                         - let extended_lessons = is_long_array ? theme.lessons.slice(5) : [];
                         each lesson in short_lessons
-                            +lesson(theme, lesson, false)
+                            +lesson(theme.is_lock, lesson, false)
                         if(is_long_array)
                             each lesson in extended_lessons
-                                +lesson(theme, lesson, true)
+                                +lesson(theme.is_lock, lesson, true)
                             div(class="lNext" onclick="extendedLessonClick(this)")
                                 li >
                 hr
-
-mixin lesson(theme, lesson, is_extended)
-    a(href=(user.is_authorised && !theme.is_lock && lesson.url) class=(is_extended && "extended-lesson"))
-        div(class="lessor" class=((!user.is_authorised || theme.is_lock) && "disabled"))
-            img(src=(!user.is_authorised || !theme.is_lock) ? lesson.avatar : "/lock.png" width="100px" height="100px")
-            li #{lesson.title}
-            if (user.is_authorised && !theme.is_lock)
-                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#F3EB0C", 10)
-
-mixin progress-bar(percent, color, height)
-    div(
-        class="progress-bar"
-        style={height: (height || 15) + "px"}
-    )
-        div(style={
-            width: (percent * 100) + "%",
-            background: color
-        })

@@ -130,7 +130,7 @@ function MakeSlider() {
         autoplay: false,
         touch: true,
         mouseDrag: true,
-        fixedWidth: 400
+        fixedWidth: 250
     });
 }
 
