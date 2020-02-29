@@ -20,12 +20,12 @@
     height: 90%;
 }
 #up_lan > p{
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 #down_lan > p{
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 #courses {
     margin: 0 auto;
@@ -120,14 +120,13 @@
 }
 
 .lNext > li {
-    font-size: 58px;
+    font-size: 108px;
     font-weight: bold;
-    padding-top: 65px;
+    padding-top: 35px;
 }
 
 hr {
     border: none;
-    border-radius: 8px;
     height: 5px;
     background: linear-gradient(135deg, rgba(255, 141, 0, 1) 0%, rgba(255, 109, 0, 1) 100%);
 }
