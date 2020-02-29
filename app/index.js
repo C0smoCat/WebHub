@@ -177,7 +177,7 @@ async function Route_Courses(app, db, req, res) {
             themes = [
                 {
                     title: "Введение в C#",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: 1,
                     is_complete: true,
                     is_lock: false,
@@ -185,25 +185,25 @@ async function Route_Courses(app, db, req, res) {
                     exam_url: "courses/cs/course1/exam",
                     lessons: [{
                         title: "Язык C# и платформа .NET",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/cs/course1/lesson2"
                     }, {
                         title: "Начало работы с Visual Studio. Первая программа",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/cs/course1/lesson3"
                     }, {
                         title: "Компиляция в командной строке с .NET Core CLI",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/cs/course1/lesson4"
                     }, {
                         title: "Установка версии языка",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/cs/course1/lesson5"
@@ -211,7 +211,7 @@ async function Route_Courses(app, db, req, res) {
                     ]
                 }, {
                     title: "Основы программирования на C#",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: 0.5,
                     is_complete: false,
                     is_lock: false,
@@ -219,133 +219,133 @@ async function Route_Courses(app, db, req, res) {
                     exam_url: "courses/cs/course2/exam",
                     lessons: [{
                         title: "Структура программы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/cs/course2/lesson1"
                     }, {
                         title: "Переменные",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 0.5,
                         is_complete: false,
                         url: "/courses/cs/course2/lesson2"
                     }, {
                         title: "Литералы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 0,
                         is_complete: false,
                         url: "/courses/cs/course2/lesson3"
                     }, {
                         title: "Типы данных",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson4"
                     }, {
                         title: "Консольный ввод-вывод",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson5"
                     }, {
                         title: "Арифметические операции",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson6"
                     }, {
                         title: "Поразрядные операции",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson7"
                     }, {
                         title: "Операции присваивания",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson8"
                     }, {
                         title: "Преобразования базовых типов данных",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson9"
                     }, {
                         title: "Условные выражения",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson10"
                     }, {
                         title: "Условные конструкции",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson11"
                     }, {
                         title: "Циклы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson12"
                     }, {
                         title: "Массивы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson13"
                     }, {
                         title: "Программа сортировки массива",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson14"
                     }, {
                         title: "Методы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson15"
                     }, {
                         title: "Параметры методов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson16"
                     }, {
                         title: "Передача параметров по ссылке и значению. Выходные параметры",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson17"
                     }, {
                         title: "Массив параметров и ключевое слово params",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson18"
                     }, {
                         title: "Область видимости (контекст) переменных",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson19"
                     }, {
                         title: "Рекурсивные функции",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson20"
                     }, {
                         title: "Перечисления enum",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson20"
                     }, {
                         title: "Кортежи",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course2/lesson20"
@@ -353,7 +353,7 @@ async function Route_Courses(app, db, req, res) {
                     ]
                 }, {
                     title: "Классы. Объектно-ориентированное программирование",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: 0,
                     is_complete: false,
                     is_lock: true,
@@ -361,145 +361,145 @@ async function Route_Courses(app, db, req, res) {
                     exam_url: "courses/cs/course3/exam",
                     lessons: [{
                         title: "Классы и объекты",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: 0,
                         is_complete: false,
                         url: "/courses/cs/course3/lesson1"
                     }, {
                         title: "Структуры",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson2"
                     }, {
                         title: "Типы значений и ссылочные типы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson3"
                     }, {
                         title: "Пространства имен, псевдонимы и статический импорт",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson4"
                     }, {
                         title: "Создание библиотеки классов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson5"
                     }, {
                         title: "Модификаторы доступа",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson6"
                     }, {
                         title: "Свойства",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson7"
                     }, {
                         title: "Перегрузка методов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson8"
                     }, {
                         title: "Статические члены и модификатор static",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson9"
                     }, {
                         title: "Константы, поля и структуры для чтения",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson10"
                     }, {
                         title: "Перегрузка операторов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson11"
                     }, {
                         title: "Значение null",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson12"
                     }, {
                         title: "Индексаторы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson13"
                     }, {
                         title: "Наследование",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson14"
                     }, {
                         title: "Преобразование типов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson15"
                     }, {
                         title: "Перегрузка операций преобразования типов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson16"
                     }, {
                         title: "Виртуальные методы и свойства",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson17"
                     }, {
                         title: "Сокрытие методов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson18"
                     }, {
                         title: "Различие переопределения и сокрытия методов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson19"
                     }, {
                         title: "Абстрактные классы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson20"
                     }, {
                         title: "Класс System.Object и его методы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson21"
                     }, {
                         title: "Обобщенные типы",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson22"
                     }, {
                         title: "Ограничения обобщений",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson23"
                     }, {
                         title: "Наследование обобщенных типов",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
                         url: "/courses/cs/course3/lesson24"
@@ -507,7 +507,7 @@ async function Route_Courses(app, db, req, res) {
                     ]
                 }, {
                     title: "Обработка исключений",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: 1,
                     is_complete: true,
                     is_lock: false,
@@ -516,37 +516,37 @@ async function Route_Courses(app, db, req, res) {
                     lessons: [
                         {
                             title: "Конструкция try..catch..finally",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: 1,
                             is_complete: true,
                             url: "/courses/cs/course4/lesson1"
                         }, {
                             title: "Блок catch и фильтры исключений",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: 1,
                             is_complete: true,
                             url: "/courses/cs/course4/lesson2"
                         }, {
                             title: "Типы исключений. Класс Exception",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: 1,
                             is_complete: true,
                             url: "/courses/cs/course1/lesson3"
                         }, {
                             title: "Создание классов исключений",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: 1,
                             is_complete: true,
                             url: "/courses/cs/course4/lesson4"
                         }, {
                             title: "Поиск блока catch при обработке исключений",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: 1,
                             is_complete: true,
                             url: "/courses/cs/course4/lesson5"
                         }, {
                             title: "Генерация исключения и оператор throw",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: 1,
                             is_complete: true,
                             url: "/courses/cs/course4/lesson6"
@@ -554,7 +554,7 @@ async function Route_Courses(app, db, req, res) {
                     ]
                 }, {
                     title: "Делегаты, события и лямбды",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: false,
@@ -563,43 +563,43 @@ async function Route_Courses(app, db, req, res) {
                     lessons: [
                         {
                             title: "Делегаты",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson1"
                         }, {
                             title: "Применение делегатов",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson2"
                         }, {
                             title: "Анонимные методы",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson3"
                         }, {
                             title: "Лямбды",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson4"
                         }, {
                             title: "События",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson5"
                         }, {
                             title: "Ковариантность и контравариантность делегатов",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson6"
                         }, {
                             title: "Делегаты Action, Predicate и Func",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course5/lesson7"
@@ -607,7 +607,7 @@ async function Route_Courses(app, db, req, res) {
                     ]
                 }, {
                     title: "Интерфейсы",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -616,7 +616,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Дополнительные возможности ООП в C#",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -625,7 +625,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Объектно-ориентированное программирование. Практика",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -634,7 +634,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Коллекции",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -643,7 +643,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Работа со строками",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -652,7 +652,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Работа с датами и временем",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -661,7 +661,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Дополнительные классы и структуры .NET",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -670,7 +670,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Многопоточность",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -679,7 +679,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Параллельное программирование и библиотека TPL",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -688,7 +688,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Aсинхронное программирование. Task-based Asynchronous Pattern",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -697,7 +697,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "LINQ",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -706,7 +706,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Parallel LINQ",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -715,7 +715,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Рефлексия",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -724,7 +724,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Сборка мусора, управление памятью и указатели",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -733,7 +733,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Работа с потоками и файловой системой",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -742,7 +742,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Работа с JSON",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -751,14 +751,14 @@ async function Route_Courses(app, db, req, res) {
                     lessons: [
                         {
                             title: "Сериализация в JSON. JsonSerializer",
-                            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                            avatar: `/logo-cs.png`,
                             progress: Math.random(),
                             is_complete: false,
                             url: "/courses/cs/course22/lesson1"
                         }]
                 }, {
                     title: "Работа с XML в C#",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -767,7 +767,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Процессы и домены приложения",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -776,7 +776,7 @@ async function Route_Courses(app, db, req, res) {
                     lessons: []
                 }, {
                     title: "Валидация модели",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-cs.png`,
                     progress: Math.random(),
                     is_complete: false,
                     is_lock: true,
@@ -790,7 +790,7 @@ async function Route_Courses(app, db, req, res) {
             themes = [
                 {
                     title: "Введение в JavaScript",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-js.png`,
                     progress: 1,
                     is_complete: true,
                     is_lock: false,
@@ -798,31 +798,31 @@ async function Route_Courses(app, db, req, res) {
                     exam_url: "courses/js/course1/exam",
                     lessons: [{
                         title: "Что такое JavaScript",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-js.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/js/course1/lesson2"
                     }, {
                         title: "Первая программа на JavaScript",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-js.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/js/course1/lesson3"
                     }, {
                         title: "Выполнение кода javascript",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-js.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/js/course1/lesson4"
                     }, {
                         title: "Подключение внешнего файла JavaScript",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-js.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/js/course1/lesson5"
                     }, {
                         title: "Консоль браузера, console.log и document.write",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-js.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/js/course1/lesson5"
@@ -833,7 +833,7 @@ async function Route_Courses(app, db, req, res) {
             themes = [
                 {
                     title: "Введение в PHP",
-                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    avatar: `/logo-php.png`,
                     progress: 1,
                     is_complete: true,
                     is_lock: false,
@@ -841,31 +841,31 @@ async function Route_Courses(app, db, req, res) {
                     exam_url: "courses/php/course1/exam",
                     lessons: [{
                         title: "Общий обзор языка программирования PHP",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-php.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/php/course1/lesson1"
                     }, {
                         title: "Установка PHP",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-php.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/php/course1/lesson2"
                     }, {
                         title: "Установка веб-сервера Apache",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-php.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/php/course1/lesson3"
                     }, {
                         title: "Установка MySQL",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-php.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/php/course1/lesson4"
                     }, {
                         title: "Первый сайт на PHP",
-                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        avatar: `/logo-php.png`,
                         progress: 1,
                         is_complete: true,
                         url: "/courses/php/course1/lesson5"
