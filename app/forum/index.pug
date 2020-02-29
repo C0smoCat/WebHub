@@ -13,23 +13,12 @@ block content
     )
         input(type="text" placeholder="Поиск темы" name="search")
         button(type="submit")
-            i(class="fa fa-search")
+            i Поиск
     each theme in themes
         a(href=themes.url)
-        div(style={
-            background: "#464646",
-        })
+        div
             a(href='/')
-                img(src=theme.avatar
-                    width="100px"
-                    height="100px"
-                    style={
-                        margin: "5px",
-                    })
-            div(style={
-                "text-align": "center",
-                "font-weight": "900",
-                "font-size": "20px"
-            })
+                img(src=theme.avatar)
+            div
                 p #{theme.title}
                 p #{theme.last_message}
