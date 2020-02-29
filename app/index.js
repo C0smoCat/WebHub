@@ -139,31 +139,31 @@ async function RouteIndex(app, db, req, res) {
         slider_items: [
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             },
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             },
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             },
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             },
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             },
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             },
             {
                 img: Math.randomizeArray(["logo-js.png", "udishka.png", "slider.jpg"]),
-                text: Math.randomizeArray(["Габе1", "Габе2", "Габе3", "Габе4"])
+                text: Math.randomizeArray(["ГабеRIP1", "ГабеRIP2", "ГабеRIP3", "ГабеRIP4"])
             }
         ]
     }, (err, page) => HandleResult(err, page, res));
@@ -874,13 +874,13 @@ async function Route_Forum(app, db, req, res) {
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 3",
-                last_message: "Габе ЖИВ",
+                last_message: "Габе RIP",
                 url: "/forum/theme3"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 4",
-                last_message: "Габе ЖИВ",
+                last_message: "Габе RIP",
                 url: "/forum/theme4"
             },
             {
@@ -892,13 +892,13 @@ async function Route_Forum(app, db, req, res) {
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 6",
-                last_message: "Габе ЖИВ",
+                last_message: "Габе RIP",
                 url: "/forum/theme6"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 7",
-                last_message: "Габе ЖИВ",
+                last_message: "Габе RIP",
                 url: "/forum/theme7"
             }
         ]

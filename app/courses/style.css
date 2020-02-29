@@ -1,3 +1,28 @@
+#language{
+    margin-top: 24px;
+    position: fixed;
+    float: left;
+    width: 100px;
+    height: auto;
+    overflow: hidden;
+}
+
+#language > a > p{
+    margin: 5px 0;
+    padding: 50px 0;
+    background-color: #464646;
+}
+#language > a{
+    text-align: center;
+}
+#up_lan > p{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+#down_lan > p{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
 #courses {
     margin: 0 auto;
     width: 1200px;
@@ -67,7 +92,7 @@
 
 .lessor > li {
     margin: 1% 0 0 0;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
 }
 

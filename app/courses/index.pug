@@ -8,20 +8,14 @@ block head
         include script.js
 
 block content
-    case lang
-        when "cs"
-            p Язык программирования - C#
-        when "js"
-            p Язык программирования - JavaScript
-        default
-            p Выберите язык программирования
-            p
-                a(href="/courses?lang=cs") C#
-            p
-                a(href="/courses?lang=js") JavaScript
+    div(id="language")
+        a(href="/courses?lang=cs" id='up_lan')
+            p C#
+        a(href="/courses?lang=js" id='down_lan')
+            p JavaScript
     if themes
         - let allProgress = themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / themes.length;
-        p Общий прогресс: #{Math.roundN(allProgress * 100)}%
+        //p Общий прогресс: #{Math.roundN(allProgress * 100)}%
         div(id="courses")
             hr
             each theme in themes
