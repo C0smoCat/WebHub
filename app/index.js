@@ -905,43 +905,43 @@ async function Route_Forum(app, db, req, res) {
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 1",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme1"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 2",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme2"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 3",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme3"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 4",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme4"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 5",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme5"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 6",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme6"
             },
             {
                 avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
                 title: "Тема 7",
-                last_message: "Габе RIP",
+                last_message: "Габе жив",
                 url: "/forum/theme7"
             }
         ]

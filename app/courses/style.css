@@ -127,7 +127,8 @@
 
 hr {
     border: none;
-    height: 5px;
+    height: 7px;
+    border-radius: 8px;
     background: linear-gradient(135deg, rgba(255, 141, 0, 1) 0%, rgba(255, 109, 0, 1) 100%);
 }
 

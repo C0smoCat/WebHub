@@ -46,14 +46,14 @@ block content
                 ul
                     div(class="theme")
                         div(onclick="extendedLessonClick(this)" class=(theme.is_lock && "disabled"))
-                            img(src=((user.is_authorised && !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
+                            img(src=((!user.is_authorised || !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
                             li #{theme.title}
                             if user.is_authorised && !theme.is_lock
-                                +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#ff7700")
+                                +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
                         a(
                             href=(theme.is_complete && theme.exam_url)
                             class=(!theme.is_complete && "disabled")
-                            style={background: (theme.is_complete ? (theme.is_exam_complete ? "#23B45D" : "rgba(255, 109, 0, 1)") : "#8D8D8D")}
+                            style={background: (theme.is_complete ? (theme.is_exam_complete ? "#23B45D" : "#ff7700") : "#8D8D8D")}
                         ) Экзамен
                     ul
                         - let is_long_array = theme.lessons.length > 6;
@@ -66,19 +66,15 @@ block content
                                 +lesson(theme, lesson, true)
                             div(class="lNext" onclick="extendedLessonClick(this)")
                                 li >
-                                //p +#{extended_lessons.length}
-                                //if (user.is_authorised && !theme.is_lock)
-                                    // - let extendedPercent = extended_lessons.reduce((total, current) => total += current.progress, 0) / extended_lessons.length;
-                                    //+progress-bar(extendedPercent, (extendedPercent >= 1) ? "#23B45D" : "#F3EB0C", 10)
                 hr
 
 mixin lesson(theme, lesson, is_extended)
     a(href=(user.is_authorised && !theme.is_lock && lesson.url) class=(is_extended && "extended-lesson"))
         div(class="lessor" class=((!user.is_authorised || theme.is_lock) && "disabled"))
-            img(src=lesson.avatar width="100px" height="100px")
+            img(src=(!user.is_authorised || !theme.is_lock) ? lesson.avatar : "/lock.png" width="100px" height="100px")
             li #{lesson.title}
             if (user.is_authorised && !theme.is_lock)
-                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#ff7700", 10)
+                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#F3EB0C", 10)
 
 mixin progress-bar(percent, color, height)
     div(
