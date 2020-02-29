@@ -170,7 +170,7 @@ async function RouteIndex(app, db, req, res) {
 }
 
 async function Route_Courses(app, db, req, res) {
-    let lang = req.query.lang;
+    let lang = req.query.lang || "cs";
     let themes;
     switch (lang) {
         case "cs":

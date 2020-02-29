@@ -10,12 +10,15 @@ block head
 block content
     div(id="language")
         a(href="/courses?lang=cs" id='up_lan')
-            p C#
-        a(href="/courses?lang=js" id='down_lan')
-            p JavaScript
+            p
+                img(src='logo-cs.png')
+        a(href="/courses?lang=js")
+            p
+                img(src='logo-js.png')
+        a(href="/courses?lang=php" id='down_lan')
+            p
+                img(src='logo-php.png')
     if themes
-        - let allProgress = themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / themes.length;
-        //p Общий прогресс: #{Math.roundN(allProgress * 100)}%
         div(id="courses")
             hr
             each theme in themes
