@@ -829,6 +829,49 @@ async function Route_Courses(app, db, req, res) {
                     }]
                 }];
             break;
+        case "php":
+            themes = [
+                {
+                    title: "Введение в PHP",
+                    avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                    progress: 1,
+                    is_complete: true,
+                    is_lock: false,
+                    is_exam_complete: true,
+                    exam_url: "courses/php/course1/exam",
+                    lessons: [{
+                        title: "Общий обзор языка программирования PHP",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true,
+                        url: "/courses/php/course1/lesson1"
+                    }, {
+                        title: "Установка PHP",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true,
+                        url: "/courses/php/course1/lesson2"
+                    }, {
+                        title: "Установка веб-сервера Apache",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true,
+                        url: "/courses/php/course1/lesson3"
+                    }, {
+                        title: "Установка MySQL",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true,
+                        url: "/courses/php/course1/lesson4"
+                    }, {
+                        title: "Первый сайт на PHP",
+                        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                        progress: 1,
+                        is_complete: true,
+                        url: "/courses/php/course1/lesson5"
+                    }]
+                }];
+            break;
         default:
             break
     }
