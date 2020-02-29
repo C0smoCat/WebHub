@@ -21,6 +21,26 @@ block content
                 img(src='logo-php.png')
     if themes
         div(id="courses")
+            if user.is_authorised
+                - let allProgress = themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / themes.length;
+                div(style={
+                    width: "100%",
+                    height: "40px",
+                    position: "relative",
+                    "border-radius": "8px",
+                    overflow: "hidden"
+                }.
+                +)
+                    +progress-bar(allProgress, allProgress >= 1 ? "#23B45D" : "#ff7700", 40)
+                    p(style={
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        top: 0,
+                        right: 0,
+                        "text-align": "center",
+                        color: "#eee"
+                    }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
             hr
             each theme in themes
                 - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
@@ -30,7 +50,7 @@ block content
                             img(src=((user.is_authorised && !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
                             li #{theme.title}
                             if user.is_authorised && !theme.is_lock
-                                +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+                                +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#ff7700")
                         a(
                             href=(theme.is_complete && theme.exam_url)
                             class=(!theme.is_complete && "disabled")
@@ -59,7 +79,7 @@ mixin lesson(theme, lesson, is_extended)
             img(src=lesson.avatar width="100px" height="100px")
             li #{lesson.title}
             if (user.is_authorised && !theme.is_lock)
-                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#F3EB0C", 10)
+                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#ff7700", 10)
 
 mixin progress-bar(percent, color, height)
     div(
