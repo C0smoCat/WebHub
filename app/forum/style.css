@@ -1,6 +1,7 @@
-.example{
+.example {
     margin: 20px 0;
 }
+
 .example input[type=text] {
     padding: 10px;
     font-size: 17px;
@@ -9,6 +10,7 @@
     width: 80%;
     background: #464646;
 }
+
 .example button {
     float: left;
     width: 20%;
@@ -30,3 +32,18 @@
     display: table;
 }
 
+.example > div {
+    background: #464646;
+}
+
+.example > div > a > img {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+
+.example > div > div {
+    text-align: center;
+    font-weight: 900;
+    font-size: 20px;
+}
