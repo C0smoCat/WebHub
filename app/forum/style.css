@@ -1,0 +1,32 @@
+.example{
+    margin: 20px 0;
+}
+.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #464646;
+}
+.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #464646;
+    color: grey;
+    font-size: 15px;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+
+.example button:hover {
+    background: #464646;
+}
+
+.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+

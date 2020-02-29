@@ -4,43 +4,12 @@ block head
     title Форум - WebHub
     style
         include style.css
-    style.
-        form.example input[type=text] {
-            padding: 10px;
-            font-size: 17px;
-            border: 1px solid grey;
-            float: left;
-            width: 80%;
-            background: #464646;
-        }
-
-        form.example button {
-            float: left;
-            width: 20%;
-            padding: 10px;
-            background: #464646;
-            color: grey;
-            font-size: 15px;
-            border: 1px solid grey;
-            cursor: pointer;
-        }
-
-        form.example button:hover {
-            background: #464646;
-        }
-
-        form.example::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
 
 block content
     p TODO
     form(
         class="example"
         action="action_page.php"
-        style={margin: "20px 0"}
     )
         input(type="text" placeholder="Поиск темы" name="search")
         button(type="submit")
