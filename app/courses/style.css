@@ -1,4 +1,4 @@
-#language{
+#language {
     margin-top: 24px;
     position: fixed;
     float: left;
@@ -28,13 +28,13 @@
     float: left;
     width: 100px;
     height: auto;
-    overflow: hidden;
 }
 
 #language-vertical > a > p {
     margin: 5px 0;
     padding: 10px;
     background-color: #464646;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 #language-vertical > a {
@@ -45,6 +45,12 @@
     width: 90%;
     height: 90%;
 }
+
+#language-vertical > a > p:hover {
+    filter: drop-shadow(0px 0px 5px #222);
+    transform: scale(1.1, 1.1)
+}
+
 #courses {
     margin: 0 auto;
     width: 1200px;
@@ -104,6 +110,7 @@
 
 .lessor > img, .theme > div > img {
     margin: 15% 0 0 0;
+    border-radius: 50%;
 }
 
 .theme > div > li {
@@ -166,20 +173,25 @@ hr {
     #courses {
         width: 1000px;
     }
+
     .theme > div {
         width: 320px;
         height: 363px;
     }
+
     .lessor, .lNext {
         width: 220px;
         height: 201px;
     }
+
     .theme > div > li {
         font-size: 20px;
     }
+
     .theme > a {
         width: 320px;
     }
+
     #courses > ul > ul {
         list-style: none;
         display: grid;

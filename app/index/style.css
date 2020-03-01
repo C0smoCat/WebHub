@@ -185,8 +185,6 @@ body {
     margin: 15px 0;
 }
 
-/* Слайдер (конец) */
-
 .lessor > li {
     margin: 1% 0 0 0;
     font-size: 16px;
@@ -200,6 +198,7 @@ body {
 
 .lessor > img {
     margin: 15% 0 0 0;
+    border-radius: 50%;
 }
 
 .lessor {
@@ -234,3 +233,5 @@ body {
 .progress-bar > div {
     height: inherit
 }
+
+/* Слайдер (конец) */
