@@ -859,8 +859,8 @@ async function Route_Courses(app, db, req, res) {
             lang_title = langs.cs.lang_title;
             break;
         case "js":
-            themes = langs.php.themes;
-            lang_title = langs.php.lang_title;
+            themes = langs.js.themes;
+            lang_title = langs.js.lang_title;
             break;
         case "php":
             themes = langs.php.themes;
