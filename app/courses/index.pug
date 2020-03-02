@@ -27,7 +27,7 @@ block content
         a(href="/courses?lang=php" id='down_lan')
             p(class=(lang === "php")
                 style={
-                    background: lang === "php" && "linear-gradient(135deg, #0070fb 0%, #022dcb 100%)",
+                    background: lang === "php" && "linear-gradient(135deg, #4a8ddf 0%, #1d399f 100%)",
                     "border-bottom-left-radius": "8px",
                     "border-bottom-right-radius": "8px"
                 })
@@ -47,6 +47,7 @@ block content
                     +progress-bar(allProgress, allProgress >= 1 ? "#23B45D" : "#ff7700", 40)
                     p(style={
                         position: "absolute",
+                        "margin-top": "10px",
                         bottom: 0,
                         left: 0,
                         top: 0,
@@ -54,7 +55,7 @@ block content
                         "text-align": "center",
                         color: "#eee"
                     }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
-            hr
+            hr(style = {background: lang === "cs" && "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)"})
             each theme in themes
                 - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
                 ul
@@ -80,4 +81,4 @@ block content
                                 +lesson(theme.is_lock, lesson, true)
                             div(class="lNext" onclick="extendedLessonClick(this)")
                                 li >
-                hr
+                hr(style = {background: lang === "cs" && "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)"})

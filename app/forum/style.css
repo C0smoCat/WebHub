@@ -32,17 +32,17 @@
     display: table;
 }
 
-.example > div {
+.theme > div {
     background: #464646;
 }
 
-.example > div > a > img {
+.theme > div > a > img {
     width: 100px;
     height: 100px;
     margin: 5px;
 }
 
-.example > div > div {
+.theme > div > div {
     text-align: center;
     font-weight: 900;
     font-size: 20px;

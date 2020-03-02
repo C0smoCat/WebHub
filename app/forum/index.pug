@@ -15,10 +15,10 @@ block content
         button(type="submit")
             i Поиск
     each theme in themes
-        a(href=themes.url)
-        div
-            a(href='/')
-                img(src=theme.avatar)
+        a(href=theme.url class='theme')
             div
-                p #{theme.title}
-                p #{theme.last_message}
+                a(href='/')
+                    img(src=theme.avatar)
+                div
+                    p #{theme.title}
+                    p #{theme.last_message}
