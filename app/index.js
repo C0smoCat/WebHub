@@ -900,9 +900,56 @@ async function Route_Courses(app, db, req, res) {
 }
 
 async function Route_Forum(app, db, req, res) {
+    let search_query = req.query.q;
+    let regex = new RegExp(search_query);
+    let themes = [
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 1",
+            last_message: "Габе жив",
+            url: "/forum/theme1"
+        },
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 2",
+            last_message: "Габе жив",
+            url: "/forum/theme2"
+        },
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 3",
+            last_message: "Габе жив",
+            url: "/forum/theme3"
+        },
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 4",
+            last_message: "Габе жив",
+            url: "/forum/theme4"
+        },
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 5",
+            last_message: "Габе жив",
+            url: "/forum/theme5"
+        },
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 6",
+            last_message: "Габе жив",
+            url: "/forum/theme6"
+        },
+        {
+            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
+            title: "Тема 7",
+            last_message: "Габе жив",
+            url: "/forum/theme7"
+        }
+    ];
     res.render(path.join(__dirname, "forum", "index.pug"), {
         basedir: path.join(__dirname, "forum"),
         current_page: "forum",
+        search_query,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
@@ -910,50 +957,8 @@ async function Route_Forum(app, db, req, res) {
             is_premium: false,
             crown_type: Math.randomInt(0, 4)
         },
-        themes: [
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 1",
-                last_message: "Габе жив",
-                url: "/forum/theme1"
-            },
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 2",
-                last_message: "Габе жив",
-                url: "/forum/theme2"
-            },
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 3",
-                last_message: "Габе жив",
-                url: "/forum/theme3"
-            },
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 4",
-                last_message: "Габе жив",
-                url: "/forum/theme4"
-            },
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 5",
-                last_message: "Габе жив",
-                url: "/forum/theme5"
-            },
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 6",
-                last_message: "Габе жив",
-                url: "/forum/theme6"
-            },
-            {
-                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-                title: "Тема 7",
-                last_message: "Габе жив",
-                url: "/forum/theme7"
-            }
-        ]
+        themes: search_query ? themes.filter(v => regex.test(v.title) || regex.test(v.last_message)) : themes
+        // themes: search_query ? themes.filter((v => v.title.toLowerCase().includes(search_query.toLowerCase()) || v.last_message.toLowerCase().includes(search_query.toLowerCase()))) : themes
 
     }, (err, page) => HandleResult(err, page, res));
 }
