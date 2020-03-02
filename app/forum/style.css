@@ -1,25 +1,31 @@
 .example {
-    margin: 20px 0;
+    margin: 10px 0 0;
+    display: grid;
+    grid-template-columns: auto 15%;
+    grid-column-gap: 10px;
 }
 
 .example input[type=text] {
     padding: 10px;
-    font-size: 17px;
-    border: 1px solid grey;
-    float: left;
-    width: 80%;
+    font-size: x-large;
+    border: none;
+    color: #e2e2e2;
+    border-radius: 8px;
     background: #464646;
 }
 
 .example button {
-    float: left;
-    width: 20%;
-    padding: 10px;
+    text-decoration: none;
     background: #464646;
-    color: grey;
-    font-size: 15px;
-    border: 1px solid grey;
+    color: #e2e2e2;
+    font-size: x-large;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
+}
+.example button > p{
+    margin: 0;
 }
 
 .example button:hover {
@@ -32,18 +38,36 @@
     display: table;
 }
 
+.theme{
+    text-decoration: none;
+    color: #e2e2e2;
+    display: grid;
+    margin: 10px 0;
+
+}
 .theme > div {
     background: #464646;
+    border-radius: 8px;
+    overflow: hidden;
+
 }
 
-.theme > div > a > img {
-    width: 100px;
-    height: 100px;
-    margin: 5px;
+.theme > div > img {
+    float: left;
+    width: 80px;
+    height: 80px;
+    margin: 15px;
 }
 
 .theme > div > div {
-    text-align: center;
+    padding: 0 15px;
+    text-align: left;
     font-weight: 900;
     font-size: 20px;
+}
+.theme > div > div > p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
 }

@@ -6,19 +6,17 @@ block head
         include style.css
 
 block content
-    p TODO
     form(
         class="example"
         action="action_page.php"
     )
         input(type="text" placeholder="Поиск темы" name="search")
         button(type="submit")
-            i Поиск
+            p Поиск
     each theme in themes
         a(href=theme.url class='theme')
             div
-                a(href='/')
-                    img(src=theme.avatar)
+                img(src=theme.avatar)
                 div
-                    p #{theme.title}
-                    p #{theme.last_message}
+                    p(style='font-weight: bolder;')=theme.title
+                    p=theme.last_message
