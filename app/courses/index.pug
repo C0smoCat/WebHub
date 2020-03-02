@@ -13,7 +13,7 @@ block content
         a(href="/courses?lang=cs" id='up_lan')
             p(class=(lang === "cs")
                 style={
-                    background: lang === "cs" && "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)",
+                    background: lang === "cs" && "linear-gradient(135deg, #b800fb 0%, #9c02cb 100%)",
                     "border-top-left-radius": "8px",
                     "border-top-right-radius": "8px"
                 })
@@ -21,7 +21,7 @@ block content
         a(href="/courses?lang=js")
             p(class=(lang === "js")
                 style={
-                    background: lang === "js" && "linear-gradient(135deg, rgba(233,207,0,1) 0%, rgba(253,216,60,1) 100%)"
+                    background: lang === "js" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
                 })
                 img(src='logo-js.png')
         a(href="/courses?lang=php" id='down_lan')
@@ -55,7 +55,15 @@ block content
                         "text-align": "center",
                         color: "#eee"
                     }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
-            hr(style = {background: lang === "cs" && "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)"})
+            -
+                let hrStyle;
+                switch (lang) {
+                case "cs": hrStyle = {background: "linear-gradient(135deg,#b800fb 0%,#9c02cb 100%)"}; break
+                case "js": hrStyle = {background: "linear-gradient(135deg,#e9cf00 0%,#fdd83c 100%)"}; break;
+                case "php": hrStyle = {background: "linear-gradient(135deg,#4a8ddf 0%,#1d399f 100%)"}; break;
+                default: hrStyle = {background: "linear-gradient(135deg,#ff8d00 0%,#ff6d00 100%)"}; break;
+                }
+            hr(style = hrStyle)
             each theme in themes
                 - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
                 ul
@@ -81,4 +89,4 @@ block content
                                 +lesson(theme.is_lock, lesson, true)
                             div(class="lNext" onclick="extendedLessonClick(this)")
                                 li >
-                hr(style = {background: lang === "cs" && "linear-gradient(135deg, rgba(184,0,251,1) 0%, rgba(156,2,203,1) 100%)"})
+                hr(style = hrStyle)
