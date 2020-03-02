@@ -949,6 +949,15 @@ async function Route_Forum(app, db, req, res) {
 }
 
 async function Route_Leaderboard(app, db, req, res) {
+    let usr = {
+        login: "Васян Пупкин",
+        avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+        score: Math.randomInt(1, 16),
+        status: "кондитер",
+        is_premium: Math.random() < 0.5,
+        crown_type: Math.randomInt(0, 4),
+        place_num: -1
+    };
     res.render(path.join(__dirname, "leaderboard", "index.pug"), {
         basedir: path.join(__dirname, "leaderboard"),
         current_page: "leaderboard",
@@ -963,17 +972,7 @@ async function Route_Leaderboard(app, db, req, res) {
             status: "кондитер",
             place_num: Math.randomInt(100, 1000)
         },
-        leaderboard: [
-            {
-                login: "Васян Пупкин",
-                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-                score: Math.randomInt(1, 16),
-                status: "кондитер",
-                is_premium: Math.random() < 0.5,
-                crown_type: Math.randomInt(0, 4),
-                place_num: -1
-            }
-        ]
+        leaderboard: [usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr]
     }, (err, page) => HandleResult(err, page, res));
 }
 
