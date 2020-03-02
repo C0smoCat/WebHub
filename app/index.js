@@ -920,7 +920,7 @@ async function Route_Forum(app, db, req, res) {
                 url: "/forum/theme3"
             },
             {
-                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
                 title: "Тема 4",
                 last_message: "Габе жив",
                 url: "/forum/theme4"
