@@ -8,9 +8,10 @@ block head
 block content
     form(
         class="example"
-        action="action_page.php"
+        action="/forum"
+        method="GET"
     )
-        input(type="text" placeholder="Поиск темы" name="search")
+        input(type="text" placeholder="Поиск темы" name="q" value=search_query)
         button(type="submit")
             p Поиск
     each theme in themes
