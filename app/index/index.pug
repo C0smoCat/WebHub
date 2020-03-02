@@ -80,7 +80,10 @@ mixin make-comment(comment)
         div(class='cloud')
             p #{comment.text}
         div(class='userCom')
-            div(class='userAva')
+            div(
+                class='userAva'
+                style={border: (comment.is_premium ? "2px solid #fdd835" : "2px solid #000")}
+            )
                 img(src=comment.avatar)
             div(class='userLog')
                 h1 #{comment.login}
