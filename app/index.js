@@ -957,8 +957,21 @@ async function Route_Leaderboard(app, db, req, res) {
             is_authorised: true,
             coins: Math.randomInt(0, 1000),
             is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+            crown_type: Math.randomInt(0, 4),
+            score: Math.randomInt(1, 16),
+            status: "кондитер",
+            place_num: Math.randomInt(100, 1000)
+        },
+        leaderboard: [
+            {
+                avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+                score: Math.randomInt(1, 16),
+                status: "кондитер",
+                is_premium: Math.random() < 0.5,
+                crown_type: Math.randomInt(0, 4),
+                place_num: -1
+            }
+        ]
     }, (err, page) => HandleResult(err, page, res));
 }
 
