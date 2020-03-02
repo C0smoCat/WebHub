@@ -2,6 +2,7 @@ const path = require("path");
 const config = require("../config.js");
 const pug = require('pug');
 const fs = require('fs');
+const express = require('express');
 
 module.exports = async function (app, db, req, res, next) {
     let logTimeLabel = `timelog Обработка запроса ${req.originalUrl} от ${req.connection.remoteAddress}`;
@@ -15,66 +16,50 @@ module.exports = async function (app, db, req, res, next) {
     console.timeEnd(logTimeLabel);
 };
 
-async function Route(app, db, req, res) {
-    let url = /^\/(?<q>[^?^&]*)[?&]?/.exec(req.originalUrl.toLowerCase()).groups.q;
-    if (url.endsWith(".png") || url.endsWith(".jpg") || url.endsWith(".jpeg")) {
-        let fpath = path.join(__dirname, "public", url);
+async function Route(app, db) {
+    app.all(/\.(png|jpg|jpeg)$/, function (req, res) {
+        let fpath = path.join(__dirname, "public", req.originalUrl);
         if (fs.existsSync(fpath))
             res.sendFile(fpath);
         else
             res.sendFile(path.join(__dirname, "public", "no-img.png"));
-    } else
-        switch (url) {
-            case "go/phpmyadmin":
-            case "adm/phpmyadmin":
-            case "adm":
-            case "adminer":
-            case "go/adminer":
-            case "phpmyadmin":
-                await RouteAdminer(app, db, req, res);
-                break;
-            case "":
-                await RouteIndex(app, db, req, res);
-                break;
-            case "courses":
-            case "courses/":
-                await Route_Courses(app, db, req, res);
-                break;
-            case "forum":
-            case "forum/":
-                await Route_Forum(app, db, req, res);
-                break;
-            case "leaderboard":
-            case "leaderboard/":
-                await Route_Leaderboard(app, db, req, res);
-                break;
-            case "play":
-            case "play/":
-                await Route_Play(app, db, req, res);
-                break;
-            case "sandbox":
-            case "sandbox/":
-                await Route_Sandbox(app, db, req, res);
-                break;
-            case "login":
-            case "login/":
-                await Route_Login(app, db, req, res);
-                break;
-            case "user":
-            case "user/":
-                await Route_User(app, db, req, res);
-                break;
-            case "about":
-            case "about/":
-                await Route_About(app, db, req, res);
-                break;
-            case "favicon.ico":
-                res.sendFile(path.join(__dirname, "public", "avatars", "ava7.png"));
-                break;
-            default:
-                await Route_Error(res, 404, "Страница не найдена", "");
-                break;
-        }
+    });
+    app.all("/", async function (req, res) {
+        await RouteIndex(app, db, req, res);
+    });
+    app.all("/courses", async function (req, res) {
+        await Route_Courses(app, db, req, res);
+    });
+    app.all("/forum", async function (req, res) {
+        await Route_Forum(app, db, req, res);
+    });
+    app.all("/favicon.ico", function (req, res) {
+        res.sendFile(path.join(__dirname, "public", "avatars", "ava7.png"));
+    });
+    app.all("/leaderboard", async function (req, res) {
+        await Route_Leaderboard(app, db, req, res);
+    });
+    app.all("/play", async function (req, res) {
+        await Route_Play(app, db, req, res);
+    });
+    app.all("/sandbox", async function (req, res) {
+        await Route_Sandbox(app, db, req, res);
+    });
+    app.all("/login", async function (req, res) {
+        await Route_Login(app, db, req, res);
+    });
+    app.all("/user", async function (req, res) {
+        await Route_User(app, db, req, res);
+    });
+    app.all("/about", async function (req, res) {
+        await Route_About(app, db, req, res);
+    });
+    app.all(/(go)?\/?(adm)?(iner)?\/?(phpmyadmin)?/, async function (req, res) {
+        await RouteAdminer(app, db, req, res);
+    });
+    app.all("*", async function (req, res) {
+        await Route_Error(res, 404, "Страница не найдена", "");
+    });
 }
 
 let langs = {
@@ -901,7 +886,7 @@ async function Route_Courses(app, db, req, res) {
 
 async function Route_Forum(app, db, req, res) {
     let search_query = req.query.q;
-    let regex = new RegExp(search_query);
+    let regex = new RegExp(search_query, 'i');
     let themes = [
         {
             avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,

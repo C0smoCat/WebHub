@@ -42,12 +42,13 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-let router_api = express.Router();
-router_api.all('*', multer.single('file'), async function (req, res) {
-    await route_api(app, dbConnection, req, res);
-});
+// let router_api = express.Router();
+// router_api.all('*', multer.single('file'), async function (req, res) {
+//     await route_api(app, dbConnection, req, res);
+// });
 app.use((req, res, next) => {
     router(app, dbConnection, req, res, next);
+    next();
 });
 
 app.listen(config.port, () => {
