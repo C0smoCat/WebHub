@@ -7,9 +7,21 @@
 }
 
 #header_led > select {
+    margin-top: 10px;
     float: right;
-}
+    border-radius: 8px;
+    width: 300px;
+    padding: 5px;
+    font-size: 20px;
+    border: none;
+    height: 50px;
+    color: #e2e2e2;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #353534 url('/arrow_down.png') 95% /15% no-repeat;
 
+}
 .leader {
     display: grid;
     grid-template-columns: 10% max-content auto 15%;

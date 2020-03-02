@@ -24,3 +24,14 @@ block content
                 h3=leader.login
                 p=leader.status
             p=leader.score
+    button Ещё
+    div(class='leader')
+        h1=user.place_num
+        img(
+            src=user.avatar
+            style={border: user.is_premium ? "solid 3px gold" : "solid 3px black"},
+        )
+        div
+            h3=user.login
+            p=user.status
+        p=user.score

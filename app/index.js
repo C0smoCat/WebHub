@@ -964,7 +964,7 @@ async function Route_Leaderboard(app, db, req, res) {
         basedir: path.join(__dirname, "leaderboard"),
         current_page: "leaderboard",
         user: {
-            login: "Васян Пупкин",
+            login: "Пупкин Васян",
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
             coins: Math.randomInt(0, 1000),
