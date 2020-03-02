@@ -48,15 +48,18 @@ async function Route(app, db) {
     app.all("/login", async function (req, res) {
         await Route_Login(app, db, req, res);
     });
+    app.all("/courses/:lang/:id_course/:id_lesson", async function (req, res) {
+        await Route_Lesson(app, db, req, res);
+    });
     app.all("/user", async function (req, res) {
         await Route_User(app, db, req, res);
     });
     app.all("/about", async function (req, res) {
         await Route_About(app, db, req, res);
     });
-    app.all(/(go)?\/?(adm)?(iner)?\/?(phpmyadmin)?/, async function (req, res) {
-        await RouteAdminer(app, db, req, res);
-    });
+    // app.all(/(go)?\/?(adm)?(iner)?\/?(phpmyadmin)?/, async function (req, res) {
+    //     await RouteAdminer(app, db, req, res);
+    // });
     app.all("*", async function (req, res) {
         await Route_Error(res, 404, "Страница не найдена", "");
     });
@@ -72,33 +75,32 @@ let langs = {
                 is_complete: true,
                 is_lock: false,
                 is_exam_complete: true,
-                exam_url: "courses/cs/course1/exam",
+                exam_url: "courses/cs/1/exam",
                 lessons: [{
                     title: "Язык C# и платформа .NET",
                     avatar: `/course_ico/cs/1/1.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/cs/course1/lesson2"
+                    url: "/courses/cs/1/1"
                 }, {
                     title: "Начало работы с Visual Studio. Первая программа",
                     avatar: `/course_ico/cs/1/2.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/cs/course1/lesson3"
+                    url: "/courses/cs/1/2"
                 }, {
                     title: "Компиляция в командной строке с .NET Core CLI",
                     avatar: `/course_ico/cs/1/3.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/cs/course1/lesson4"
+                    url: "/courses/cs/1/3"
                 }, {
                     title: "Установка версии языка",
                     avatar: `/course_ico/cs/1/4.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/cs/course1/lesson5"
-                }
-                ]
+                    url: "/courses/cs/1/4"
+                }]
             }, {
                 title: "Основы программирования на C#",
                 avatar: `/logo-cs.png`,
@@ -106,139 +108,139 @@ let langs = {
                 is_complete: false,
                 is_lock: false,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course2/exam",
+                exam_url: "courses/cs/2/exam",
                 lessons: [{
                     title: "Структура программы",
                     avatar: `/course_ico/cs/2/1.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/cs/course2/lesson1"
+                    url: "/courses/cs/2/1"
                 }, {
                     title: "Переменные",
                     avatar: `/course_ico/cs/2/2.png`,
                     progress: 0.5,
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson2"
+                    url: "/courses/cs/2/2"
                 }, {
                     title: "Литералы",
                     avatar: `/course_ico/cs/2/3.png`,
                     progress: 0,
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson3"
+                    url: "/courses/cs/2/3"
                 }, {
                     title: "Типы данных",
                     avatar: `/course_ico/cs/2/4.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson4"
+                    url: "/courses/cs/2/4"
                 }, {
                     title: "Консольный ввод-вывод",
                     avatar: `/course_ico/cs/2/5.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson5"
+                    url: "/courses/cs/2/5"
                 }, {
                     title: "Арифметические операции",
                     avatar: `/course_ico/cs/2/6.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson6"
+                    url: "/courses/cs/2/6"
                 }, {
                     title: "Поразрядные операции",
                     avatar: `/course_ico/cs/2/7.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson7"
+                    url: "/courses/cs/2/7"
                 }, {
                     title: "Операции присваивания",
                     avatar: `/course_ico/cs/2/8.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson8"
+                    url: "/courses/cs/2/8"
                 }, {
                     title: "Преобразования базовых типов данных",
                     avatar: `/course_ico/cs/2/9.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson9"
+                    url: "/courses/cs/2/9"
                 }, {
                     title: "Условные выражения",
                     avatar: `/course_ico/cs/2/10.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson10"
+                    url: "/courses/cs/2/10"
                 }, {
                     title: "Условные конструкции",
                     avatar: `/course_ico/cs/2/11.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson11"
+                    url: "/courses/cs/2/11"
                 }, {
                     title: "Циклы",
                     avatar: `/course_ico/cs/2/12.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson12"
+                    url: "/courses/cs/2/12"
                 }, {
                     title: "Массивы",
                     avatar: `/course_ico/cs/2/13.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson13"
+                    url: "/courses/cs/2/13"
                 }, {
                     title: "Программа сортировки массива",
                     avatar: `/course_ico/cs/2/14.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson14"
+                    url: "/courses/cs/2/14"
                 }, {
                     title: "Методы",
                     avatar: `/course_ico/cs/2/15.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson15"
+                    url: "/courses/cs/2/15"
                 }, {
                     title: "Параметры методов",
                     avatar: `/course_ico/cs/2/16.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson16"
+                    url: "/courses/cs/2/16"
                 }, {
                     title: "Передача параметров по ссылке и значению. Выходные параметры",
                     avatar: `/course_ico/cs/2/17.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson17"
+                    url: "/courses/cs/2/17"
                 }, {
                     title: "Массив параметров и ключевое слово params",
                     avatar: `/course_ico/cs/2/18.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson18"
+                    url: "/courses/cs/2/18"
                 }, {
                     title: "Область видимости (контекст) переменных",
                     avatar: `/course_ico/cs/2/19.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson19"
+                    url: "/courses/cs/2/19"
                 }, {
                     title: "Рекурсивные функции",
                     avatar: `/course_ico/cs/2/20.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson20"
+                    url: "/courses/cs/2/20"
                 }, {
                     title: "Перечисления enum",
                     avatar: `/course_ico/cs/2/21.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson21"
+                    url: "/courses/cs/2/21"
                 }, {
                     title: "Кортежи",
                     avatar: `/course_ico/cs/2/22.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course2/lesson22"
+                    url: "/courses/cs/2/22"
                 }
                 ]
             }, {
@@ -248,151 +250,151 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course3/exam",
+                exam_url: "courses/cs/3/exam",
                 lessons: [{
                     title: "Классы и объекты",
                     avatar: `/course_ico/cs/3/1.png`,
                     progress: 0,
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson1"
+                    url: "/courses/cs/3/1"
                 }, {
                     title: "Структуры",
                     avatar: `/course_ico/cs/3/2.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson2"
+                    url: "/courses/cs/3/2"
                 }, {
                     title: "Типы значений и ссылочные типы",
                     avatar: `/course_ico/cs/3/3.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson3"
+                    url: "/courses/cs/3/3"
                 }, {
                     title: "Пространства имен, псевдонимы и статический импорт",
                     avatar: `/course_ico/cs/3/4.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson4"
+                    url: "/courses/cs/3/4"
                 }, {
                     title: "Создание библиотеки классов",
                     avatar: `/course_ico/cs/3/5.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson5"
+                    url: "/courses/cs/3/5"
                 }, {
                     title: "Модификаторы доступа",
                     avatar: `/course_ico/cs/3/6.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson6"
+                    url: "/courses/cs/3/6"
                 }, {
                     title: "Свойства",
                     avatar: `/course_ico/cs/3/7.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson7"
+                    url: "/courses/cs/3/7"
                 }, {
                     title: "Перегрузка методов",
                     avatar: `/course_ico/cs/3/8.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson8"
+                    url: "/courses/cs/3/8"
                 }, {
                     title: "Статические члены и модификатор static",
                     avatar: `/course_ico/cs/3/9.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson9"
+                    url: "/courses/cs/3/9"
                 }, {
                     title: "Константы, поля и структуры для чтения",
                     avatar: `/course_ico/cs/3/10.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson10"
+                    url: "/courses/cs/3/10"
                 }, {
                     title: "Перегрузка операторов",
                     avatar: `/course_ico/cs/3/11.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson11"
+                    url: "/courses/cs/3/11"
                 }, {
                     title: "Значение null",
                     avatar: `/course_ico/cs/3/12.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson12"
+                    url: "/courses/cs/3/12"
                 }, {
                     title: "Индексаторы",
                     avatar: `/course_ico/cs/3/13.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson13"
+                    url: "/courses/cs/3/13"
                 }, {
                     title: "Наследование",
                     avatar: `/course_ico/cs/3/14.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson14"
+                    url: "/courses/cs/3/14"
                 }, {
                     title: "Преобразование типов",
                     avatar: `/course_ico/cs/3/15.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson15"
+                    url: "/courses/cs/3/15"
                 }, {
                     title: "Перегрузка операций преобразования типов",
                     avatar: `/course_ico/cs/3/16.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson16"
+                    url: "/courses/cs/3/16"
                 }, {
                     title: "Виртуальные методы и свойства",
                     avatar: `/course_ico/cs/3/17.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson17"
+                    url: "/courses/cs/3/17"
                 }, {
                     title: "Сокрытие методов",
                     avatar: `/course_ico/cs/3/18.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson18"
+                    url: "/courses/cs/3/18"
                 }, {
                     title: "Различие переопределения и сокрытия методов",
                     avatar: `/course_ico/cs/3/19.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson19"
+                    url: "/courses/cs/3/19"
                 }, {
                     title: "Абстрактные классы",
                     avatar: `/course_ico/cs/3/20.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson20"
+                    url: "/courses/cs/3/20"
                 }, {
                     title: "Класс System.Object и его методы",
                     avatar: `/course_ico/cs/3/21.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson21"
+                    url: "/courses/cs/3/21"
                 }, {
                     title: "Обобщенные типы",
                     avatar: `/course_ico/cs/3/22.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson22"
+                    url: "/courses/cs/3/22"
                 }, {
                     title: "Ограничения обобщений",
                     avatar: `/course_ico/cs/3/23.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson23"
+                    url: "/courses/cs/3/23"
                 }, {
                     title: "Наследование обобщенных типов",
                     avatar: `/course_ico/cs/3/24.png`,
                     progress: Math.random(),
                     is_complete: false,
-                    url: "/courses/cs/course3/lesson24"
+                    url: "/courses/cs/3/24"
                 }]
             }, {
                 title: "Обработка исключений",
@@ -401,44 +403,44 @@ let langs = {
                 is_complete: true,
                 is_lock: false,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course4/exam",
+                exam_url: "courses/cs/4/exam",
                 lessons: [
                     {
                         title: "Конструкция try..catch..finally",
                         avatar: `/course_ico/cs/4/1.png`,
                         progress: 1,
                         is_complete: true,
-                        url: "/courses/cs/course4/lesson1"
+                        url: "/courses/cs/4/1"
                     }, {
                         title: "Блок catch и фильтры исключений",
                         avatar: `/course_ico/cs/4/2.png`,
                         progress: 1,
                         is_complete: true,
-                        url: "/courses/cs/course4/lesson2"
+                        url: "/courses/cs/4/2"
                     }, {
                         title: "Типы исключений. Класс Exception",
                         avatar: `/course_ico/cs/4/3.png`,
                         progress: 1,
                         is_complete: true,
-                        url: "/courses/cs/course1/lesson3"
+                        url: "/courses/cs/4/3"
                     }, {
                         title: "Создание классов исключений",
                         avatar: `/course_ico/cs/4/4.png`,
                         progress: 1,
                         is_complete: true,
-                        url: "/courses/cs/course4/lesson4"
+                        url: "/courses/cs/4/4"
                     }, {
                         title: "Поиск блока catch при обработке исключений",
                         avatar: `/course_ico/cs/4/5.png`,
                         progress: 1,
                         is_complete: true,
-                        url: "/courses/cs/course4/lesson5"
+                        url: "/courses/cs/4/5"
                     }, {
                         title: "Генерация исключения и оператор throw",
                         avatar: `/course_ico/cs/4/6.png`,
                         progress: 1,
                         is_complete: true,
-                        url: "/courses/cs/course4/lesson6"
+                        url: "/courses/cs/4/6"
                     }
                 ]
             }, {
@@ -448,50 +450,50 @@ let langs = {
                 is_complete: false,
                 is_lock: false,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course5/exam",
+                exam_url: "courses/cs/5/exam",
                 lessons: [
                     {
                         title: "Делегаты",
                         avatar: `/course_ico/cs/5/1.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson1"
+                        url: "/courses/cs/5/1"
                     }, {
                         title: "Применение делегатов",
                         avatar: `/course_ico/cs/5/2.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson2"
+                        url: "/courses/cs/5/2"
                     }, {
                         title: "Анонимные методы",
                         avatar: `/course_ico/cs/5/3.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson3"
+                        url: "/courses/cs/5/3"
                     }, {
                         title: "Лямбды",
                         avatar: `/course_ico/cs/5/4.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson4"
+                        url: "/courses/cs/5/4"
                     }, {
                         title: "События",
                         avatar: `/course_ico/cs/5/5.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson5"
+                        url: "/courses/cs/5/5"
                     }, {
                         title: "Ковариантность и контравариантность делегатов",
                         avatar: `/course_ico/cs/5/6.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson6"
+                        url: "/courses/cs/5/6"
                     }, {
                         title: "Делегаты Action, Predicate и Func",
                         avatar: `/course_ico/cs/5/7.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course5/lesson7"
+                        url: "/courses/cs/5/7"
                     }
                 ]
             }, {
@@ -501,7 +503,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course6/exam",
+                exam_url: "courses/cs/6/exam",
                 lessons: []
             }, {
                 title: "Дополнительные возможности ООП в C#",
@@ -510,7 +512,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course7/exam",
+                exam_url: "courses/cs/9/exam",
                 lessons: []
             }, {
                 title: "Объектно-ориентированное программирование. Практика",
@@ -519,7 +521,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course8/exam",
+                exam_url: "courses/cs/8/exam",
                 lessons: []
             }, {
                 title: "Коллекции",
@@ -528,7 +530,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course9/exam",
+                exam_url: "courses/cs/9/exam",
                 lessons: []
             }, {
                 title: "Работа со строками",
@@ -537,7 +539,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course10/exam",
+                exam_url: "courses/cs/10/exam",
                 lessons: []
             }, {
                 title: "Работа с датами и временем",
@@ -546,7 +548,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course11/exam",
+                exam_url: "courses/cs/11/exam",
                 lessons: []
             }, {
                 title: "Дополнительные классы и структуры .NET",
@@ -555,7 +557,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course12/exam",
+                exam_url: "courses/cs/12/exam",
                 lessons: []
             }, {
                 title: "Многопоточность",
@@ -564,7 +566,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course13/exam",
+                exam_url: "courses/cs/13/exam",
                 lessons: []
             }, {
                 title: "Параллельное программирование и библиотека TPL",
@@ -573,7 +575,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course14/exam",
+                exam_url: "courses/cs/14/exam",
                 lessons: []
             }, {
                 title: "Aсинхронное программирование. Task-based Asynchronous Pattern",
@@ -582,7 +584,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course15/exam",
+                exam_url: "courses/cs/15/exam",
                 lessons: []
             }, {
                 title: "LINQ",
@@ -591,7 +593,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course16/exam",
+                exam_url: "courses/cs/16/exam",
                 lessons: []
             }, {
                 title: "Parallel LINQ",
@@ -600,7 +602,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course17/exam",
+                exam_url: "courses/cs/17/exam",
                 lessons: []
             }, {
                 title: "Рефлексия",
@@ -609,7 +611,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course18/exam",
+                exam_url: "courses/cs/18/exam",
                 lessons: []
             }, {
                 title: "Сборка мусора, управление памятью и указатели",
@@ -618,7 +620,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course19/exam",
+                exam_url: "courses/cs/19/exam",
                 lessons: []
             }, {
                 title: "Работа с потоками и файловой системой",
@@ -627,7 +629,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course20/exam",
+                exam_url: "courses/cs/20/exam",
                 lessons: []
             }, {
                 title: "Работа с JSON",
@@ -636,14 +638,14 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course21/exam",
+                exam_url: "courses/cs/21/exam",
                 lessons: [
                     {
                         title: "Сериализация в JSON. JsonSerializer",
                         avatar: `/logo-cs.png`,
                         progress: Math.random(),
                         is_complete: false,
-                        url: "/courses/cs/course22/lesson1"
+                        url: "/courses/cs/21/1"
                     }]
             }, {
                 title: "Работа с XML в C#",
@@ -652,7 +654,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course22/exam",
+                exam_url: "courses/cs/22/exam",
                 lessons: []
             }, {
                 title: "Процессы и домены приложения",
@@ -661,7 +663,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course23/exam",
+                exam_url: "courses/cs/23/exam",
                 lessons: []
             }, {
                 title: "Валидация модели",
@@ -670,7 +672,7 @@ let langs = {
                 is_complete: false,
                 is_lock: true,
                 is_exam_complete: false,
-                exam_url: "courses/cs/course24/exam",
+                exam_url: "courses/cs/24/exam",
                 lessons: []
             }
         ],
@@ -685,37 +687,37 @@ let langs = {
                 is_complete: true,
                 is_lock: false,
                 is_exam_complete: true,
-                exam_url: "courses/js/course1/exam",
+                exam_url: "courses/js/1/exam",
                 lessons: [{
                     title: "Что такое JavaScript",
                     avatar: `/course_ico/js/1/1.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/js/course1/lesson1"
+                    url: "/courses/js/1/1"
                 }, {
                     title: "Первая программа на JavaScript",
                     avatar: `/course_ico/js/1/2.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/js/course1/lesson2"
+                    url: "/courses/js/1/2"
                 }, {
                     title: "Выполнение кода javascript",
                     avatar: `/course_ico/js/1/3.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/js/course1/lesson3"
+                    url: "/courses/js/1/3"
                 }, {
                     title: "Подключение внешнего файла JavaScript",
                     avatar: `/course_ico/js/1/4.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/js/course1/lesson4"
+                    url: "/courses/js/1/4"
                 }, {
                     title: "Консоль браузера, console.log и document.write",
                     avatar: `/course_ico/js/1/5.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/js/course1/lesson5"
+                    url: "/courses/js/1/5"
                 }]
             }],
         lang_title: "JavaScript"
@@ -729,37 +731,37 @@ let langs = {
                 is_complete: false,
                 is_lock: false,
                 is_exam_complete: false,
-                exam_url: "courses/php/course1/exam",
+                exam_url: "courses/php/1/exam",
                 lessons: [{
                     title: "Общий обзор языка программирования PHP",
                     avatar: `/course_ico/php/1/1.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/php/course1/lesson1"
+                    url: "/courses/php/1/1"
                 }, {
                     title: "Установка PHP",
                     avatar: `/course_ico/php/1/2.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/php/course1/lesson2"
+                    url: "/courses/php/1/2"
                 }, {
                     title: "Установка веб-сервера Apache",
                     avatar: `/course_ico/php/1/3.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/php/course1/lesson3"
+                    url: "/courses/php/1/3"
                 }, {
                     title: "Установка MySQL",
                     avatar: `/course_ico/php/1/4.png`,
                     progress: 1,
                     is_complete: true,
-                    url: "/courses/php/course1/lesson4"
+                    url: "/courses/php/1/4"
                 }, {
                     title: "Первый сайт на PHP",
                     avatar: `/course_ico/php/1/5.png`,
                     progress: 0.8,
                     is_complete: false,
-                    url: "/courses/php/course1/lesson5"
+                    url: "/courses/php/1/5"
                 }]
             }],
         lang_title: "PHP"
@@ -994,6 +996,38 @@ async function Route_Sandbox(app, db, req, res) {
     res.render(path.join(__dirname, "sandbox", "index.pug"), {
         basedir: path.join(__dirname, "sandbox"),
         current_page: "sandbox",
+        user: {
+            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+            is_authorised: true,
+            coins: Math.randomInt(0, 1000),
+            is_premium: false,
+            crown_type: Math.randomInt(0, 4)
+        }
+    }, (err, page) => HandleResult(err, page, res));
+}
+
+async function Route_Lesson(app, db, req, res) {
+    let lang_id = req.params.lang;
+    let id_course = req.params.id_course;
+    let id_lesson = req.params.id_lesson;
+    let lang;
+    let course;
+    let lesson;
+    if ((lang = langs[lang_id]) === undefined ||
+        (course = langs[lang_id].themes[id_course - 1]) === undefined ||
+        (lesson = langs[lang_id].themes[id_course - 1].lessons[id_lesson - 1]) === undefined) {
+        await Route_Error(res, 228, "Урок не найден", "Габе жив");
+        return;
+    }
+    res.render(path.join(__dirname, "lesson", "index.pug"), {
+        basedir: path.join(__dirname, "lesson"),
+        current_page: "lesson",
+        lang_id,
+        id_course,
+        id_lesson,
+        lang,
+        course,
+        lesson,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,

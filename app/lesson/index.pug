@@ -1,7 +1,11 @@
 extends ../layout
 
 block head
-    title #{lesson_name} - WebHub
+    title #{lesson.title} - WebHub
 
 block content
-    p TODO
+    h1 #{lang.lang_title} > #{course.title} > #{lesson.title}
+    pre.
+        Язык: #{lang_id}
+        id курса: #{id_course}
+        id урока: #{id_lesson}
