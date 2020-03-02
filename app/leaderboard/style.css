@@ -1,0 +1,55 @@
+#header_led {
+    display: flow-root;
+}
+
+#header_led > h1 {
+    float: left;
+}
+
+#header_led > select {
+    float: right;
+}
+
+.leader {
+    display: grid;
+    grid-template-columns: 10% max-content auto 15%;
+}
+
+.leader > h1 {
+    font-size: 80px;
+    margin: 19px auto;
+}
+
+.leader > img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: 15px;
+}
+
+.leader > div {
+    margin-top: 40px;
+    padding: 0 15px;
+    text-align: left;
+    font-weight: 900;
+}
+
+.leader > div > h3 {
+    font-weight: bolder;
+    font-size: 30px;
+    margin: 0;
+}
+
+.leader > div > p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.leader > p {
+    font-size: xx-large;
+    font-weight: bold;
+    margin: 45px 0;
+    text-align: right;
+}

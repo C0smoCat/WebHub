@@ -6,4 +6,21 @@ block head
         include style.css
 
 block content
-    p TODO
+    //p TODO
+    div(id='header_led')
+        h1 Топ пользователей
+        select
+            option За неделю
+            option За месяц
+            option За год
+    each leader in leaderboard
+        div(class='leader')
+            h1=leader.place_num
+            img(
+                src=leader.avatar
+                style={border: leader.is_premium ? "solid 3px gold" : "solid 3px black"},
+            )
+            div
+                h3=leader.login
+                p=leader.status
+            p=leader.score
