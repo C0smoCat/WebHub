@@ -4,6 +4,9 @@ block head
     title Форум - WebHub
     style
         include style.css
+    style
+        each theme, index in themes
+            != `.theme-${index}:hover {\n\tbackground: linear-gradient(135deg,hsl(${Math.randomInt(0, 360)},70%,70%) 0%,hsl(${Math.randomInt(0, 360)},70%,70%) 100%);\n}\n`
 
 block content
     form(
@@ -14,9 +17,9 @@ block content
         input(type="text" placeholder="Поиск темы" name="q" value=search_query)
         button(type="submit")
             p Поиск
-    each theme in themes
-        a(href=theme.url class='theme')
-            div
+    each theme, index in themes
+        a(href=theme.url class="theme")
+            div(class=`theme-${index}`)
                 img(src=theme.avatar)
                 div
                     p(style='font-weight: bolder;')=theme.title

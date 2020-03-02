@@ -43,13 +43,18 @@
     color: #e2e2e2;
     display: grid;
     margin: 10px 0;
-
 }
 .theme > div {
     background: #464646;
     border-radius: 8px;
     overflow: hidden;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 
+.theme > div:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.03, 1.03) translateY(-5px);
+    /*background: linear-gradient(135deg,#ff6d00 0%,#ff8d00 100%);*/
 }
 
 .theme > div > img {
