@@ -22,46 +22,69 @@
     background: #353534 url('/arrow_down.png') 95% /15% no-repeat;
 
 }
-.leader {
+
+.leader, .not_leader {
     display: grid;
-    grid-template-columns: 10% max-content auto 15%;
+    grid-template-columns: 15% max-content auto 15%;
 }
 
-.leader > h1 {
+.leader > h1, .not_leader > h1 {
     font-size: 80px;
-    margin: 19px auto;
+    margin: 19px 0;
+    text-align: left;
 }
 
-.leader > img {
+.leader > img, .not_leader > img {
     border-radius: 50%;
     width: 100px;
     height: 100px;
     margin: 15px;
 }
 
-.leader > div {
+.leader > div, .not_leader > div {
     margin-top: 40px;
     padding: 0 15px;
     text-align: left;
     font-weight: 900;
 }
 
-.leader > div > h3 {
+.leader > div > h3, .not_leader > div > h3 {
     font-weight: bolder;
     font-size: 30px;
     margin: 0;
 }
 
-.leader > div > p {
+.leader > div > p, .not_leader > div > p {
     margin: 0;
     font-size: 15px;
     font-weight: bold;
     color: #ccc;
 }
 
-.leader > p {
+.leader > p, .not_leader > p {
     font-size: xx-large;
     font-weight: bold;
     margin: 45px 0;
     text-align: right;
 }
+
+.not_leader {
+    background: #353534;
+}
+
+#more {
+    color: #e2e2e2;
+    font-size: xx-large;
+    font-weight: bold;
+    padding: 0 50px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 15px;
+    border: none;
+    background-color: #353534;
+}
+
+#more:active {
+    background-color: #666;
+}
+
