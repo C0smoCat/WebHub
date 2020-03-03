@@ -2,6 +2,26 @@ extends ../layout
 
 block head
     title Личная страница - WebHub
-
+    style
+        include style.css
 block content
-    p TODO
+    //p TODO
+    div
+        div
+            img(
+                src=user.avatar
+                style={border: user.is_premium ? "solid 3px gold" : "solid 3px black"},
+            )
+            a(href='#') Выйти
+        div
+            h1=user.login
+            h2=user.status
+            h3
+        div
+            div
+                p Место в топе:
+                h1=user.place_num
+            div
+                p Баланс #{user.coins}
+                img(src='/plus.png')
+                a(href="#") Купить Premium
