@@ -20,7 +20,7 @@ const markdown = require('markdown-it')({
             } catch (__) {
             }
         }
-        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+        return '<pre class="hljs"><code>' + markdown.utils.escapeHtml(str) + '</code></pre>';
     }
 })
     .use(require("markdown-it-toc-and-anchor").default, {
@@ -169,7 +169,8 @@ let langs = {
                     is_complete: true,
                     url: "/courses/cs/1/4"
                 }]
-            }, {
+            },
+            {
                 title: "Основы программирования на C#",
                 avatar: `/logo-cs.png`,
                 progress: 0.5,
@@ -311,7 +312,8 @@ let langs = {
                     url: "/courses/cs/2/22"
                 }
                 ]
-            }, {
+            },
+            {
                 title: "Классы. Объектно-ориентированное программирование",
                 avatar: `/logo-cs.png`,
                 progress: 0,
@@ -464,7 +466,8 @@ let langs = {
                     is_complete: false,
                     url: "/courses/cs/3/24"
                 }]
-            }, {
+            },
+            {
                 title: "Обработка исключений",
                 avatar: `/logo-cs.png`,
                 progress: 1,
@@ -511,7 +514,8 @@ let langs = {
                         url: "/courses/cs/4/6"
                     }
                 ]
-            }, {
+            },
+            {
                 title: "Делегаты, события и лямбды",
                 avatar: `/logo-cs.png`,
                 progress: Math.random(),
@@ -564,7 +568,8 @@ let langs = {
                         url: "/courses/cs/5/7"
                     }
                 ]
-            }, {
+            },
+            {
                 title: "Интерфейсы",
                 avatar: `/logo-cs.png`,
                 progress: Math.random(),
@@ -787,6 +792,562 @@ let langs = {
                     is_complete: true,
                     url: "/courses/js/1/5"
                 }]
+            },
+            {
+                title: "Основы Javascript",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/2/exam",
+                lessons: [{
+                    title: "Переменные и константы",
+                    avatar: `/course_ico/js/2/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/1"
+                }, {
+                    title: "Типы данных",
+                    avatar: `/course_ico/js/2/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/2"
+                }, {
+                    title: "Операции с переменными",
+                    avatar: `/course_ico/js/2/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/3"
+                }, {
+                    title: "Преобразование данных",
+                    avatar: `/course_ico/js/2/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/4"
+                }, {
+                    title: "Массивы",
+                    avatar: `/course_ico/js/2/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/5"
+                }, {
+                    title: "Условные конструкции",
+                    avatar: `/course_ico/js/2/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/6"
+                }, {
+                    title: "Циклы",
+                    avatar: `/course_ico/js/2/7.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/2/7"
+                }]
+            },
+            {
+                title: "Функциональное программирование",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/3/exam",
+                lessons: [{
+                    title: "Функции",
+                    avatar: `/course_ico/js/3/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/1"
+                }, {
+                    title: "Область видимости переменных",
+                    avatar: `/course_ico/js/3/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/2"
+                }, {
+                    title: "Замыкания и функции IIFE",
+                    avatar: `/course_ico/js/3/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/3"
+                }, {
+                    title: "Паттерн Модуль",
+                    avatar: `/course_ico/js/3/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/4"
+                }, {
+                    title: "Рекурсивные функции",
+                    avatar: `/course_ico/js/3/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/5"
+                }, {
+                    title: "Переопределение функций",
+                    avatar: `/course_ico/js/3/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/6"
+                }, {
+                    title: "Hoisting",
+                    avatar: `/course_ico/js/3/7.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/7"
+                }, {
+                    title: "Передача параметров по значению и по ссылке",
+                    avatar: `/course_ico/js/3/8.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/8"
+                }, {
+                    title: "Стрелочные функции",
+                    avatar: `/course_ico/js/3/9.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/3/9"
+                }]
+            },
+            {
+                title: "Объектно-ориентированное программирование",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/4/exam",
+                lessons: [{
+                    title: "Объекты",
+                    avatar: `/course_ico/js/4/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/1"
+                }, {
+                    title: "Вложенные объекты и массивы в объектах",
+                    avatar: `/course_ico/js/4/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/2"
+                }, {
+                    title: "Проверка наличия и перебор методов и свойств",
+                    avatar: `/course_ico/js/4/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/3"
+                }, {
+                    title: "Объекты в функциях",
+                    avatar: `/course_ico/js/4/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/4"
+                }, {
+                    title: "Конструкторы объектов",
+                    avatar: `/course_ico/js/4/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/5"
+                }, {
+                    title: "Расширение объектов. Prototype",
+                    avatar: `/course_ico/js/4/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/6"
+                }, {
+                    title: "Инкапсуляция",
+                    avatar: `/course_ico/js/4/7.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/7"
+                }, {
+                    title: "Функция как объект. Методы call и apply",
+                    avatar: `/course_ico/js/4/8.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/8"
+                }, {
+                    title: "Наследование",
+                    avatar: `/course_ico/js/4/9.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/9"
+                }, {
+                    title: "Ключевое слово this",
+                    avatar: `/course_ico/js/4/10.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/10"
+                }, {
+                    title: "Декомпозиция",
+                    avatar: `/course_ico/js/4/11.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/11"
+                }, {
+                    title: "Классы",
+                    avatar: `/course_ico/js/4/12.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/4/12"
+                }]
+            },
+            {
+                title: "Встроенные объекты",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/5/exam",
+                lessons: [{
+                    title: "Объекты",
+                    avatar: `/course_ico/js/5/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/5/1"
+                }, {
+                    title: "Объекты",
+                    avatar: `/course_ico/js/5/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/5/2"
+                }, {
+                    title: "Объекты",
+                    avatar: `/course_ico/js/5/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/5/3"
+                }, {
+                    title: "Объекты",
+                    avatar: `/course_ico/js/5/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/5/4"
+                }]
+            },
+            {
+                title: "Строки",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/6/exam",
+                lessons: [{
+                    title: "Строки и объект String",
+                    avatar: `/course_ico/js/6/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/6/1"
+                }, {
+                    title: "Объект RegExp. Регулярные выражения",
+                    avatar: `/course_ico/js/6/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/6/2"
+                }, {
+                    title: "Регулярные выражения в методах String",
+                    avatar: `/course_ico/js/6/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/6/3"
+                }, {
+                    title: "Синтаксис регулярных выражений",
+                    avatar: `/course_ico/js/6/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/6/4"
+                }]
+            },
+            {
+                title: "Работа с браузером и BOM",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/7/exam",
+                lessons: [{
+                    title: "Browser Object Model и объект window",
+                    avatar: `/course_ico/js/7/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/7/1"
+                }, {
+                    title: "Управление окнами",
+                    avatar: `/course_ico/js/7/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/7/2"
+                }, {
+                    title: "История браузера. Объект history",
+                    avatar: `/course_ico/js/7/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/7/3"
+                }, {
+                    title: "Объект location",
+                    avatar: `/course_ico/js/7/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/7/4"
+                }, {
+                    title: "Объект navigator",
+                    avatar: `/course_ico/js/7/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/7/5"
+                }, {
+                    title: "Таймеры",
+                    avatar: `/course_ico/js/7/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/7/6"
+                }]
+            },
+            {
+                title: "Работа с DOM",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/8/exam",
+                lessons: [{
+                    title: "Введение в DOM",
+                    avatar: `/course_ico/js/8/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/1"
+                }, {
+                    title: "Объект document. Поиск элементов",
+                    avatar: `/course_ico/js/8/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/2"
+                }, {
+                    title: "Свойства объекта document",
+                    avatar: `/course_ico/js/8/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/3"
+                }, {
+                    title: "Объект Node. Навигация по DOM",
+                    avatar: `/course_ico/js/8/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/4"
+                }, {
+                    title: "Создание, добавление и удаление элементов веб-станицы",
+                    avatar: `/course_ico/js/8/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/5"
+                }, {
+                    title: "Объект Element. Управление элементами",
+                    avatar: `/course_ico/js/8/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/6"
+                }, {
+                    title: "Изменение стиля элементов",
+                    avatar: `/course_ico/js/8/7.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/8/7"
+                }]
+            },
+            {
+                title: "События",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/9/exam",
+                lessons: [{
+                    title: "Введение в обработку событий",
+                    avatar: `/course_ico/js/9/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/9/1"
+                }, {
+                    title: "Обработчики событий",
+                    avatar: `/course_ico/js/9/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/9/2"
+                }, {
+                    title: "Объект Event",
+                    avatar: `/course_ico/js/9/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/9/3"
+                }, {
+                    title: "Распространение событий",
+                    avatar: `/course_ico/js/9/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/9/4"
+                }, {
+                    title: "События мыши",
+                    avatar: `/course_ico/js/9/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/9/5"
+                }, {
+                    title: "События клавиатуры",
+                    avatar: `/course_ico/js/9/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/9/6"
+                }]
+            },
+            {
+                title: "Работа с формами",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/10/exam",
+                lessons: [{
+                    title: "Формы и их элементы",
+                    avatar: `/course_ico/js/10/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/10/1"
+                }, {
+                    title: "Кнопки",
+                    avatar: `/course_ico/js/10/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/10/2"
+                }, {
+                    title: "Текстовые поля",
+                    avatar: `/course_ico/js/10/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/10/3"
+                }, {
+                    title: "Флажки и переключатели",
+                    avatar: `/course_ico/js/10/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/10/4"
+                }, {
+                    title: "Список select",
+                    avatar: `/course_ico/js/10/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/10/5"
+                }]
+            },
+            {
+                title: "JSON",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/11/exam",
+                lessons: [{
+                    title: "Введение в JSON",
+                    avatar: `/course_ico/js/11/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/11/1"
+                }]
+            },
+            {
+                title: "Хранение данных",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/12/exam",
+                lessons: [{
+                    title: "Куки",
+                    avatar: `/course_ico/js/12/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/12/1"
+                }, {
+                    title: "Web Storage",
+                    avatar: `/course_ico/js/12/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/12/2"
+                }]
+            },
+            {
+                title: "Коллекции и итераторы",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/13/exam",
+                lessons: [{
+                    title: "Итераторы",
+                    avatar: `/course_ico/js/13/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/13/1"
+                }, {
+                    title: "Генераторы",
+                    avatar: `/course_ico/js/13/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/13/2"
+                }, {
+                    title: "Множества Set",
+                    avatar: `/course_ico/js/13/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/13/3"
+                }, {
+                    title: "Map",
+                    avatar: `/course_ico/js/13/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/13/4"
+                }, {
+                    title: "WeakSet и WeakMap",
+                    avatar: `/course_ico/js/13/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/13/5"
+                }]
+            },
+            {
+                title: "Ajax",
+                avatar: `/logo-js.png`,
+                progress: 1,
+                is_complete: true,
+                is_lock: false,
+                is_exam_complete: true,
+                exam_url: "courses/js/14/exam",
+                lessons: [{
+                    title: "Объект XMLHttpRequest",
+                    avatar: `/course_ico/js/14/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/14/1"
+                }, {
+                    title: "Отправка данных",
+                    avatar: `/course_ico/js/14/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/14/2"
+                }, {
+                    title: "Promise в Ajax-запросах",
+                    avatar: `/course_ico/js/14/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/js/14/3"
+                }]
             }],
         lang_title: "JavaScript"
     },
@@ -831,6 +1392,276 @@ let langs = {
                     is_complete: false,
                     url: "/courses/php/1/5"
                 }]
+            },
+            {
+                title: "Основы PHP",
+                avatar: `/logo-php.png`,
+                progress: 1,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                exam_url: "courses/php/2/exam",
+                lessons: [{
+                    title: "Основы синтаксиса",
+                    avatar: `/course_ico/php/2/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/1"
+                }, {
+                    title: "Переменные",
+                    avatar: `/course_ico/php/2/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/2"
+                }, {
+                    title: "Типы данных",
+                    avatar: `/course_ico/php/2/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/3"
+                }, {
+                    title: "Константы",
+                    avatar: `/course_ico/php/2/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/4"
+                }, {
+                    title: "Получение и установка типа переменной",
+                    avatar: `/course_ico/php/2/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/5"
+                }, {
+                    title: "Операции в PHP",
+                    avatar: `/course_ico/php/2/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/6"
+                }, {
+                    title: "Условные конструкции",
+                    avatar: `/course_ico/php/2/7.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/7"
+                }, {
+                    title: "Циклы",
+                    avatar: `/course_ico/php/2/8.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/8"
+                }, {
+                    title: "Функции",
+                    avatar: `/course_ico/php/2/9.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/9"
+                }, {
+                    title: "Область видимости переменной",
+                    avatar: `/course_ico/php/2/10.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/10"
+                }, {
+                    title: "Подключение внешних файлов",
+                    avatar: `/course_ico/php/2/11.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/11"
+                }, {
+                    title: "Массивы",
+                    avatar: `/course_ico/php/2/12.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/12"
+                }, {
+                    title: "Операции с массивами",
+                    avatar: `/course_ico/php/2/13.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/2/13"
+                }]
+            },
+            {
+                title: "Передача параметров. Работа с формами",
+                avatar: `/logo-php.png`,
+                progress: 1,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                exam_url: "courses/php/3/exam",
+                lessons: [{
+                    title: "Обработка форм",
+                    avatar: `/course_ico/php/3/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/3/1"
+                }, {
+                    title: "Получение данных из строки запроса",
+                    avatar: `/course_ico/php/3/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/3/2"
+                }, {
+                    title: "Работа с полями ввода форм",
+                    avatar: `/course_ico/php/3/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/3/3"
+                }, {
+                    title: "Пример обработки форм",
+                    avatar: `/course_ico/php/3/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/3/4"
+                },]
+            },
+            {
+                title: "Базовые возможности PHP",
+                avatar: `/logo-php.png`,
+                progress: 1,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                exam_url: "courses/php/4/exam",
+                lessons: [{
+                    title: "Работа со строками",
+                    avatar: `/course_ico/php/4/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/4/1"
+                }, {
+                    title: "Работа с cookie",
+                    avatar: `/course_ico/php/4/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/4/2"
+                }, {
+                    title: "Сессии",
+                    avatar: `/course_ico/php/4/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/4/3"
+                },]
+            },
+            {
+                title: "Работа с файловой системой",
+                avatar: `/logo-php.png`,
+                progress: 1,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                exam_url: "courses/php/5/exam",
+                lessons: [{
+                    title: "Чтение и запись файлов",
+                    avatar: `/course_ico/php/5/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/5/1"
+                }, {
+                    title: "Управление файлами и каталогами",
+                    avatar: `/course_ico/php/5/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/5/2"
+                }, {
+                    title: "Блокировка файла. Функция flock",
+                    avatar: `/course_ico/php/5/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/5/3"
+                }, {
+                    title: "Отправка файлов на сервер",
+                    avatar: `/course_ico/php/5/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/5/4"
+                },]
+            },
+            {
+                title: "Объектно-ориентированное программирование",
+                avatar: `/logo-php.png`,
+                progress: 1,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                exam_url: "courses/php/6/exam",
+                lessons: [{
+                    title: "Объекты и классы",
+                    avatar: `/course_ico/php/6/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/6/1"
+                }, {
+                    title: "Наследование",
+                    avatar: `/course_ico/php/6/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/6/2"
+                }, {
+                    title: "Модификаторы доступа",
+                    avatar: `/course_ico/php/6/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/6/3"
+                }, {
+                    title: "Статические методы и свойства. Константы",
+                    avatar: `/course_ico/php/6/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/6/4"
+                },]
+            },
+            {
+                title: "Работа с базой данных. MySQL",
+                avatar: `/logo-php.png`,
+                progress: 1,
+                is_complete: false,
+                is_lock: false,
+                is_exam_complete: false,
+                exam_url: "courses/php/7/exam",
+                lessons: [{
+                    title: "MySQL и phpMyAdmin",
+                    avatar: `/course_ico/php/7/1.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/1"
+                }, {
+                    title: "Подключение в PHP к MySQL и выполнение запросов",
+                    avatar: `/course_ico/php/7/2.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/2"
+                }, {
+                    title: "Создание и удаление таблиц",
+                    avatar: `/course_ico/php/7/3.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/3"
+                }, {
+                    title: "Добавление данных",
+                    avatar: `/course_ico/php/7/4.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/4"
+                }, {
+                    title: "Получение данных",
+                    avatar: `/course_ico/php/7/5.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/5"
+                }, {
+                    title: "Редактирование данных",
+                    avatar: `/course_ico/php/7/6.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/6"
+                }, {
+                    title: "Удаление данных",
+                    avatar: `/course_ico/php/7/7.png`,
+                    progress: 1,
+                    is_complete: true,
+                    url: "/courses/php/7/7"
+                },]
             }],
         lang_title: "PHP"
     }
@@ -1084,7 +1915,7 @@ async function Route_Lesson(app, db, req, res) {
     if ((lang = langs[lang_id]) === undefined ||
         (course = langs[lang_id].themes[id_course - 1]) === undefined ||
         (lesson = langs[lang_id].themes[id_course - 1].lessons[id_lesson - 1]) === undefined) {
-        await Route_Error(res, 228, "Урок не найден", "Габе жив");
+        await Route_Error(res, 228, "Урок не найден");
         return;
     }
     let lessonMd;

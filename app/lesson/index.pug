@@ -15,6 +15,7 @@ block head
             .content-body {
                 max-width: 1200px !important;
                 text-align: justify;
+                padding: 0 !important;
             }
 
             .markdown-body {
@@ -79,8 +80,12 @@ block head
             include vs2015.css
 
 block content
-    h1 #{lang.lang_title} > #{course.title} > #{lesson.title}
-    pre lang_id:#{lang_id} id_course:#{id_course} id_lesson:#{id_lesson}
+    h1
+        a(href=`/courses?lang=${lang_id}`)= lang.lang_title
+        a /
+        a(href=`/courses?lang=${lang_id}#part${id_course}`)= course.title
+        a /
+        a=lesson.title
     if markdown
         div(class="markdown-body" style={background: "#eee"})
             !=markdown

@@ -64,9 +64,9 @@ block content
                 default: hrStyle = {background: "linear-gradient(135deg,#ff8d00 0%,#ff6d00 100%)"}; break;
                 }
             hr(style = hrStyle)
-            each theme in themes
+            each theme,index in themes
                 - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
-                ul
+                ul(id=`part${index + 1}`)
                     div(class="theme")
                         div(onclick="extendedLessonClick(this)" class=(theme.is_lock && "disabled"))
                             img(src=((!user.is_authorised || !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
