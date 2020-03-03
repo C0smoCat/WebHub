@@ -3,6 +3,74 @@ const config = require("../config.js");
 const pug = require('pug');
 const fs = require('fs');
 const express = require('express');
+const hljs = require('highlight.js');
+const markdown_it_container = require('markdown-it-container');
+const markdown = require('markdown-it')({
+    html: true,
+    linkify: false,
+    typographer: true,
+    breaks: true,
+    highlight: function (str, lang) {
+        let lng = lang === "json5" ? "json" : lang;
+        if (lng && hljs.getLanguage(lng)) {
+            try {
+                return '<pre class="hljs"><code>' +
+                    hljs.highlight(lng, str, true).value +
+                    '</code></pre>';
+            } catch (__) {
+            }
+        }
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+    }
+})
+    .use(require("markdown-it-toc-and-anchor").default, {
+        tocFirstLevel: 2,
+        tocLastLevel: 4,
+        anchorLinkBefore: true,
+        anchorLinkSymbol: "¶",
+        wrapHeadingTextInAnchor: true
+    })
+    .use(require('markdown-it-attrs'))
+    .use(require('markdown-it-header-sections'))
+    .use(markdown_it_container, 'note', {
+        validate: function (params) {
+            return params.trim().match(/^note\s+(.*)$/);
+        },
+        render: function (tokens, idx) {
+            if (tokens[idx].nesting === 1) {
+                let m = tokens[idx].info.trim().match(/^note\s+(.*)$/);
+                return `<div class='note note-${m[1]}'>\n`;
+            } else {
+                return '</div>\n';
+            }
+        }
+    })
+    .use(markdown_it_container, 'iframe', {
+        validate: function (params) {
+            return params.trim().match(/^iframe\s+(.*)$/);
+        },
+        render: function (tokens, idx) {
+            if (tokens[idx].nesting === 1) {
+                let m = tokens[idx].info.trim().match(/^iframe\s+(.*)$/);
+                return `<div><iframe allowfullscreen frameborder="0" src="${m[1]}">`;
+            } else {
+                return '<pre>:( iframe not supported</pre></iframe></div>';
+            }
+        }
+    })
+    .use(markdown_it_container, 'spoiler', {
+        validate: function (params) {
+            return params.trim().match(/^spoiler\s+(.*)$/);
+        },
+        render: function (tokens, idx) {
+            if (tokens[idx].nesting === 1) {
+                let m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/);
+                return `<details><summary>${m[1]}</summary>\n`;
+            } else {
+                return '</details>\n';
+            }
+        }
+    });
 
 module.exports = async function (app, db, req, res, next) {
     let logTimeLabel = `timelog Обработка запроса ${req.originalUrl} от ${req.connection.remoteAddress}`;
@@ -1019,6 +1087,16 @@ async function Route_Lesson(app, db, req, res) {
         await Route_Error(res, 228, "Урок не найден", "Габе жив");
         return;
     }
+    let lessonMd;
+    let compiledMd;
+    let mdPath = path.join(__dirname, "lesson", "lessons", lang_id, id_course, `${id_lesson}.md`);
+    if (fs.existsSync(mdPath)) {
+        lessonMd = fs.readFileSync(mdPath, "utf8");
+        compiledMd = markdown.render(lessonMd);
+    } else {
+        await Route_Error(res, 1337, "Урок ещё не написан");
+        return;
+    }
     res.render(path.join(__dirname, "lesson", "index.pug"), {
         basedir: path.join(__dirname, "lesson"),
         current_page: "lesson",
@@ -1028,6 +1106,7 @@ async function Route_Lesson(app, db, req, res) {
         lang,
         course,
         lesson,
+        markdown: compiledMd,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
@@ -1057,12 +1136,17 @@ async function Route_User(app, db, req, res) {
         basedir: path.join(__dirname, "user"),
         current_page: "user",
         user: {
+            login: "Габе",
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
             coins: Math.randomInt(0, 1000),
             is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+            crown_type: Math.randomInt(0, 4),
+            email: "gabe@the.dog",
+            status: "живой",
+            place_num: Math.randomInt(100, 10000)
+        },
+        certificates: ["http://robindelaporte.fr/codepen/visa-bg.jpg", "http://robindelaporte.fr/codepen/visa-bg-2.jpg", "http://robindelaporte.fr/codepen/visa-bg-3.jpg", "http://robindelaporte.fr/codepen/visa-bg-4.jpg"]
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -1084,13 +1168,15 @@ async function RouteAdminer(app, db, req, res) {
     res.redirect(301, 'https://youtube.com/watch?v=oHg5SJYRHA0');
 }
 
-async function Route_Error(res, error_code, error_msg, error_desc = "") {
+async function Route_Error(res, error_code, error_msg, error_desc = "", error_btn_url = "https://youtube.com/watch?v=oHg5SJYRHA0", error_btn_text = "Сделать хорошо") {
     res.render(path.join(__dirname, "error404", "index.pug"), {
         basedir: path.join(__dirname, "error404"),
         current_page: "error404",
         error_code,
         error_msg,
-        error_desc
+        error_desc,
+        error_btn_url,
+        error_btn_text
     }, (err, page) => HandleResult(err, page, res));
 }
 

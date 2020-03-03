@@ -2,10 +2,87 @@ extends ../layout
 
 block head
     title #{lesson.title} - WebHub
+    if markdown
+        style.
+            .note {
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                margin: 16px 0;
+                padding: 16px;
+                border-left: 6px solid;
+            }
+
+            .content-body {
+                max-width: 1200px !important;
+                text-align: justify;
+            }
+
+            .markdown-body {
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+
+            .note p {
+                margin: 0;
+            }
+
+            .note-danger {
+                background-color: #ffdddd;
+                border-left-color: #f44336;
+            }
+
+            .note-good {
+                background-color: #dfd;
+                border-left-color: #4caf50;
+            }
+
+            .note-info {
+                background-color: #e7f3fe;
+                border-left-color: #2196F3;
+            }
+
+            .note-warn {
+                background-color: #fff59d;
+                border-left-color: #ffc107;
+            }
+
+            details {
+                display: block;
+                border: 1px solid silver;
+                border-radius: 4px;
+                padding: 0.5em;
+                background-color: #f9f9f9;
+            }
+
+            details summary {
+                display: list-item;
+                margin: -0.5em;
+                padding: 12px;
+                outline-style: none;
+            }
+
+            details[open] > summary {
+                margin-bottom: 0.5em;
+                border-bottom: 1px solid silver;
+            }
+
+            iframe {
+                display: block;
+                width: 100%;
+                height: 300px;
+                border-radius: 10px;
+            }
+        style
+            include github-markdown.css
+        style
+            include vs2015.css
 
 block content
     h1 #{lang.lang_title} > #{course.title} > #{lesson.title}
-    pre.
-        Язык: #{lang_id}
-        id курса: #{id_course}
-        id урока: #{id_lesson}
+    pre lang_id:#{lang_id} id_course:#{id_course} id_lesson:#{id_lesson}
+    if markdown
+        div(class="markdown-body" style={background: "#eee"})
+            !=markdown
+    else
+        p Урок ещё не написан
