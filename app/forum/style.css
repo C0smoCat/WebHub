@@ -1,7 +1,7 @@
 .example {
     margin: 10px 0 0;
     display: grid;
-    grid-template-columns: auto 15%;
+    grid-template-columns: 5% auto 15%;
     grid-column-gap: 10px;
 }
 
@@ -38,6 +38,10 @@
     display: table;
 }
 
+#add {
+    padding-bottom: 6px;
+    font-size: 35px;
+}
 .theme{
     text-decoration: none;
     color: #e2e2e2;
