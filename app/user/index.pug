@@ -1,4 +1,5 @@
 extends ../layout
+include ../share-mixins.pug
 
 block head
     title Личная страница - WebHub
@@ -6,22 +7,56 @@ block head
         include style.css
 block content
     //p TODO
-    div
+    div(id="first_block")
         div
             img(
                 src=user.avatar
-                style={border: user.is_premium ? "solid 3px gold" : "solid 3px black"},
+                style={border: user.is_premium ? "solid 4px gold" : "solid 4px black"},
             )
-            a(href='#') Выйти
+            a(href='#')
+                i Выйти
         div
             h1=user.login
             h2=user.status
-            h3
-        div
-            div
+            h3 E-mail: #{user.email}
+        div(id="f_b_grid")
+            div(id='top_place')
                 p Место в топе:
-                h1=user.place_num
+                    h1=user.place_num
             div
-                p Баланс #{user.coins}
-                img(src='/plus.png')
-                a(href="#") Купить Premium
+                p Баланс: #{user.coins}$
+                    a(href="#")
+                        img(src='/plus.png')
+                a(href="#") Купить
+                    b Premium
+    if user.is_authorised
+        div(style={
+            width: "100%",
+            height: "40px",
+            position: "relative",
+            "border-radius": "8px",
+            overflow: "hidden",
+            margin: "15px 0"
+        })
+            +progress-bar(allProgress, allProgress >= 1 ? "#23B45D" : "#ff7700", 40)
+            p(style={
+                position: "absolute",
+                "margin-top": "10px",
+                bottom: 0,
+                left: 0,
+                top: 0,
+                right: 0,
+                "text-align": "center",
+                color: "#eee"
+            }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
+    div(id="pro_cur")
+        div
+            img(src='/logo-cs.png')
+                //-+progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+        div
+            img(src='/logo-js.png')
+                //-+progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+        div
+            img(src='/logo-php.png')
+
+                //-+progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
