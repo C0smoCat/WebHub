@@ -9,8 +9,6 @@ const router = require('./app/index.js');
 
 console.log(`Debug mode: ${config.debug_mode}`);
 
-console["cdir"] = (...objs) => console.dir(...objs, {colors: true});
-
 const dbConnection = mysql.createPool(config.databaseConfig).promise();
 
 dbConnection["rquery"] = async (sql, params) => {
@@ -58,6 +56,9 @@ app.listen(config.port, () => {
 //dbConnection.end();
 
 function ApplyFeatures() {
+    console.cdir = (...objs) =>
+        console.dir(...objs, {colors: true});
+
     Date.prototype.addDays = function (days) {
         let date = new Date(this.valueOf());
         date.setDate(date.getDate() + days);

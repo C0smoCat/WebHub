@@ -25,8 +25,10 @@ block content
                 p=leader.status
             p=leader.score
     div(class='more')
-        a(href="#") <<
-        a(href="#") >>
+        if page_prev
+            a(href=page_prev) <<
+        if page_next
+            a(href=page_next) >>
     div(class='not_leader')
         h1=user.place_num
         img(

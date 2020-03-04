@@ -7,11 +7,20 @@ mixin lesson(is_lock, lesson, is_extended)
                 +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#F3EB0C", 10)
 
 mixin progress-bar(percent, color, height)
-    div(
-        class="progress-bar"
-        style={height: (height || 15) + "px"}
-    )
-        div(style={
-            width: (percent * 100) + "%",
-            background: color
-        })
+    if percent < 1
+        div(
+            class="progress-bar"
+            style={height: (height || 15) + "px"}
+        )
+            div(style={
+                width: (percent * 100) + "%",
+                background: color
+            })
+    else
+        div(
+            class="progress-bar"
+            style={
+                height: (height || 15) + "px",
+                background: color
+            }
+        )
