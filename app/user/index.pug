@@ -30,33 +30,43 @@ block content
                 a(href="#") Купить
                     b Premium
     if user.is_authorised
-        div(style={
-            width: "100%",
-            height: "40px",
-            position: "relative",
-            "border-radius": "8px",
-            overflow: "hidden",
-            margin: "15px 0"
-        })
-            +progress-bar(allProgress, allProgress >= 1 ? "#23B45D" : "#ff7700", 40)
-            p(style={
-                position: "absolute",
-                "margin-top": "10px",
-                bottom: 0,
-                left: 0,
-                top: 0,
-                right: 0,
-                "text-align": "center",
-                color: "#eee"
-            }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
+        div(class='div_prog')
+            +progress-bar(0.5, 0.5 >= 1 ? "#23B45D" : "#ff7700", 40)
+            p(style={}) Общий прогресс: #{Math.roundN(0.5 * 100)}%
     div(id="pro_cur")
         div
             img(src='/logo-cs.png')
-                //-+progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+            div(class='cur_text')
+                h1 С#
+                p Не пройдено
+            +progress-bar(0, (0 >= 1) ? "#23B45D" : "#F3EB0C")
         div
             img(src='/logo-js.png')
-                //-+progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+            div(class='cur_text')
+                h1 JS
+                p Пройдено на #{0.35 * 100}%
+            +progress-bar(0.35, (0.35 >= 1) ? "#23B45D" : "#F3EB0C")
         div
             img(src='/logo-php.png')
-
-                //-+progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
+            div(class='cur_text')
+                h1 PHP
+                p Пройдено на #{1 * 100}%
+            +progress-bar(1, (1 >= 1) ? "#23B45D" : "#F3EB0C")
+    details
+        summary Настройки аккаунта
+        hr
+        div
+            form(
+                action="/user"
+                method="GET"
+            )
+                label Имя
+                input(type="text" placeholder=user.login)
+                label Статус
+                input(type="text" placeholder=user.status)
+                label E-mail
+                input(type="email" placeholder=user.email)
+                input(type="submit" id="spo_sub" value='Способ оплаты')
+            div
+                img(src=user.avatar)
+                button Загрузить...

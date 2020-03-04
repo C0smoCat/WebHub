@@ -85,14 +85,52 @@
 
 #pro_cur > div {
     /*text-align: center;*/
-    padding: 30px;
+    padding: 30px 30px 40px;
     background-color: #353534;
     border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 50% auto;
 }
 
 #pro_cur > div > img {
     width: 130px;
     height: auto;
+}
+
+.cur_text {
+    padding-left: 30px;
+}
+
+.cur_text > h1 {
+    font-size: 80px;
+    margin: 0;
+}
+
+.cur_text > p {
+    font-size: large;
+    margin: 0;
+}
+
+.div_prog {
+    width: 100%;
+    height: 40px;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.div_prog > p {
+    position: absolute;
+    margin-top: 10px;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    text-align: center;
+    color: #eee;
 }
 
 .progress-bar {
@@ -102,7 +140,67 @@
     left: 0;
     background: #8D8D8D
 }
-
 .progress-bar > div {
     height: inherit
+}
+
+details {
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(255, 141, 0, 1) 0%, rgba(255, 109, 0, 1) 100%);
+    margin-bottom: 20px;
+}
+
+summary {
+    text-align: center;
+    font-size: x-large;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px 10px;
+}
+
+details > hr {
+    border: none;
+    border-radius: 8px;
+    margin: 0 auto;
+    width: 98%;
+    height: 3px;
+    background-color: #202020;
+}
+
+details > div {
+    display: grid;
+    grid-template-columns: 50% auto;
+}
+
+details > div > form {
+    display: grid;
+    padding: 20px;
+}
+
+details > div > form > label {
+    margin: 0;
+    font-size: x-large;
+    padding-left: 15px;
+}
+
+details > div > form > input {
+    margin: 0;
+    width: 250px;
+    height: auto;
+    border: none;
+    border-radius: 8px;
+    font-size: x-large;
+}
+
+#spo_sub {
+    margin-top: 24px;
+    width: 250px;
+    height: 35px;
+    background-color: #23B45D;
+}
+
+details > div > div > img {
+    margin: 0 auto;
+    width: 180px;
+    height: auto;
 }
