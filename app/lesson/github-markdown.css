@@ -261,10 +261,6 @@
     text-decoration: underline;
 }
 
-.markdown-body strong {
-    font-weight: 600;
-}
-
 .markdown-body hr {
     background: transparent;
     border: 0;

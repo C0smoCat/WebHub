@@ -221,21 +221,9 @@ async function Route_Courses(app, db, req, res) {
     let lang = req.query.lang || "cs";
     let themes;
     let lang_title;
-    switch (lang) {
-        case "cs":
-            themes = langs.cs.themes;
-            lang_title = langs.cs.lang_title;
-            break;
-        case "js":
-            themes = langs.js.themes;
-            lang_title = langs.js.lang_title;
-            break;
-        case "php":
-            themes = langs.php.themes;
-            lang_title = langs.php.lang_title;
-            break;
-        default:
-            break
+    if (langs[lang]) {
+        themes = langs[lang].themes;
+        lang_title = langs[lang].lang_title;
     }
     res.render(path.join(__dirname, "courses", "index.pug"), {
         basedir: path.join(__dirname, "courses"),
