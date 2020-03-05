@@ -33,7 +33,7 @@ header(
             src=user.avatar
             style={
                 "border-radius": "50%",
-                margin: "5px",
+                margin: "10px",
                 float: "right",
                 border: (user.is_premium ? "2px solid #fdd835" : "2px solid #000")
             }
@@ -43,7 +43,7 @@ header(
     if user.is_authorised
         div(style={
             float: "right",
-            margin: "5px"
+            margin: "10px"
         })
             //- img(src="lock.png"
             //-     height="46px"
@@ -68,7 +68,7 @@ header(
         onclick="let borks=['Борк!','Борк!','Боророк!','Курлык!'];alert(borks[Math.floor(Math.random()*borks.length)]);if(Math.random()<0.1){let imgs=document.querySelectorAll('img');for(let img of imgs){img.style.animation='shake 0.5s infinite';img.style.animationDelay=(-Math.random()*10).toString()+'s';}}"
         style={
             float: "right",
-            margin: "5px",
+            margin: "10px",
             cursor: "pointer",
             animation: "shake 0.5s infinite"
         }
@@ -88,7 +88,7 @@ header(
 style.
     .hover-logo {
         transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        margin: 5px;
+        margin: 10px;
         float: left;
     }
 
