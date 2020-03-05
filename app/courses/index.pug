@@ -2,124 +2,18 @@ extends ../layout.pug
 include ../share-mixins.pug
 
 block head
-    title= lang_title ? `Курсы по ${lang} - WebHub` : "Курсы - WebHub"
+    title= "Курсы - WebHub"
     style
         include style.css
-    script
-        include script.js
+    style
+        each lang in langs
+            !=`#lang-${lang.lang_id}:hover{background:${lang.background};}`
 
 block content
     div(id="language")
-        a(href="/courses?lang=cs" id='up_lan')
-            p(
-                class="language-first"
-                style={
-                    background: lang === "cs" && "linear-gradient(135deg, #b800fb 0%, #9c02cb 100%)"
-                })
-                img(src='/logo-cs.png')
-        a(href="/courses?lang=js")
-            p(
-                style={
-                    background: lang === "js" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-js.png')
-        a(href="/courses?lang=python")
-            p(
-                style={
-                    background: lang === "python" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-python.png')
-        a(href="/courses?lang=mysql")
-            p(
-                style={
-                    background: lang === "mysql" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-mysql.png')
-        a(href="/courses?lang=typescript")
-            p(
-                style={
-                    background: lang === "typescript" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-typescript.png')
-        a(href="/courses?lang=webgl")
-            p(
-                style={
-                    background: lang === "webgl" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-webgl.png')
-        a(href="/courses?lang=cpp")
-            p(
-                style={
-                    background: lang === "cpp" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-cpp.png')
-        a(href="/courses?lang=node")
-            p(
-                style={
-                    background: lang === "node" && "linear-gradient(135deg, #e9cf00 0%, #fdd83c 100%)"
-                })
-                img(src='/logo-node.png')
-        a(href="/courses?lang=php" id='down_lan')
-            p(class="language-last"
-                style={
-                    background: lang === "php" && "linear-gradient(135deg, #4a8ddf 0%, #1d399f 100%)"
-                })
-                img(src='/logo-php.png')
-    if themes
-        div(id="courses")
-            if user.is_authorised
-                - let allProgress = themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / themes.length;
-                div(style={
-                    width: "100%",
-                    height: "40px",
-                    position: "relative",
-                    "border-radius": "8px",
-                    overflow: "hidden",
-                    margin: "15px 0"
-                })
-                    +progress-bar(allProgress, allProgress >= 1 ? "#23B45D" : "#ff7700", 40)
-                    p(style={
-                        position: "absolute",
-                        "margin-top": "10px",
-                        bottom: 0,
-                        left: 0,
-                        top: 0,
-                        right: 0,
-                        "text-align": "center",
-                        color: "#eee"
-                    }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
-            -
-                let hrStyle;
-                switch (lang) {
-                case "cs": hrStyle = {background: "linear-gradient(135deg,#b800fb 0%,#9c02cb 100%)"}; break
-                case "js": hrStyle = {background: "linear-gradient(135deg,#e9cf00 0%,#fdd83c 100%)"}; break;
-                case "php": hrStyle = {background: "linear-gradient(135deg,#4a8ddf 0%,#1d399f 100%)"}; break;
-                default: hrStyle = {background: "linear-gradient(135deg,#ff8d00 0%,#ff6d00 100%)"}; break;
-                }
-            each theme,index in themes
-                hr(style = hrStyle)
-                - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
-                ul(id=`part${index + 1}`)
-                    div(class="theme")
-                        div(onclick="extendedLessonClick(this)" class=(theme.is_lock && "disabled"))
-                            img(src=((!user.is_authorised || !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
-                            li #{theme.title}
-                            if user.is_authorised && !theme.is_lock
-                                +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
-                        a(
-                            href=(theme.is_complete && theme.exam_url)
-                            class=(!theme.is_complete && "disabled")
-                            style={background: (theme.is_complete ? (theme.is_exam_complete ? "#23B45D" : "#ff7700") : "#8D8D8D")}
-                        ) Экзамен
-                    ul
-                        - let is_long_array = theme.lessons.length > 6;
-                        - let short_lessons = is_long_array ? theme.lessons.slice(0, 5) : theme.lessons;
-                        - let extended_lessons = is_long_array ? theme.lessons.slice(5) : [];
-                        each lesson in short_lessons
-                            +lesson(theme.is_lock, lesson, false)
-                        if(is_long_array)
-                            each lesson in extended_lessons
-                                +lesson(theme.is_lock, lesson, true)
-                            div(class="lNext" onclick="extendedLessonClick(this)")
-                                li >
-            hr(style = hrStyle)
+        each lang in langs
+            a(href=`/courses/${lang.lang_id}`)
+                div(id=`lang-${lang.lang_id}`)
+                    img(src=`/logo-${lang.lang_id}.png`)
+                    if user.is_authorised
+                        +progress-bar(lang.progress, (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)

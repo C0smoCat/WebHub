@@ -27,7 +27,7 @@ const markdown = require('markdown-it')({
         tocFirstLevel: 2,
         tocLastLevel: 4,
         anchorLinkBefore: true,
-        anchorLinkSymbol: "¶",
+        anchorLinkSymbol: "#",
         wrapHeadingTextInAnchor: true
     })
     .use(require('markdown-it-attrs'))
@@ -95,9 +95,6 @@ async function Route(app, db) {
     app.all("/", async function (req, res) {
         await RouteIndex(app, db, req, res);
     });
-    app.all("/courses", async function (req, res) {
-        await Route_Courses(app, db, req, res);
-    });
     app.all("/forum", async function (req, res) {
         await Route_Forum(app, db, req, res);
     });
@@ -115,6 +112,12 @@ async function Route(app, db) {
     });
     app.all("/login", async function (req, res) {
         await Route_Login(app, db, req, res);
+    });
+    app.all("/courses", async function (req, res) {
+        await Route_Courses(app, db, req, res);
+    });
+    app.all("/courses/:lang/", async function (req, res) {
+        await Route_Course(app, db, req, res);
     });
     app.all("/courses/:lang/:id_course/:id_lesson", async function (req, res) {
         await Route_Lesson(app, db, req, res);
@@ -217,20 +220,44 @@ async function RouteIndex(app, db, req, res) {
     }, (err, page) => HandleResult(err, page, res));
 }
 
-async function Route_Courses(app, db, req, res) {
-    let lang = req.query.lang || "cs";
+async function Route_Course(app, db, req, res) {
+    let lang = req.params.lang;
     let themes;
     let lang_title;
     if (langs[lang]) {
         themes = langs[lang].themes;
         lang_title = langs[lang].lang_title;
-    }
-    res.render(path.join(__dirname, "courses", "index.pug"), {
-        basedir: path.join(__dirname, "courses"),
-        current_page: "courses",
+    } else
+        res.redirect(301, '/courses');
+    res.render(path.join(__dirname, "course", "index.pug"), {
+        basedir: path.join(__dirname, "course"),
+        current_page: "course",
         lang,
         lang_title,
         themes,
+        user: {
+            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
+            is_authorised: true,
+            coins: Math.randomInt(0, 1000),
+            is_premium: false,
+            crown_type: Math.randomInt(0, 4)
+        }
+    }, (err, page) => HandleResult(err, page, res));
+}
+
+async function Route_Courses(app, db, req, res) {
+    let langsMap = Object.keys(langs).map(lang_id => {
+        return {
+            title: langs[lang_id].lang_title,
+            lang_id,
+            progress: Math.random() < 0.2 ? 1 : Math.random(),
+            background: langs[lang_id].background
+        };
+    });
+    res.render(path.join(__dirname, "courses", "index.pug"), {
+        basedir: path.join(__dirname, "courses"),
+        current_page: "courses",
+        langs: langsMap,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,

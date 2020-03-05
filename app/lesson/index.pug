@@ -13,7 +13,6 @@ block head
 
         .content-body {
             max-width: 1200px !important;
-            text-align: justify;
             padding: 0 !important;
         }
 
@@ -22,6 +21,7 @@ block head
             border-radius: 8px;
             margin-bottom: 10px;
             background: #fff;
+            text-align: justify;
         }
 
         .note p {
@@ -103,9 +103,9 @@ block head
 
 block content
     h1
-        a(href=`/courses?lang=${lang_id}`)= lang.lang_title
+        a(href=`/courses/${lang_id}`)= lang.lang_title
         a /
-        a(href=`/courses?lang=${lang_id}#part${id_course}`)= course.title
+        a(href=`/courses/${lang_id}#part${id_course}`)= course.title
         a /
         a=lesson.title
     div(class="markdown-body")

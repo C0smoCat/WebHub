@@ -1,34 +1,29 @@
 #language {
-    margin-top: 24px;
-    position: fixed;
-    float: left;
-    width: 100px;
-    height: auto;
+    margin: 15px auto;
 }
 
-#language > a > p {
+#language > a > div {
     margin: 5px 0;
     padding: 10px;
-    background-color: #464646;
     transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: block;
+    height: 100px;
+    width: auto;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #464646 0%, #464646 100%);
 }
 
-#language > a > p > img {
-    width: 90%;
-    height: 90%;
+#language > a > div > img {
+    width: auto;
+    height: 100%;
+    margin: 0 auto;
 }
 
-.language-first {
-    border-radius: 8px 8px 0 0;
-}
-
-.language-last {
-    border-radius: 0 0 8px 8px;
-}
-
-#language > a > p:hover {
+#language > a > div:hover {
     filter: drop-shadow(0px 0px 5px #222);
-    transform: scale(1.1, 1.1)
+    transform: scale(1.03, 1.03);
 }
 
 #courses {
@@ -152,73 +147,4 @@ hr {
 
 .progress-bar > div {
     height: inherit
-}
-
-@media only screen and (max-width: 1470px) {
-    #courses {
-        width: 1000px;
-    }
-
-    .theme > div {
-        width: 320px;
-        height: 363px;
-    }
-
-    .lessor, .lNext {
-        width: 220px;
-        height: 201px;
-    }
-
-    .theme > div > li {
-        font-size: 20px;
-    }
-
-    .theme > a {
-        width: 320px;
-    }
-
-    #courses > ul > ul {
-        list-style: none;
-        display: grid;
-        grid-template-columns: max-content max-content;
-        grid-template-rows: max-content max-content max-content;
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-        width: 460px;
-    }
-
-    .language-first {
-        border-radius: 8px 0 0 8px;
-    }
-
-    .language-last {
-        border-radius: 0 8px 8px 0;
-    }
-
-    #language {
-        display: grid;
-        grid-template-columns: max-content max-content max-content;
-        grid-column-gap: 10px;
-        position: initial;
-        float: unset;
-        margin: 15px auto 0;
-        width: max-content;
-        height: max-content;
-    }
-
-    #language > a > p {
-        display: block;
-        height: 100px;
-        width: auto;
-    }
-
-    #language > a > p > img {
-        height: 100%;
-        width: auto;
-        margin: 0 auto;
-    }
-
-    #language > a > p:hover {
-        transform: scale(1.03, 1.03)
-    }
 }
