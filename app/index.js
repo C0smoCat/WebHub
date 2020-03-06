@@ -251,7 +251,7 @@ async function Route_Courses(app, db, req, res) {
             progress: Math.random() < 0.2 ? 1 : Math.random(),
             background: langs[lang_id].background
         };
-    });
+    }).sort((a, b) => b.progress - a.progress);
     res.render(path.join(__dirname, "courses", "index.pug"), {
         basedir: path.join(__dirname, "courses"),
         current_page: "courses",
@@ -456,7 +456,7 @@ async function Route_User(app, db, req, res) {
             status: "живой",
             place_num: Math.randomInt(100, 10000)
         },
-        certificates: ["http://robindelaporte.fr/codepen/visa-bg.jpg", "http://robindelaporte.fr/codepen/visa-bg-2.jpg", "http://robindelaporte.fr/codepen/visa-bg-3.jpg", "http://robindelaporte.fr/codepen/visa-bg-4.jpg"]
+        certificates: ["/visa-bg.jpg", "/visa-bg-2.jpg", "/visa-bg-3.jpg", "/visa-bg-4.jpg"]
     }, (err, page) => HandleResult(err, page, res));
 }
 

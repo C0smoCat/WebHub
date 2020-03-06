@@ -96,6 +96,15 @@ block head
         .more > a:active {
             background-color: #666;
         }
+
+        h1 > a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        h1 > a[href]:hover {
+            text-decoration: underline;
+        }
     style
         include github-markdown.css
     style
@@ -104,9 +113,9 @@ block head
 block content
     h1
         a(href=`/courses/${lang_id}`)= lang.lang_title
-        a /
+        a=" / "
         a(href=`/courses/${lang_id}#part${id_course}`)= course.title
-        a /
+        a=" / "
         a=lesson.title
     div(class="markdown-body")
         !=markdown
