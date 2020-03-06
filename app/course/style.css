@@ -153,3 +153,72 @@ hr {
 .progress-bar > div {
     height: inherit
 }
+
+@media only screen and (max-width: 1240px) {
+    #courses {
+        width: 850px;
+    }
+
+    .theme > div {
+        width: 320px;
+        height: 363px;
+    }
+
+    .lessor, .lNext {
+        width: 220px;
+        height: 201px;
+    }
+
+    .theme > div > li {
+        font-size: 20px;
+    }
+
+    .theme > a {
+        width: 320px;
+    }
+
+    #courses > ul > ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: max-content max-content;
+        grid-template-rows: max-content max-content max-content;
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        width: 460px;
+    }
+
+    .language-first {
+        border-radius: 8px 0 0 8px;
+    }
+
+    .language-last {
+        border-radius: 0 8px 8px 0;
+    }
+
+    #language {
+        display: grid;
+        grid-template-columns: max-content max-content max-content;
+        grid-column-gap: 10px;
+        position: initial;
+        float: unset;
+        margin: 15px auto 0;
+        width: max-content;
+        height: max-content;
+    }
+
+    #language > a > p {
+        display: block;
+        height: 100px;
+        width: auto;
+    }
+
+    #language > a > p > img {
+        height: 100%;
+        width: auto;
+        margin: 0 auto;
+    }
+
+    #language > a > p:hover {
+        transform: scale(1.03, 1.03)
+    }
+}
