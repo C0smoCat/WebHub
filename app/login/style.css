@@ -1,0 +1,69 @@
+.content-body {
+    width: 650px;
+}
+
+.tabcontent {
+    border-radius: 8px;
+    background: #353534;
+    margin-bottom: 20px;
+
+}
+
+#reg {
+    display: none;
+    grid-template-columns: 50% auto;
+}
+
+.tabcontent > form {
+    display: grid;
+    padding: 20px;
+}
+
+.tabcontent > form > label {
+    margin: 0;
+    font-size: x-large;
+    padding-left: 15px;
+}
+
+.tabcontent > form > input {
+    padding-left: 5px;
+    width: 250px;
+    height: auto;
+    border: none;
+    border-radius: 8px;
+    font-size: x-large;
+}
+
+#forgotten {
+
+}
+
+#spo_sub, #inside {
+    margin-top: 24px;
+    width: 250px;
+    height: 35px;
+    background-color: #23B45D;
+}
+
+.tabcontent > div {
+    margin: 30px auto 0;
+    display: block;
+}
+
+.tabcontent > div > img {
+    margin: 0 auto;
+    width: 180px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.tabcontent > div > button {
+    display: block;
+    margin: 5px auto 0;
+    border: none;
+    border-radius: 8px;
+    font-size: medium;
+    width: 180px;
+    height: 25px;
+    background-color: #23B45D;
+}
