@@ -15,5 +15,6 @@ block content
             a(href=`/courses/${lang.lang_id}`)
                 div(id=`lang-${lang.lang_id}`)
                     img(src=`/logo-${lang.lang_id}.png`)
+                    h1=lang.title
                     if user.is_authorised
                         +progress-bar(lang.progress, (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)

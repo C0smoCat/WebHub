@@ -1,14 +1,19 @@
 #language {
     margin: 15px auto;
+    text-align: center;
 }
 
+#language > a {
+    display: inline-flex;
+    text-decoration: none;
+}
 #language > a > div {
-    margin: 5px 0;
-    padding: 10px;
+    margin: 5px;
+    padding: 20px 10px 10px;
     transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: block;
-    height: 100px;
-    width: auto;
+    width: 250px;
+    height: auto;
     border-radius: 8px;
     position: relative;
     overflow: hidden;
@@ -16,125 +21,18 @@
 }
 
 #language > a > div > img {
-    width: auto;
-    height: 100%;
+    width: 100px;
+    height: 100px;
     margin: 0 auto;
+}
+
+#language > a > div > h1 {
+    color: #e2e2e2;
 }
 
 #language > a > div:hover {
     filter: drop-shadow(0px 0px 5px #222);
     transform: scale(1.03, 1.03);
-}
-
-#courses {
-    margin: 0 auto;
-    width: 1200px;
-    font-weight: bold;
-}
-
-#courses > ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: max-content auto;
-    grid-column-gap: 20px;
-    width: max-content;
-    margin: 0 auto;
-    padding: 0;
-}
-
-#courses > ul > ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: max-content max-content max-content;
-    grid-template-rows: max-content max-content;
-    grid-column-gap: 20px;
-    grid-row-gap: 20px;
-    padding: 0;
-    width: 715px;
-    margin: 0 auto;
-}
-
-#courses > ul > ul > a {
-    text-decoration: none;
-    color: #eee;
-}
-
-.theme > div:not(.disabled):hover, .lessor:not(.disabled):hover, .lNext:hover, .theme > a:not(.disabled):hover {
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    transform: scale(1.03, 1.03) translateY(-5px);
-}
-
-.disabled {
-    cursor: no-drop;
-}
-
-.theme > div, .lessor, .lNext {
-    border-radius: 8px;
-    background-color: #464646;
-    text-align: center;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.theme > div {
-    width: 373px;
-    height: 363px;
-}
-
-.lessor, .lNext {
-    width: 225px;
-    height: 201px;
-}
-
-.lessor > img, .theme > div > img {
-    margin: 15% 0 0 0;
-    border-radius: 50%;
-}
-
-.theme > div > li {
-    margin: 8% 10px 0;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.lessor > li {
-    margin: 1% 0 0 0;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.extended-lesson {
-    display: none;
-}
-
-.theme > a {
-    margin-top: 15.5px;
-    padding: 3.5px 0 4.5px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 8px;
-    color: white;
-    background-color: #23b45d;
-    display: block;
-    width: 373px;
-    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.lNext > li {
-    font-size: 108px;
-    font-weight: bold;
-    padding-top: 35px;
-}
-
-hr {
-    border: none;
-    height: 7px;
-    border-radius: 8px;
-    margin: 15px 0;
 }
 
 .progress-bar {
