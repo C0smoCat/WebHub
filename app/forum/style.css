@@ -58,7 +58,7 @@
 .theme > div:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     transform: scale(1.03, 1.03) translateY(-5px);
-    background: linear-gradient(135deg, #ff6d00 0%, #ff8d00 100%);
+    background: linear-gradient(135deg, #ff6d00 0%, #b44b01 100%);
 }
 
 .theme > div > img {

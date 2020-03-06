@@ -221,20 +221,18 @@ async function RouteIndex(app, db, req, res) {
 }
 
 async function Route_Course(app, db, req, res) {
-    let lang = req.params.lang;
-    let themes;
-    let lang_title;
-    if (langs[lang]) {
-        themes = langs[lang].themes;
-        lang_title = langs[lang].lang_title;
-    } else
+    let lang_id = req.params.lang;
+    let lang;
+    if (langs[lang_id])
+        lang = langs[lang_id];
+    else {
         res.redirect(301, '/courses');
+        return;
+    }
     res.render(path.join(__dirname, "course", "index.pug"), {
         basedir: path.join(__dirname, "course"),
         current_page: "course",
         lang,
-        lang_title,
-        themes,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
@@ -273,46 +271,46 @@ async function Route_Forum(app, db, req, res) {
     let regex = new RegExp(search_query, 'i');
     let themes = [
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 1",
-            last_message: "Габе жив",
-            url: "/forum/theme1"
+            avatar: `/logo-cs.png`,
+            title: "C# - лучший язык программирования!",
+            last_message: "Безусловно, C# - это язык, который можно использовать для самых различных целей. Если же вас волнует, насколько он конкурентоспособен, то можем вас уверить: он используется повсеместно. Также стоит принять во внимание, что этот язык достаточно легко выучить.",
+            url: "/forum/1"
         },
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 2",
-            last_message: "Габе жив",
-            url: "/forum/theme2"
+            avatar: `/logo-py.png`,
+            title: "Python - лучший язык программирования!",
+            last_message: "В недавнем исследовании касаемо популярности и используемости языков программирования выяснилось, что многие люди используют не Python, а другие языки. Однако большинство опрошенных также признались, что в самом скором времени планируют его изучить – а это уже говорит о многом.",
+            url: "/forum/2"
         },
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 3",
-            last_message: "Габе жив",
-            url: "/forum/theme3"
+            avatar: `/logo-java.png`,
+            title: "Java - лучший язык программирования!",
+            last_message: "Java также можно использовать для любых платформ. Он подойдет для разработки приложений для Android и iOS, а также для операционных систем Linux и Mac.",
+            url: "/forum/3"
         },
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 4",
-            last_message: "Габе жив",
-            url: "/forum/theme4"
+            avatar: `/logo-php.png`,
+            title: "PHP - лучший язык программирования!",
+            last_message: "Мы прекрасно знаем, что данный язык вряд ли можно назвать таким уж удобным и функциональным – тем более он уж точно не относится к любимчикам программистов. Действительно, можно сказать много всего нехорошего про PHP, однако есть всего один крайне существенный факт, который перекроет любые негативные комментарии касаемо этого языка.",
+            url: "/forum/4"
         },
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 5",
-            last_message: "Габе жив",
-            url: "/forum/theme5"
+            avatar: `/logo-swift.png`,
+            title: "Swift - лучший язык программирования!",
+            last_message: "Существует крайне очевидная причина выбрать Swift в качестве следующего языка для изучения. И эта причина – iPhone.",
+            url: "/forum/5"
         },
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 6",
-            last_message: "Габе жив",
-            url: "/forum/theme6"
+            avatar: `/logo-kotlin.png`,
+            title: "Kotlin - лучший язык программирования!",
+            last_message: "Многие эксперты в области программирования считают, что большая часть разработок на android будет переведена на этот язык – точно так же, как и разработка с Objective C была переведена на Swift. Поэтому, если вы задумались об изучении нового языка программирования, то Kotlin – это крайне многообещающий вариант.",
+            url: "/forum/6"
         },
         {
-            avatar: `/logo-${Math.randomizeArray(["js", "php", "cs"])}.png`,
-            title: "Тема 7",
-            last_message: "Габе жив",
-            url: "/forum/theme7"
+            avatar: `/logo-cpp.png`,
+            title: "C++ - лучший язык программирования!",
+            last_message: "Если вы хотите влиться в создание игр виртуальной реальности, то C и C++ предоставят вам прекрасную возможность проявить себя.",
+            url: "/forum/7"
         }
     ];
     res.render(path.join(__dirname, "forum", "index.pug"), {
@@ -327,8 +325,6 @@ async function Route_Forum(app, db, req, res) {
             crown_type: Math.randomInt(0, 4)
         },
         themes: search_query ? themes.filter(v => regex.test(v.title) || regex.test(v.last_message)) : themes
-        // themes: search_query ? themes.filter((v => v.title.toLowerCase().includes(search_query.toLowerCase()) || v.last_message.toLowerCase().includes(search_query.toLowerCase()))) : themes
-
     }, (err, page) => HandleResult(err, page, res));
 }
 

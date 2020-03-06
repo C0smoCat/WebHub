@@ -660,8 +660,10 @@ module.exports = {
                     "is_complete": false
                 }]
             }], "lang_title": "JavaScript", "background": "linear-gradient(135deg,#f9e96c 0%,#bd9900 100%)"
-    }, "cs": {
-        "themes": [{
+    },
+    "cs": {
+        "themes": [
+            {
             "title": "Введение в C#",
             "avatar": "/logo-cs.png",
             "progress": 0.69,
@@ -2125,9 +2127,13 @@ module.exports = {
                 "progress": 0.42,
                 "is_complete": false
             }]
-        }], "lang_title": "C#", "background": "linear-gradient(135deg,#b800fb 0%,#9c02cb 100%)"
-    }, "php": {
-        "themes": [{
+            }],
+        "lang_title": "C#",
+        "background": "linear-gradient(135deg,#b800fb 0%,#9c02cb 100%)"
+    },
+    "php": {
+        "themes": [
+            {
             "title": "Введение в PHP",
             "avatar": "/logo-php.png",
             "progress": 0.7879999999999999,
@@ -2470,7 +2476,9 @@ module.exports = {
                 "progress": 0.55,
                 "is_complete": false
             }]
-        }], "lang_title": "PHP", "background": "linear-gradient(135deg,#4a8ddf 0%,#1d399f 100%)"
+            }],
+        "lang_title": "PHP",
+        "background": "linear-gradient(135deg,#939ccd 0%,#525998 100%)"
     }, "ts": {
         "themes": [{
             "title": "Введение в TypeScript",

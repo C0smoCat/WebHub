@@ -7,11 +7,13 @@ block head
         include style.css
     script
         include script.js
+    style
+        != `hr{background:${lang.background};}`
 
 block content
     div(id="courses")
         if user.is_authorised
-            - let allProgress = themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / themes.length;
+            - let allProgress = lang.themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / lang.themes.length;
             div(style={
                 width: "100%",
                 height: "40px",
@@ -31,16 +33,16 @@ block content
                     "text-align": "center",
                     color: "#eee"
                 }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
-        -
-            let hrStyle;
-            switch (lang) {
-            case "cs": hrStyle = {background: "linear-gradient(135deg,#b800fb 0%,#9c02cb 100%)"}; break
-            case "js": hrStyle = {background: "linear-gradient(135deg,#e9cf00 0%,#fdd83c 100%)"}; break;
-            case "php": hrStyle = {background: "linear-gradient(135deg,#4a8ddf 0%,#1d399f 100%)"}; break;
-            default: hrStyle = {background: "linear-gradient(135deg,#ff8d00 0%,#ff6d00 100%)"}; break;
-            }
-        each theme,index in themes
-            hr(style = hrStyle)
+        //- -
+        //-     let hrStyle;
+        //-     switch (lang) {
+        //-     case "cs": hrStyle = {background: "linear-gradient(135deg,#b800fb 0%,#9c02cb 100%)"}; break
+        //-     case "js": hrStyle = {background: "linear-gradient(135deg,#e9cf00 0%,#fdd83c 100%)"}; break;
+        //-     case "php": hrStyle = {background: "linear-gradient(135deg,#4a8ddf 0%,#1d399f 100%)"}; break;
+        //-     default: hrStyle = {background: "linear-gradient(135deg,#ff8d00 0%,#ff6d00 100%)"}; break;
+        //-     }
+        each theme,index in lang.themes
+            hr
             - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
             ul(id=`part${index + 1}`)
                 div(class="theme")
@@ -65,4 +67,4 @@ block content
                             +lesson(theme.is_lock, lesson, true)
                         div(class="lNext" onclick="extendedLessonClick(this)")
                             li >
-        hr(style = hrStyle)
+        hr
