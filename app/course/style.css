@@ -93,9 +93,11 @@
     height: 201px;
 }
 
+.lessor > img {
+    border-radius: 50%;
+}
 .lessor > img, .theme > div > img {
     margin: 15% 0 0 0;
-    border-radius: 50%;
 }
 
 .theme > div > li {
