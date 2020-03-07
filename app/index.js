@@ -84,6 +84,8 @@ module.exports = async function (app, db, req, res, next) {
     console.timeEnd(logTimeLabel);
 };
 
+let langs = require("./langs.js");
+
 async function Route(app, db) {
     app.all(/\.(png|jpg|jpeg)$/, function (req, res) {
         let fpath = path.join(__dirname, "public", req.originalUrl);
@@ -93,7 +95,7 @@ async function Route(app, db) {
             res.sendFile(path.join(__dirname, "public", "no-img.png"));
     });
     app.all("/", async function (req, res) {
-        await RouteIndex(app, db, req, res);
+        await Route_Index(app, db, req, res);
     });
     app.all("/forum", async function (req, res) {
         await Route_Forum(app, db, req, res);
@@ -128,6 +130,9 @@ async function Route(app, db) {
     app.all("/about", async function (req, res) {
         await Route_About(app, db, req, res);
     });
+    app.all("/images/:image_hash", async function (req, res) {
+        await Route_Images(app, db, req, res);
+    });
     // app.all(/(go)?\/?(adm)?(iner)?\/?(phpmyadmin)?/, async function (req, res) {
     //     await RouteAdminer(app, db, req, res);
     // });
@@ -136,9 +141,22 @@ async function Route(app, db) {
     });
 }
 
-let langs = require("./langs.js");
+async function Route_Images(app, db, req, res) {
+    let image_hash = req.params.image_hash;
+    let sqlRes = await db.rquery(
+        "select * from `files` where `id` = ?",
+        [image_hash]);
+    if (sqlRes.length <= 0) {
+        res.sendStatus(404);
+        return;
+    }
+    res
+        .status(200)
+        .contentType(sqlRes[0].file_type)
+        .send(sqlRes[0].file_data);
+}
 
-async function RouteIndex(app, db, req, res) {
+async function Route_Index(app, db, req, res) {
     let comments = [
         {
             login: "Васян Пупкин",

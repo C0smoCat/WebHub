@@ -20,7 +20,9 @@
     "markdown-it-toc-and-anchor": "^4.2.0",
     "multer": "^1.4.2",
     "mysql2": "^2.1.0",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "mime-types": "latest",
+    "md5-file": "latest"
   },
   "devDependencies": {
     "markdown-it-container": "^2.0.0"
