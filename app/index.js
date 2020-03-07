@@ -447,7 +447,8 @@ async function Route_User(app, db, req, res) {
             title: langs[lang_id].lang_title,
             lang_id,
             progress: Math.random() < 0.2 ? 1 : Math.random(),
-            background: langs[lang_id].background
+            background: langs[lang_id].background,
+            avatar: "/logo-node.png"
         };
     }).sort((a, b) => b.progress - a.progress);
     res.render(path.join(__dirname, "user", "index.pug"), {

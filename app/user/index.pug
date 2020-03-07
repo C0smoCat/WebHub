@@ -37,24 +37,13 @@ block content
             +progress-bar((lang1.progress + lang2.progress + lang3.progress) / 3, (lang1.progress + lang2.progress + lang3.progress) / 3 >= 1 ? "#23B45D" : "#ff7700", 40)
             p(style={}) Общий прогресс: #{Math.roundN(((lang1.progress + lang2.progress + lang3.progress) / 3) * 100)}%
     div(id="pro_cur")
-        div
-            img(src='/logo-cs.png')
-            div(class='cur_text')
-                h1 С#
-                p Пройдено на #{lang1.progress * 100}%
-            +progress-bar(lang1.progress, (lang1.progress >= 1) ? "#23B45D" : "#F3EB0C")
-        div
-            img(src='/logo-js.png')
-            div(class='cur_text')
-                h1 JavaScript
-                p Пройдено на #{lang2.progress * 100}%
-            +progress-bar(lang2.progress, (lang2.progress >= 1) ? "#23B45D" : "#F3EB0C")
-        div
-            img(src='/logo-php.png')
-            div(class='cur_text')
-                h1 PHP
-                p Пройдено на #{lang3.progress * 100}%
-            +progress-bar(lang3.progress, (lang3.progress >= 1) ? "#23B45D" : "#F3EB0C")
+        each lang in langs
+            div
+                img(src=lang.avatar)
+                div(class='cur_text')
+                    h1=lang.title
+                    p Пройдено на #{Math.round(lang.progress * 100)}%
+                +progress-bar(lang.progress, (lang.progress >= 1) ? "#23B45D" : "#F3EB0C")
     details
         summary Настройки аккаунта
         hr
@@ -69,7 +58,7 @@ block content
                 input(type="text" placeholder=user.status)
                 label E-mail
                 input(type="email" placeholder=user.email)
-                input(type="submit" id="spo_sub" value='Способ оплаты')
+                input(type="submit" id="spo_sub" value='Изменить')
             div
                 img(src=user.avatar)
                 button Загрузить...
