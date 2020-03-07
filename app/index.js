@@ -442,9 +442,18 @@ async function Route_Login(app, db, req, res) {
 }
 
 async function Route_User(app, db, req, res) {
+    let langsMap = Object.keys(langs).map(lang_id => {
+        return {
+            title: langs[lang_id].lang_title,
+            lang_id,
+            progress: Math.random() < 0.2 ? 1 : Math.random(),
+            background: langs[lang_id].background
+        };
+    }).sort((a, b) => b.progress - a.progress);
     res.render(path.join(__dirname, "user", "index.pug"), {
         basedir: path.join(__dirname, "user"),
         current_page: "user",
+        langs: langsMap,
         user: {
             login: "Габе",
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
