@@ -6,6 +6,19 @@ block head
         include style.css
 
 block content
+    form(class="new_f")
+        h1 Добавление нового обсуждения
+        div
+            div(class='lip')
+                label Тема обсуждения
+                input(type="text")
+                label Ваше сообщение
+                input(type="textarea")
+                input(type="submit" id="spo_sub" value='Изменить')
+            div
+                img(src='/avatars/ava16.png')
+                button Загрузить...
+
     form(
         class="example"
         action="/forum"
