@@ -7,15 +7,16 @@ block head
     script
         include script.js
 block content
-    button(class="tablink" onclick="openCity('auto', this)" id="defaultOpen") Авторизация
-    button(class="tablink" onclick="openCity('reg', this)") Регистрация
+    div(id='buttons')
+        button(class="tablink" onclick="openCity('auto', 'reg_but','auto_but')" id="auto_but") Авторизация
+        button(class="tablink" onclick="openCity('reg', 'auto_but','reg_but')" id="reg_but") Регистрация
     div(id="auto" class="tabcontent")
         form
             label E-mail
             input(type='email')
             label Пароль
             input(type='password')
-            input(type='submit' id="forgotten" value='Забыли пароль')
+            a(href='#' id="forgotten") Забыли пароль?
             input(type='submit' id="inside" value='Войти')
     div(id="reg" class="tabcontent")
         form
@@ -30,6 +31,6 @@ block content
             input(type="submit" id="spo_sub" value='Регистрация')
         div
             h1 Аватарка
-            img(src=user.avatar)
+            img(src='/avatars/ava16.png')
             button Загрузить...
 

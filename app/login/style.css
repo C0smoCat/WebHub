@@ -2,16 +2,24 @@
     width: 650px;
 }
 
+#auto_but {
+    background-color: #8d8d8d;
+}
+
 .tabcontent {
     border-radius: 8px;
     background: #353534;
     margin-bottom: 20px;
-
 }
 
 #reg {
     display: none;
     grid-template-columns: 50% auto;
+    padding: 20px;
+}
+
+#auto > form > input {
+    width: auto;
 }
 
 .tabcontent > form {
@@ -35,7 +43,12 @@
 }
 
 #forgotten {
-
+    background: none;
+    font-style: italic;
+    font-size: 20px;
+    margin: 5px 0;
+    padding: 0;
+    color: black;
 }
 
 #spo_sub, #inside {
@@ -43,10 +56,17 @@
     width: 250px;
     height: 35px;
     background-color: #23B45D;
+    padding-left: 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: x-large;
 }
 
+#inside {
+    margin-top: 5px;
+}
 .tabcontent > div {
-    margin: 30px auto 0;
+    margin: 10px auto 0;
     display: block;
 }
 
@@ -66,4 +86,19 @@
     width: 180px;
     height: 25px;
     background-color: #23B45D;
+}
+
+#buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.tablink {
+    background-color: #353534;
+    margin: 0 40px;
+    padding: 5px 35px;
+    font-size: x-large;
+    border: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }

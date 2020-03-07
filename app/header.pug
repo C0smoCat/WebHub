@@ -60,19 +60,6 @@ header(
                 "text-decoration": "none",
                 "font-size": "22px"
             }) $ #{user.coins}
-    img(
-        id="open-button"
-        src="/gabe.png"
-        width="55px"
-        height="45px"
-        onclick="let borks=['Борк!','Борк!','Боророк!','Курлык!'];alert(borks[Math.floor(Math.random()*borks.length)]);if(Math.random()<0.1){let imgs=document.querySelectorAll('img');for(let img of imgs){img.style.animation='shake 0.5s infinite';img.style.animationDelay=(-Math.random()*10).toString()+'s';}}"
-        style={
-            float: "right",
-            margin: "10px",
-            cursor: "pointer",
-            animation: "shake 0.5s infinite"
-        }
-    )
     ul(class="topnav" id="myTopnav")
         li
             a(class=current_page === "courses" ? "active" : "" href="/courses") Курсы
