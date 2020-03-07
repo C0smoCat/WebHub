@@ -2,18 +2,18 @@ extends ../layout.pug
 include ../share-mixins.pug
 
 block head
-    title= `Курсы по ${lang.lang_title} - WebHub`
+    title= `Курсы по ${course.lang_title} - WebHub`
     style
         include style.css
     script
         include script.js
     style
-        != `hr{background:${lang.background};}`
+        != `hr{background:${course.background};}`
 
 block content
     div(id="courses")
         if user.is_authorised
-            - let allProgress = lang.themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / lang.themes.length;
+            - let allProgress = course.themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / course.themes.length;
             div(style={
                 width: "100%",
                 height: "40px",
@@ -33,10 +33,10 @@ block content
                     "text-align": "center",
                     color: "#eee"
                 }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
-        each theme,index in lang.themes
+        each theme,index in course.themes
             hr
             - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
-            ul(id=`part${index + 1}`)
+            ul(id=`part${theme.id}`)
                 div(class="theme")
                     div(onclick="extendedLessonClick(this)" class=(theme.is_lock && "disabled"))
                         img(src=((!user.is_authorised || !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")

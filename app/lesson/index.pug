@@ -1,7 +1,7 @@
 extends ../layout
 
 block head
-    title #{lesson.title} - WebHub
+    title #{lesson.lesson_title} - WebHub
     style.
         .note {
             border-top-right-radius: 10px;
@@ -112,11 +112,11 @@ block head
 
 block content
     h1
-        a(href=`/courses/${lang_id}`)= lang.lang_title
+        a(href=lesson.lang_url)= lesson.lang_title
         a=" / "
-        a(href=`/courses/${lang_id}#part${id_course}`)= course.title
+        a(href=lesson.theme_url)= lesson.theme_title
         a=" / "
-        a=lesson.title
+        a=lesson.lesson_title
     div(class="markdown-body")
         !=markdown
     div(class='more')

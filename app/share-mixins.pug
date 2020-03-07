@@ -1,10 +1,10 @@
 mixin lesson(is_lock, lesson, is_extended)
-    a(href=(user.is_authorised && !is_lock && lesson.url) class=(is_extended && "extended-lesson"))
+    a(href=(user.is_authorised && !is_lock && `/lessons/${lesson.id}`) class=(is_extended && "extended-lesson"))
         div(class="lessor" class=((!user.is_authorised || is_lock) && "disabled"))
             img(src=(!user.is_authorised || !is_lock) ? lesson.avatar : "/lock.png" width="100px" height="100px")
             li #{lesson.title}
             if (user.is_authorised && !is_lock)
-                +progress-bar(lesson.progress, lesson.is_complete ? "#23B45D" : "#F3EB0C", 10)
+                +progress-bar(lesson.progress, lesson.progress >= 1 ? "#23B45D" : "#F3EB0C", 10)
 
 mixin progress-bar(percent, color, height)
     if percent < 1

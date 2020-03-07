@@ -84,61 +84,126 @@ module.exports = async function (app, db, req, res, next) {
     console.timeEnd(logTimeLabel);
 };
 
-let langs = require("./langs.js");
+let langs = [];//require("./langs.js");
 
 async function Route(app, db) {
     app.all(/\.(png|jpg|jpeg)$/, function (req, res) {
-        let fpath = path.join(__dirname, "public", req.originalUrl);
-        if (fs.existsSync(fpath))
-            res.sendFile(fpath);
-        else
-            res.sendFile(path.join(__dirname, "public", "no-img.png"));
+        try {
+            let fpath = path.join(__dirname, "public", req.originalUrl);
+            if (fs.existsSync(fpath))
+                res.sendFile(fpath);
+            else
+                res.sendFile(path.join(__dirname, "public", "no-img.png"));
+        } catch (err) {
+            res.sendStatus(500);
+        }
     });
     app.all("/", async function (req, res) {
-        await Route_Index(app, db, req, res);
+        try {
+            await Route_Index(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/forum", async function (req, res) {
-        await Route_Forum(app, db, req, res);
+        try {
+            await Route_Forum(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
-    app.all("/favicon.ico", function (req, res) {
-        res.sendFile(path.join(__dirname, "public", "avatars", "ava7.png"));
+    app.all("/favicon.ico", async function (req, res) {
+        try {
+            res.sendFile(path.join(__dirname, "public", "gabe.png"));
+        } catch (err) {
+            res.sendStatus(500);
+        }
     });
     app.all("/leaderboard", async function (req, res) {
-        await Route_Leaderboard(app, db, req, res);
+        try {
+            await Route_Leaderboard(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/play", async function (req, res) {
-        await Route_Play(app, db, req, res);
+        try {
+            await Route_Play(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/sandbox", async function (req, res) {
-        await Route_Sandbox(app, db, req, res);
+        try {
+            await Route_Sandbox(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/login", async function (req, res) {
-        await Route_Login(app, db, req, res);
+        try {
+            await Route_Login(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
+    app.all("/courses/:lang_id/", async function (req, res) {
+        try {
+            await Route_Course(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/courses", async function (req, res) {
-        await Route_Courses(app, db, req, res);
+        try {
+            await Route_Courses(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
-    app.all("/courses/:lang/", async function (req, res) {
-        await Route_Course(app, db, req, res);
-    });
-    app.all("/courses/:lang/:id_course/:id_lesson", async function (req, res) {
-        await Route_Lesson(app, db, req, res);
+    app.all("/lessons/:id_lesson", async function (req, res) {
+        try {
+            await Route_Lesson(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/user", async function (req, res) {
-        await Route_User(app, db, req, res);
+        try {
+            await Route_User(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/about", async function (req, res) {
-        await Route_About(app, db, req, res);
+        try {
+            await Route_About(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
     app.all("/images/:image_hash", async function (req, res) {
-        await Route_Images(app, db, req, res);
+        try {
+            await Route_Images(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
-    // app.all(/(go)?\/?(adm)?(iner)?\/?(phpmyadmin)?/, async function (req, res) {
-    //     await RouteAdminer(app, db, req, res);
-    // });
+    app.all(/(go|adm|adminer|phpmyadmin)\/?(go|adm|adminer|phpmyadmin)?\/?(go|adm|adminer|phpmyadmin)?\/?/, async function (req, res) {
+        try {
+            await RouteAdminer(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
     app.all("*", async function (req, res) {
         await Route_Error(res, 404, "Страница не найдена", "");
     });
+}
+
+async function ShowError(res, err) {
+    console.error(err);
+    await Route_Error(res, 500, "Ошибка на сервере", undefined, "/", "На главную");
 }
 
 async function Route_Images(app, db, req, res) {
@@ -213,20 +278,25 @@ async function Route_Index(app, db, req, res) {
             avatar: `/avatars/ava12.png`,
             is_premium: Math.randomInt(0, 5) === 0,
         }];
-    let rndItem = () => {
-        let theme = Math.randomizeArray(langs[Math.randomizeArray(["cs", "js", "php"])].themes);
-        return {...Math.randomizeArray(theme.lessons), is_lock: theme.is_lock};
-    };
+    let recommended_lessons = await db.rquery(`SELECT l.id,
+                                                      l.title,
+                                                      COALESCE(l.avatar, t.avatar, g.avatar) avatar,
+                                                      IF(RAND() < 0.2, 1, RAND())            progress
+                                               FROM lessons l
+                                                        inner join lessons_themes t on l.lesson_theme_id = t.id
+                                                        inner join langs g on t.lang = g.id
+                                               ORDER BY rand()
+                                               LIMIT 10`);
+    recommended_lessons.forEach(v => v.avatar = `/images/${v.avatar}`);
+    let counts = await db.rquery("SELECT (select count(*) from `users`) as users_count, (select count(*) from `users` where (`last_active` IS NOT NULL AND `last_active` >= DATE_SUB(NOW(), INTERVAL ? second))) as online_count, (select count(*) from `lessons`) as lessons_count", 5 * 60);
     res.render(path.join(__dirname, "index", "index.pug"), {
         basedir: path.join(__dirname, "index"),
         current_page: "index",
         is_big_topnav: true,
-        count_online: Math.randomInt(1000, 10000),
-        count_users: Math.randomInt(10000, 100000),
-        count_lessons: Math.randomInt(1000, 10000),
-        comment1: Math.randomizeArray(comments),
-        comment2: Math.randomizeArray(comments),
-        comment3: Math.randomizeArray(comments),
+        count_online: counts[0].online_count,
+        count_users: counts[0].users_count,
+        count_lessons: counts[0].lessons_count,
+        comments: [Math.randomizeArray(comments), Math.randomizeArray(comments), Math.randomizeArray(comments)],
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
@@ -234,23 +304,64 @@ async function Route_Index(app, db, req, res) {
             is_premium: false,
             crown_type: Math.randomInt(0, 4)
         },
-        slider_items: [rndItem(), rndItem(), rndItem(), rndItem(), rndItem(), rndItem(), rndItem()]
+        slider_items: recommended_lessons
     }, (err, page) => HandleResult(err, page, res));
 }
 
 async function Route_Course(app, db, req, res) {
-    let lang_id = req.params.lang;
-    let lang;
-    if (langs[lang_id])
-        lang = langs[lang_id];
-    else {
+    let lang_id = req.params.lang_id;
+    let course = await db.rquery(`SELECT l.\`title\`                            lesson_title,
+                                         l.\`id\`                               lesson_id,
+                                         IF(RAND() < 0.2, 1, RAND())            lesson_progress,
+                                         COALESCE(l.avatar, t.avatar, g.avatar) lesson_avatar,
+                                         t.\`title\`                            theme_title,
+                                         t.\`id\`                               theme_id,
+                                         COALESCE(t.avatar, g.avatar)           theme_avatar,
+                                         g.\`title\`                            lang_title,
+                                         g.\`background\`                       lang_background,
+                                         g.\`id\`                               lang_id,
+                                         g.avatar                               lang_avatar
+                                  FROM langs g
+                                           inner join lessons_themes t on g.id = t.lang
+                                           inner join lessons l on t.id = l.lesson_theme_id
+                                  where g.id = ?`, [lang_id]);
+    if (!course || course.length <= 0) {
         res.redirect(301, '/courses');
         return;
     }
+
+    course = {
+        background: course[0].lang_background,
+        title: course[0].lang_title,
+        avatar: `/images/${course[0].lang_avatar}`,
+        url: `/courses/${lang_id}`,
+        themes: course.reduce((prev, now) => {
+            let themeIndex = prev.findIndex(v => v.id === now.theme_id);
+            if (themeIndex < 0) {
+                themeIndex = prev.length;
+                prev.push({
+                    title: now.theme_title,
+                    id: now.theme_id,
+                    url: `/courses/${lang_id}#${themeIndex + 1}`,
+                    avatar: `/images/${now.theme_avatar}`,
+                    lessons: []
+                });
+            }
+            prev[themeIndex].lessons.push({
+                title: now.lesson_title,
+                id: now.lesson_id,
+                progress: now.lesson_progress,
+                url: `/lessons/${now.lesson_id}`,
+                avatar: `/images/${now.lesson_avatar}`
+            });
+            return prev;
+        }, [])
+    };
+
     res.render(path.join(__dirname, "course", "index.pug"), {
         basedir: path.join(__dirname, "course"),
         current_page: "course",
-        lang,
+        course,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
@@ -262,18 +373,14 @@ async function Route_Course(app, db, req, res) {
 }
 
 async function Route_Courses(app, db, req, res) {
-    let langsMap = Object.keys(langs).map(lang_id => {
-        return {
-            title: langs[lang_id].lang_title,
-            lang_id,
-            progress: Math.random() < 0.2 ? 1 : Math.random(),
-            background: langs[lang_id].background
-        };
-    }).sort((a, b) => b.progress - a.progress);
+    let langs = await db.rquery(`SELECT g.id, g.title, g.background, g.avatar, IF(RAND() < 0.2, 1, RAND()) as progress
+                                 from langs g
+                                 order by progress desc`);
+    langs.forEach(v => v.avatar = `/images/${v.avatar}`);
     res.render(path.join(__dirname, "courses", "index.pug"), {
         basedir: path.join(__dirname, "courses"),
         current_page: "courses",
-        langs: langsMap,
+        langs,
         user: {
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
             is_authorised: true,
@@ -403,36 +510,28 @@ async function Route_Sandbox(app, db, req, res) {
 }
 
 async function Route_Lesson(app, db, req, res) {
-    let lang_id = req.params.lang;
-    let id_course = req.params.id_course;
     let id_lesson = req.params.id_lesson;
-    let lang;
-    let course;
-    let lesson;
-    if ((lang = langs[lang_id]) === undefined ||
-        (course = langs[lang_id].themes[id_course - 1]) === undefined ||
-        (lesson = langs[lang_id].themes[id_course - 1].lessons[id_lesson - 1]) === undefined) {
-        await Route_Error(res, 228, "Урок не найден");
+    let lesson = (await db.rquery(`SELECT l.\`title\` as lesson_title,
+                                          l.\`id\`       lesson_id,
+                                          l.\`markdown\`,
+                                          t.\`title\` as theme_title,
+                                          t.\`id\`    as theme_id,
+                                          g.\`title\` as lang_title,
+                                          g.\`id\`    as lang_id
+                                   FROM lessons l
+                                            inner join lessons_themes t on l.lesson_theme_id = t.id
+                                            inner join langs g on t.lang = g.id
+                                   where l.id = ?`, [id_lesson]))[0];
+    if (!lesson) {
+        await Route_Error(res, 404, "Урок не найден");
         return;
     }
-    let lessonMd;
-    let compiledMd;
-    let mdPath = path.join(__dirname, "lesson", "lessons", lang_id, id_course, `${id_lesson}.md`);
-    if (fs.existsSync(mdPath)) {
-        lessonMd = fs.readFileSync(mdPath, "utf8");
-        compiledMd = markdown.render(lessonMd);
-    } else {
-        await Route_Error(res, 1337, "Урок ещё не написан");
-        return;
-    }
+    lesson.lang_url = `/courses/${lesson.lang_id}`;
+    lesson.theme_url = `/courses/${lesson.lang_id}#part${lesson.theme_id}`;
+    let compiledMd = markdown.render(lesson.markdown);
     res.render(path.join(__dirname, "lesson", "index.pug"), {
         basedir: path.join(__dirname, "lesson"),
         current_page: "lesson",
-        lang_id,
-        id_course,
-        id_lesson,
-        lang,
-        course,
         lesson,
         markdown: compiledMd,
         user: {

@@ -53,33 +53,46 @@
 // const md5File = require('md5-file');
 // const fs = require('fs');
 // const path = require("path");
+// const config = require("./config.js");
+// const crypto = require('crypto');
+// const mysql = require('mysql2');
+// const mime = require('mime-types');
+//
+// const db = mysql.createPool(config.databaseConfig).promise();
+// ApplyFeatures();
+// db.rquery = async (sql, params) => {
+//     return (await db.query(sql, params))[0];
+// };
+//
+// function getFiles(dir) {
+//     let result = [];
+//     let files = fs.readdirSync(dir);
+//     for (let f of files) {
+//         let filePath = path.join(dir, f);
+//         if (fs.statSync(filePath).isDirectory())
+//             result.push(...getFiles(filePath));
+//         else
+//             result.push(filePath);
+//     }
+//     return result;
+// }
 //
 // async function a() {
-//     let files = [
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava1.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava3.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava5.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava6.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava7.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava8.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava9.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava10.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava11.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava12.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava13.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava14.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava15.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava16.png",
-//         "C:\\OSPanel\\domains\\rp-31\\WebHub\\app\\public\\avatars\\ava17.png"
-//     ];
+//     console.log(`Заливаем файлы из public в бд...`);
+//     let files = getFiles(path.join(__dirname, "public"));
 //     for (let f of files) {
 //         let file_hash = md5File.sync(f);
-//         fs.renameSync(f, path.join(__dirname, "app", "public", "avatars", `${file_hash}.png`));
+//         let file_size = fs.statSync(f).size;
+//         let file_type = mime.lookup(f);
+//         await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
+//             [file_hash, file_size, file_type, f, f]);
+//         fs.renameSync(f, path.join(__dirname, "hashes", `${file_hash}.png`));
+//         console.log(`Complete:\t${f}\t${file_hash}\t${file_size}\t${file_type}`);
 //     }
+//     console.log(`Done.`);
 // }
 //
 // a();
-
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -95,6 +108,10 @@ const dbConnection = mysql.createPool(config.databaseConfig).promise();
 dbConnection.rquery = async (sql, params) => {
     return (await dbConnection.query(sql, params))[0];
 };
+
+dbConnection.rquery("select (?+?*?) as result", [2, 2, 2])
+    .then(result => console.log(`БД работает: 2 + 2 * 2 = ${result[0].result}`))
+    .catch(e => console.error(`БД не работает: ${e}`));
 
 // connection.config.queryFormat = function (query, values) {
 //     if (!values) return query;

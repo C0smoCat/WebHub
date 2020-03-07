@@ -62,7 +62,8 @@ block content
                     div
                         h3 #{count_lessons}
                         p уроков
-    +make-comments(comment1, comment2, comment3)
+    if comments.length >= 3
+        +make-comments(comments[0], comments[1], comments[2])
 
 mixin slider(items)
     div(class="slider2")
