@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
 
 --
+-- Table structure for table `access_tokens`
+--
+
+DROP TABLE IF EXISTS `access_tokens`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `access_tokens`
+(
+    `token`       char(32)     NOT NULL,
+    `user_id`     int(11)      NOT NULL,
+    `expire_time` datetime     NOT NULL,
+    `client_ip`   varchar(20)  NOT NULL,
+    `user_client` varchar(512) NOT NULL,
+    `create_time` datetime     NOT NULL,
+    PRIMARY KEY (`token`),
+    KEY `access_tokens_users_id_fk` (`user_id`),
+    CONSTRAINT `access_tokens_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `files`
 --
 
@@ -274,4 +296,4 @@ CREATE TABLE `users`
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-08 18:26:38
+-- Dump completed on 2020-03-09  0:35:59

@@ -6,28 +6,31 @@ block head
         include style.css
 
 block content
-    form(class="new_f")
-        h1 Добавление нового обсуждения
-        div
-            div(class='lip')
-                label Тема обсуждения
-                input(type="text")
-                label Ваше сообщение
-                input(type="textarea")
-                input(type="submit" id="spo_sub" value='Изменить')
-            div
-                img(src='/avatars/ava16.png')
-                button Загрузить...
-
     form(
         class="example"
         action="/forum"
         method="GET"
     )
-        button(type="add" id='add') +
+        if user.is_authorised
+            button(type="add") +
+        else
+            a(href="/login?redirect=/forum") +
         input(type="text" placeholder="Поиск темы" name="q" value=search_query)
         button(type="submit")
             p Поиск
+    if user.is_authorised
+        form(class="new_f")
+            h1 Добавление нового обсуждения
+            div
+                div(class='lip')
+                    label Тема обсуждения
+                    input(type="text")
+                    label Ваше сообщение
+                    input(type="textarea")
+                    input(type="submit" id="spo_sub" value='Изменить')
+                div
+                    img(src='/avatars/ava16.png')
+                    button Загрузить...
     each theme, index in themes
         a(href=theme.url class="theme")
             div

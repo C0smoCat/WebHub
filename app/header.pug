@@ -27,9 +27,9 @@ header(
             width="46px"
             height="46px"
         )
-    a(href=user.is_authorised ? "/user" : "/login")
+    a(href=(current_page === "user" || current_page === "login" ? undefined : (user.is_authorised ? `/user/${user.user_id}` : `/login?redirect=${current_url}`)))
         img(
-            class="hover-logo"
+            class=(current_page === "user" ? undefined : "hover-logo")
             src=user.avatar
             style={
                 "border-radius": "50%",
@@ -45,10 +45,10 @@ header(
             float: "right",
             margin: "10px"
         })
-            //- img(src="lock.png"
-            //-     height="46px"
-            //-     width="46px"
-            //- )
+            img(src="/plus.png"
+                height="46px"
+                width="46px"
+            )
             p(style={
                 float: "right",
                 margin: "0px",
@@ -72,7 +72,31 @@ header(
                 a(class=current_page === "play" ? "active" : "" href="/play") Играть
             li
                 a(class=current_page === "leaderboard" ? "active" : "" href="/leaderboard") Топ
+if !user.is_authorised && current_page !== "login"
+    p(
+        class="auth-warning"
+        style={
+            background: "#7b2b18",
+            margin: "10px auto",
+            padding: "15px",
+            "border-radius": "8px",
+            "border-color": "#bb4325",
+            "text-align": "center",
+            "max-width": "1500px"
+        })
+        a(href=`/login?is_reg=true&redirect=${current_url}`) Зарегайся
+        = " или "
+        a(href=`/login?is_reg=false&redirect=${current_url}`) авторизируйся
+        = ", а то чё как лох"
 style.
+    .auth-warning > a {
+        text-decoration: inherit;
+        color: inherit;
+    }
+
+    .auth-warning > a:hover {
+        text-decoration: underline;
+    }
     .hover-logo {
         transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
         margin: 10px;

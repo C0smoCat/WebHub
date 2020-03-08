@@ -1,8 +1,4 @@
 .new_f {
-
-}
-
-.new_f {
     border-radius: 8px;
     background: #353534;
     /*background: linear-gradient(135deg, rgba(255, 141, 0, 1) 0%, rgba(255, 109, 0, 1) 100%);*/
@@ -81,7 +77,7 @@
     background: #464646;
 }
 
-.example button {
+.example button, .example a {
     text-decoration: none;
     background: #464646;
     color: #e2e2e2;
@@ -90,8 +86,10 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    text-align: center;
 }
-.example button > p{
+
+.example button > p, .example a > p {
     margin: 0;
 }
 

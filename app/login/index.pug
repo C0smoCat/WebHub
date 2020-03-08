@@ -7,27 +7,40 @@ block head
     script
         include script.js
 block content
+    if auth_error
+        p(style={
+            background: "#7b2b18",
+            margin: "10px auto",
+            padding: "15px",
+            "border-radius": "8px",
+            "border-color": "#bb4325",
+            "text-align": "center",
+            "max-width": "1500px"
+        })=auth_error
     div(id='buttons')
-        button(class="tablink" onclick="openCity('auto', 'reg_but','auto_but')" id="auto_but") Авторизация
-        button(class="tablink" onclick="openCity('reg', 'auto_but','reg_but')" id="reg_but") Регистрация
-    div(id="auto" class="tabcontent")
+        button(class="tablink" onclick="openCity('auto_tab','reg_but','auto_but')" id="auto_but") Авторизация
+        button(class="tablink" onclick="openCity('reg_tab','auto_but','reg_but')" id="reg_but") Регистрация
+    div(id="auto_tab" class="tabcontent")
+        form(method="GET")
+            input(type="hidden" name="redirect" value=redirect)
+            input(type="hidden" name="is_reg" value=false)
+            label(for="email") E-mail
+            input(type="email" id="email" name="email" value=email)
+            label(for="password") Пароль
+            input(type='password' id="password" name="password")
+            input(type="submit" id="inside" value='Войти')
+    div(id="reg_tab" class="tabcontent")
         form
-            label E-mail
-            input(type='email')
-            label Пароль
-            input(type='password')
-            a(href='#' id="forgotten") Забыли пароль?
-            input(type='submit' id="inside" value='Войти')
-    div(id="reg" class="tabcontent")
-        form
-            label Логин
-            input(type="text" placeholder='Ваш логин')
-            label Пароль
-            input(type='password' placeholder='Ваш пароль')
-            label E-mail
-            input(type="email" placeholder='Выш e-mail')
-            label Статус
-            input(type="text" placeholder='Ваш статус')
+            input(type="hidden" name="redirect" value=redirect)
+            input(type="hidden" name="is_reg" value=true)
+            label(for="login") Логин
+            input(type="text" id="login" name="login" placeholder="Ваш логин")
+            label(for="password2") Пароль
+            input(type="password" id="password2" name="password" placeholder="Ваш пароль")
+            label(for="email2") E-mail
+            input(type="email" id="email2" name="email" placeholder="Ваш e-mail")
+            label(for="status") Статус
+            input(type="text" id="status" name="status" placeholder="Ваш статус")
             input(type="submit" id="spo_sub" value='Регистрация')
         div
             h1 Аватарка

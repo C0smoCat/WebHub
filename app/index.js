@@ -3,7 +3,9 @@ const config = require("../config.js");
 const pug = require('pug');
 const fs = require('fs');
 const express = require('express');
+const crypto = require('crypto');
 const hljs = require('highlight.js');
+const url = require('url');
 const markdown_it_container = require('markdown-it-container');
 const markdown = require('markdown-it')({
     html: true,
@@ -109,6 +111,23 @@ async function Route(app, db) {
             res.sendStatus(500);
         }
     });
+    app.all("/favicon.ico", async function (req, res) {
+        try {
+            res.sendFile(path.join(__dirname, "public", "gabe.png"));
+        } catch (err) {
+            res.sendStatus(500);
+        }
+    });
+    app.all("/images/:image_hash", async function (req, res) {
+        try {
+            await Route_Images(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
+    app.all("*", async function (req, res, next) {
+        await AuthUser(app, db, req, res, next);
+    });
     app.all("/", async function (req, res) {
         try {
             await Route_Index(app, db, req, res);
@@ -121,13 +140,6 @@ async function Route(app, db) {
             await Route_Forum(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
-        }
-    });
-    app.all("/favicon.ico", async function (req, res) {
-        try {
-            res.sendFile(path.join(__dirname, "public", "gabe.png"));
-        } catch (err) {
-            res.sendStatus(500);
         }
     });
     app.all("/leaderboard", async function (req, res) {
@@ -154,6 +166,13 @@ async function Route(app, db) {
     app.all("/login", async function (req, res) {
         try {
             await Route_Login(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
+    app.all("/logout", async function (req, res) {
+        try {
+            await Route_Logout(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
@@ -186,16 +205,16 @@ async function Route(app, db) {
             await ShowError(res, err);
         }
     });
-    app.all("/about", async function (req, res) {
+    app.all("/user/:user_id", async function (req, res) {
         try {
-            await Route_About(app, db, req, res);
+            await Route_User(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/images/:image_hash", async function (req, res) {
+    app.all("/about", async function (req, res) {
         try {
-            await Route_Images(app, db, req, res);
+            await Route_About(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
@@ -215,6 +234,50 @@ async function Route(app, db) {
 async function ShowError(res, err) {
     console.error(err);
     await Route_Error(res, 500, "Ошибка на сервере", undefined, "/", "На главную");
+}
+
+async function AuthUser(app, db, req, res, next) {
+    let user = {
+        is_authorised: false,
+        avatar: "/images/343d0c59d68c596cdaf3f0e08ad2537f",
+        login: "Гость",
+        sex_is_boy: true,
+        status: "Гость",
+        is_premium: false
+    };
+    if (req.cookies.token) {
+        let user_info = (await db.rquery(`select t.\`token\`,
+                                                 t.\`expire_time\`,
+                                                 t.\`client_ip\`,
+                                                 t.\`user_client\`,
+                                                 t.\`create_time\`                                                   token_create_time,
+                                                 u.\`id\` as                                                         user_id,
+                                                 u.\`login\`,
+                                                 u.\`password_hash\`,
+                                                 u.\`create_time\`,
+                                                 u.\`sex_is_boy\`,
+                                                 u.\`ava_file_id\`,
+                                                 u.\`status\`,
+                                                 u.\`email\`,
+                                                 u.\`premium_expire\`,
+                                                 (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                                 (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                                 u.\`coins\`,
+                                                 u.\`last_active\`
+                                          from \`access_tokens\` t
+                                                   inner join users u on t.user_id = u.id
+                                          where t.\`token\` = ?`, [req.cookies.token]))[0];
+        if (user_info && user_info.expire_time >= Date.now()) {
+            await db.rquery(`update \`users\`
+                             set \`last_active\`=NOW()
+                             where \`id\` = ?`, [user_info.user_id]);
+            user = user_info;
+            user.is_authorised = true;
+            user.avatar = `/images/${user.ava_file_id}`;
+        }
+    }
+    req.user = user;
+    next();
 }
 
 async function Route_Images(app, db, req, res) {
@@ -303,18 +366,13 @@ async function Route_Index(app, db, req, res) {
     res.render(path.join(__dirname, "index", "index.pug"), {
         basedir: path.join(__dirname, "index"),
         current_page: "index",
+        current_url: req.url,
         is_big_topnav: true,
         count_online: counts[0].online_count,
         count_users: counts[0].users_count,
         count_lessons: counts[0].lessons_count,
         comments: [Math.randomizeArray(comments), Math.randomizeArray(comments), Math.randomizeArray(comments)],
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        },
+        user: req.user,
         slider_items: recommended_lessons
     }, (err, page) => HandleResult(err, page, res));
 }
@@ -337,7 +395,7 @@ async function Route_Course(app, db, req, res) {
                                            inner join lessons l on t.id = l.lesson_theme_id
                                   where g.id = ?`, [lang_id]);
     if (!course || course.length <= 0) {
-        res.redirect(301, '/courses');
+        res.redirect('/courses');
         return;
     }
 
@@ -372,14 +430,9 @@ async function Route_Course(app, db, req, res) {
     res.render(path.join(__dirname, "course", "index.pug"), {
         basedir: path.join(__dirname, "course"),
         current_page: "course",
+        current_url: req.url,
         course,
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -391,14 +444,9 @@ async function Route_Courses(app, db, req, res) {
     res.render(path.join(__dirname, "courses", "index.pug"), {
         basedir: path.join(__dirname, "courses"),
         current_page: "courses",
+        current_url: req.url,
         langs,
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -452,14 +500,9 @@ async function Route_Forum(app, db, req, res) {
     res.render(path.join(__dirname, "forum", "index.pug"), {
         basedir: path.join(__dirname, "forum"),
         current_page: "forum",
+        current_url: req.url,
         search_query,
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        },
+        user: req.user,
         themes: search_query ? themes.filter(v => regex.test(v.title) || regex.test(v.last_message)) : themes
     }, (err, page) => HandleResult(err, page, res));
 }
@@ -477,17 +520,8 @@ async function Route_Leaderboard(app, db, req, res) {
     res.render(path.join(__dirname, "leaderboard", "index.pug"), {
         basedir: path.join(__dirname, "leaderboard"),
         current_page: "leaderboard",
-        user: {
-            login: "Пупкин Васян",
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4),
-            score: Math.randomInt(1, 16),
-            status: "кондитер",
-            place_num: Math.randomInt(100, 1000)
-        },
+        current_url: req.url,
+        user: Object.assign(req.user, {place_num: Math.randomInt(100, 1000), score: Math.randomInt(1, 16)}),
         leaderboard: [usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr, usr]
     }, (err, page) => HandleResult(err, page, res));
 }
@@ -496,13 +530,8 @@ async function Route_Play(app, db, req, res) {
     res.render(path.join(__dirname, "play", "index.pug"), {
         basedir: path.join(__dirname, "play"),
         current_page: "play",
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        current_url: req.url,
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -510,13 +539,8 @@ async function Route_Sandbox(app, db, req, res) {
     res.render(path.join(__dirname, "sandbox", "index.pug"), {
         basedir: path.join(__dirname, "sandbox"),
         current_page: "sandbox",
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        current_url: req.url,
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -543,43 +567,81 @@ async function Route_Lesson(app, db, req, res) {
     res.render(path.join(__dirname, "lesson", "index.pug"), {
         basedir: path.join(__dirname, "lesson"),
         current_page: "lesson",
+        current_url: req.url,
         lesson,
         markdown: compiledMd,
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
 async function Route_Login(app, db, req, res) {
+    let auth_error = undefined;
+    let isAuthOk = undefined;
+    if (req.query.email && req.query.password && !req.query.is_reg)
+        [auth_error, isAuthOk] = await TryAuthUser(app, db, req, res, req.query.email, req.query.password);
+    if (isAuthOk) {
+        res.redirect(req.query.redirect || "/");
+        return;
+    }
     res.render(path.join(__dirname, "login", "index.pug"), {
         basedir: path.join(__dirname, "login"),
         current_page: "login",
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        current_url: req.url,
+        auth_error,
+        is_reg,
+        email: req.query.email,
+        redirect: req.query.redirect,
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
+async function Route_Logout(app, db, req, res) {
+    if (!req.user.is_authorised) {
+        res.redirect("/login");
+        return;
+    }
+    await db.rquery("update `access_tokens` set `expire_time`=NOW() where `token`=?", [req.user.token]);
+    res.cookie('token', undefined);
+    res.redirect(req.query.redirect || "/");
+}
+
+async function TryAuthUser(app, db, req, res, email, password) {
+    if (3 > email.length || email.length > 50 || 3 > password.length || password.length > 50)
+        return ["Слишком короткий логин или пароль", false];
+    let sqlRes1 = await db.rquery(
+        "SELECT * from `users` WHERE (`email` = ?) AND (`password_hash` = MD5(?)) limit 1",
+        [email, password]);
+    if (sqlRes1.length <= 0)
+        return ["Пользователь не найден", false];
+    let user_id = sqlRes1[0].id;
+
+    let sqlRes2 = await db.rquery(
+        "SELECT * from `access_tokens` WHERE (`expire_time` > NOW()) AND (`user_id` = ?)",
+        [user_id]);
+
+    if (sqlRes2.length >= 3)
+        return ["Превышен лимит авторизаций", false];
+
+    let token = crypto.createHash('md5').update(`${email} ${Math.random()} ${password} ${Math.random()}`).digest("hex");
+    let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    let client_agent = req.headers['user-agent'] || "unknown";
+    await db.rquery(
+        "INSERT INTO `access_tokens` (`token`, `user_id`, `expire_time`, `client_ip`, `user_client`, `create_time`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? day), ?, ?, NOW())",
+        [token, user_id, 30, client_ip, client_agent]);
+    await db.rquery("update `users` set `last_active`=NOW() where `id`=?", [user_id]);
+    res.cookie('token', token);
+    return [undefined, true];
+}
+
 async function Route_User(app, db, req, res) {
-    // let langs = await db.rquery("select * from");
-    // let langsMap = Object.keys(langs).map(lang_id => {
-    //     return {
-    //         title: langs[lang_id].lang_title,
-    //         lang_id,
-    //         progress: Math.random() < 0.2 ? 1 : Math.random(),
-    //         background: langs[lang_id].background,
-    //         avatar: "/logo-node.png"
-    //     };
-    // }).sort((a, b) => b.progress - a.progress);
+    let user_id = req.params.user_id || req.user.id;
+    if (!user_id) {
+        res.redirect(url.format({
+            pathname: "/login",
+            query: {"redirect": `/user`}
+        }));
+        return;
+    }
 
     let langs = await db.rquery(`SELECT g.id, g.title, g.background, g.avatar, IF(RAND() < 0.2, 1, RAND()) as progress
                                  from langs g
@@ -589,18 +651,9 @@ async function Route_User(app, db, req, res) {
     res.render(path.join(__dirname, "user", "index.pug"), {
         basedir: path.join(__dirname, "user"),
         current_page: "user",
+        current_url: req.url,
         langs,
-        user: {
-            login: "Габе",
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4),
-            email: "gabe@the.dog",
-            status: "живой",
-            place_num: Math.randomInt(100, 10000)
-        },
+        user: Object.assign(req.user, {place_num: Math.randomInt(100, 1000), score: Math.randomInt(1, 16)}),
         certificates: ["/visa-bg.jpg", "/visa-bg-2.jpg", "/visa-bg-3.jpg", "/visa-bg-4.jpg"]
     }, (err, page) => HandleResult(err, page, res));
 }
@@ -609,18 +662,13 @@ async function Route_About(app, db, req, res) {
     res.render(path.join(__dirname, "about", "index.pug"), {
         basedir: path.join(__dirname, "about"),
         current_page: "about",
-        user: {
-            avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,
-            is_authorised: true,
-            coins: Math.randomInt(0, 1000),
-            is_premium: false,
-            crown_type: Math.randomInt(0, 4)
-        }
+        current_url: req.url,
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
 async function RouteAdminer(app, db, req, res) {
-    res.redirect(301, 'https://youtube.com/watch?v=oHg5SJYRHA0');
+    res.redirect('https://youtube.com/watch?v=oHg5SJYRHA0');
 }
 
 async function Route_Error(res, error_code, error_msg, error_desc = "", error_btn_url = "https://youtube.com/watch?v=oHg5SJYRHA0", error_btn_text = "Сделать хорошо") {

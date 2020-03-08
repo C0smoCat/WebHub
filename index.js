@@ -6,6 +6,7 @@ const mysql = require('mysql2');
 const multer = require('multer')({dest: `${__dirname}/uploads`});
 const config = require("./config.js");
 const router = require('./app/index.js');
+const cookieParser = require('cookie-parser');
 
 console.log(`Debug mode: ${config.debug_mode}`);
 
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // let router_api = express.Router();
 // router_api.all('*', multer.single('file'), async function (req, res) {
