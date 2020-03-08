@@ -84,7 +84,7 @@ module.exports = async function (app, db, req, res, next) {
     console.timeEnd(logTimeLabel);
 };
 
-let langs = [];//require("./langs.js");
+let langs = [];
 
 async function Route(app, db) {
     app.all(/\.(png|jpg|jpeg)$/, function (req, res) {
@@ -94,6 +94,17 @@ async function Route(app, db) {
                 res.sendFile(fpath);
             else
                 res.sendFile(path.join(__dirname, "public", "no-img.png"));
+        } catch (err) {
+            res.sendStatus(500);
+        }
+    });
+    app.all(/\.(css|js)$/, function (req, res) {
+        try {
+            let fpath = path.join(__dirname, "public", req.originalUrl);
+            if (fs.existsSync(fpath))
+                res.sendFile(fpath);
+            else
+                res.sendStatus(404);
         } catch (err) {
             res.sendStatus(500);
         }
@@ -559,19 +570,26 @@ async function Route_Login(app, db, req, res) {
 }
 
 async function Route_User(app, db, req, res) {
-    let langsMap = Object.keys(langs).map(lang_id => {
-        return {
-            title: langs[lang_id].lang_title,
-            lang_id,
-            progress: Math.random() < 0.2 ? 1 : Math.random(),
-            background: langs[lang_id].background,
-            avatar: "/logo-node.png"
-        };
-    }).sort((a, b) => b.progress - a.progress);
+    // let langs = await db.rquery("select * from");
+    // let langsMap = Object.keys(langs).map(lang_id => {
+    //     return {
+    //         title: langs[lang_id].lang_title,
+    //         lang_id,
+    //         progress: Math.random() < 0.2 ? 1 : Math.random(),
+    //         background: langs[lang_id].background,
+    //         avatar: "/logo-node.png"
+    //     };
+    // }).sort((a, b) => b.progress - a.progress);
+
+    let langs = await db.rquery(`SELECT g.id, g.title, g.background, g.avatar, IF(RAND() < 0.2, 1, RAND()) as progress
+                                 from langs g
+                                 order by progress desc`);
+    langs.forEach(v => v.avatar = `/images/${v.avatar}`);
+
     res.render(path.join(__dirname, "user", "index.pug"), {
         basedir: path.join(__dirname, "user"),
         current_page: "user",
-        langs: langsMap,
+        langs,
         user: {
             login: "Габе",
             avatar: `/avatars/ava${Math.randomInt(1, 16)}.png`,

@@ -227,8 +227,6 @@ details > div > div > button {
 
 #certificates {
     display: block;
-    /*grid-template-columns: auto auto;*/
-    /*grid-column-gap: 20px;*/
     margin: 0 auto;
     text-align: center;
 }
@@ -237,7 +235,6 @@ details > div > div > button {
     display: inline-flex;
     margin: 0 10px 20px;
     border-radius: 8px;
-    overflow: hidden;
 }
 
 .certificate > img {

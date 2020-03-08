@@ -2,12 +2,11 @@ extends ../layout
 include ../share-mixins.pug
 
 block head
-    - let lang1 = {progress:1};
-    - let lang2 = {progress:0.8};
-    - let lang3 = {progress:0};
     title Личная страница - WebHub
     style
         include style.css
+    script(src="/card3d.js")
+    link(rel="stylesheet" href="card3d.css")
 block content
     //p TODO
     div(id="first_block")
@@ -33,9 +32,10 @@ block content
                 a(href="#") Купить
                     b Premium
     if user.is_authorised
+        - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
         div(class='div_prog')
-            +progress-bar((lang1.progress + lang2.progress + lang3.progress) / 3, (lang1.progress + lang2.progress + lang3.progress) / 3 >= 1 ? "#23B45D" : "#ff7700", 40)
-            p(style={}) Общий прогресс: #{Math.roundN(((lang1.progress + lang2.progress + lang3.progress) / 3) * 100)}%
+            +progress-bar(progress, progress >= 1 ? "#23B45D" : "#ff7700", 40)
+            p Общий прогресс: #{Math.roundN(progress * 100)}%
     div(id="pro_cur")
         each lang in langs
             div
@@ -64,5 +64,5 @@ block content
                 button Загрузить
     div(id='certificates')
         each certificate in certificates
-            div(class='certificate')
-                img(src=certificate)
+            div(class='certificate atvImg')
+                img(src=certificate class="atvImg-layer")
