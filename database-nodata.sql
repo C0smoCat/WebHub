@@ -75,6 +75,7 @@ CREATE TABLE `forum_messages`
     CONSTRAINT `forum_messages_forum_theme_id_fk` FOREIGN KEY (`forum_theme_id`) REFERENCES `forum_themes` (`id`),
     CONSTRAINT `forum_messages_users_id_fk` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +90,7 @@ CREATE TABLE `forum_themes`
 (
     `id`          int(11)       NOT NULL AUTO_INCREMENT,
     `title`       varchar(255)  NOT NULL,
-    `create_date` datetime      NOT NULL,
+    `create_time` datetime      NOT NULL,
     `avatar`      char(32) DEFAULT NULL,
     `created_by`  int(11)       NOT NULL,
     `description` varchar(2048) NOT NULL,
@@ -99,6 +100,7 @@ CREATE TABLE `forum_themes`
     CONSTRAINT `forum_theme_files_id_fk` FOREIGN KEY (`avatar`) REFERENCES `files` (`id`),
     CONSTRAINT `forum_theme_users_id_fk` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 8
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -280,6 +282,8 @@ CREATE TABLE `users`
     `coins`          int(11)      NOT NULL,
     `last_active`    datetime     DEFAULT NULL,
     PRIMARY KEY (`id`),
+    UNIQUE KEY `users_login_uindex` (`login`),
+    UNIQUE KEY `users_email_uindex` (`email`),
     KEY `users_files_id_fk` (`ava_file_id`),
     CONSTRAINT `users_files_id_fk` FOREIGN KEY (`ava_file_id`) REFERENCES `files` (`id`)
 ) ENGINE = InnoDB
@@ -296,4 +300,4 @@ CREATE TABLE `users`
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-09  0:35:59
+-- Dump completed on 2020-03-09 15:28:25
