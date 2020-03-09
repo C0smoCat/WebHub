@@ -588,7 +588,7 @@ async function Route_Login(app, db, req, res) {
         current_page: "login",
         current_url: req.url,
         auth_error,
-        is_reg,
+        is_reg: req.query.is_reg,
         email: req.query.email,
         redirect: req.query.redirect,
         user: req.user
