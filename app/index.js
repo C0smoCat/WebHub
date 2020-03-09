@@ -3,7 +3,9 @@ const config = require("../config.js");
 const pug = require('pug');
 const fs = require('fs');
 const express = require('express');
+const md5File = require('md5-file');
 const crypto = require('crypto');
+const multer = require('multer')({dest: `${__dirname}/uploads`});
 const hljs = require('highlight.js');
 const url = require('url');
 const markdown_it_container = require('markdown-it-container');
@@ -89,7 +91,7 @@ module.exports = async function (app, db, req, res, next) {
 let langs = [];
 
 async function Route(app, db) {
-    app.all(/\.(png|jpg|jpeg)$/, function (req, res) {
+    app.get(/\.(png|jpg|jpeg)$/, function (req, res) {
         try {
             let fpath = path.join(__dirname, "public", req.originalUrl);
             if (fs.existsSync(fpath))
@@ -100,7 +102,7 @@ async function Route(app, db) {
             res.sendStatus(500);
         }
     });
-    app.all(/\.(css|js)$/, function (req, res) {
+    app.get(/\.(css|js)$/, function (req, res) {
         try {
             let fpath = path.join(__dirname, "public", req.originalUrl);
             if (fs.existsSync(fpath))
@@ -111,14 +113,14 @@ async function Route(app, db) {
             res.sendStatus(500);
         }
     });
-    app.all("/favicon.ico", async function (req, res) {
+    app.get("/favicon.ico", async function (req, res) {
         try {
             res.sendFile(path.join(__dirname, "public", "gabe.png"));
         } catch (err) {
             res.sendStatus(500);
         }
     });
-    app.all("/images/:image_hash", async function (req, res) {
+    app.get("/images/:image_hash", async function (req, res) {
         try {
             await Route_Images(app, db, req, res);
         } catch (err) {
@@ -126,100 +128,111 @@ async function Route(app, db) {
         }
     });
     app.all("*", async function (req, res, next) {
-        await AuthUser(app, db, req, res, next);
+        try {
+            await AuthUser(app, db, req, res, next);
+        } catch (err) {
+            await ShowError(res, err);
+        }
     });
-    app.all("/", async function (req, res) {
+    app.get("/", async function (req, res) {
         try {
             await Route_Index(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/forum", async function (req, res) {
+    app.get("/forum", async function (req, res) {
         try {
             await Route_Forum(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/forum/:theme_id", async function (req, res) {
+    app.get("/forum/:theme_id", async function (req, res) {
         try {
             await Route_ForumMessages(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/leaderboard", async function (req, res) {
+    app.get("/leaderboard", async function (req, res) {
         try {
             await Route_Leaderboard(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/play", async function (req, res) {
+    app.get("/play", async function (req, res) {
         try {
             await Route_Play(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/sandbox", async function (req, res) {
+    app.get("/sandbox", async function (req, res) {
         try {
             await Route_Sandbox(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/login", async function (req, res) {
+    app.get("/login", async function (req, res) {
         try {
             await Route_Login(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/logout", async function (req, res) {
+    app.post('/login', multer.single('avatar'), async function (req, res) {
+        try {
+            await Route_Login(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
+    app.get("/logout", async function (req, res) {
         try {
             await Route_Logout(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/courses/:lang_id/", async function (req, res) {
+    app.get("/courses/:lang_id/", async function (req, res) {
         try {
             await Route_Course(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/courses", async function (req, res) {
+    app.get("/courses", async function (req, res) {
         try {
             await Route_Courses(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/lessons/:id_lesson", async function (req, res) {
+    app.get("/lessons/:id_lesson", async function (req, res) {
         try {
             await Route_Lesson(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/user", async function (req, res) {
+    app.get("/user", async function (req, res) {
         try {
             await Route_User(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/user/:user_id", async function (req, res) {
+    app.get("/user/:user_id", async function (req, res) {
         try {
             await Route_User(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("/about", async function (req, res) {
+    app.get("/about", async function (req, res) {
         try {
             await Route_About(app, db, req, res);
         } catch (err) {
@@ -246,7 +259,7 @@ async function ShowError(res, err) {
 async function AuthUser(app, db, req, res, next) {
     let user = {
         is_authorised: false,
-        avatar: "/images/343d0c59d68c596cdaf3f0e08ad2537f",
+        avatar: "/images/3796bdb393cadd034e2d78f046eaf5b9",
         login: "Гость",
         sex_is_boy: true,
         status: "Гость",
@@ -636,8 +649,8 @@ async function Route_Login(app, db, req, res) {
         res.redirect(req.query.redirect || "/");
         return;
     }
-    if (req.query.email || req.query.password)
-        [auth_error, isAuthOk] = await TryAuthUser(app, db, req, res, req.query.email, req.query.password);
+    if (Object.keys(req.body).length > 0)
+        [auth_error, isAuthOk] = await TryAuthUser(app, db, req, res, req.body.email, req.body.password);
     if (isAuthOk) {
         res.redirect(req.query.redirect || "/");
         return;
@@ -647,8 +660,12 @@ async function Route_Login(app, db, req, res) {
         current_page: "login",
         current_url: req.url,
         auth_error,
-        is_reg: req.query.is_reg,
-        email: req.query.email,
+        is_reg: req.query.is_reg === "true",
+        values: {
+            login: req.query.login,
+            status: req.query.status,
+            email: req.query.email
+        },
         redirect: req.query.redirect,
         user: req.user
     }, (err, page) => HandleResult(err, page, res));
@@ -666,11 +683,27 @@ async function Route_Logout(app, db, req, res) {
 
 async function TryAuthUser(app, db, req, res, email, password) {
     if (3 > email.length || email.length > 50)
-        return ["Слишком короткий логин", false];
+        return ["Слишком короткий или длинный email", false];
     if (3 > password.length || password.length > 50)
-        return ["Слишком короткий пароль", false];
-    if (req.query.is_reg) {
+        return ["Слишком короткий или длинный пароль", false];
+    if (req.body.is_reg === "true") {
         return ["В разработке", false];
+
+        // if (req.file && req.file.size > 1024 * 1024) // 1mb
+        //     return ["Файл аватарки слишком большой", false];
+        // if (!req.status.login || 3 > req.body.status.length || req.body.status.length > 50)
+        //     return ["Слишком короткий или длинный статус", false];
+        // if (!req.body.login || 3 > req.body.login.length || req.body.login.length > 50)
+        //     return ["Слишком короткий или длинный логин", false];
+        // let avatar = "e9752157de38d306b4301b5b63d7af6e";
+        // if (req.file) {
+        //     let file_hash = md5File.sync(req.file.path);
+        //     avatar = file_hash;
+        //     await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
+        //         [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
+        // }
+        // await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active) values (?,MD5(?),NOW(),true,?,?,?,interval )",
+        //     [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
     } else {
         let sqlRes1 = await db.rquery(
             "SELECT * from `users` WHERE (`email` = ?) AND (`password_hash` = MD5(?)) limit 1",

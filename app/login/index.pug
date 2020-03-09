@@ -21,26 +21,28 @@ block content
         button(class="tablink" onclick="openCity('auto_tab','reg_but','auto_but')" id="auto_but") Авторизация
         button(class="tablink" onclick="openCity('reg_tab','auto_but','reg_but')" id="reg_but") Регистрация
     div(id="auto_tab" class="tabcontent")
-        form(method="GET")
+        form(method="post" enctype="multipart/form-data")
             input(type="hidden" name="redirect" value=redirect)
-            input(type="hidden" name="is_reg" value=false)
+            input(type="hidden" name="is_reg" value="false")
             label(for="email") E-mail
-            input(type="email" id="email" name="email" value=email placeholder="Ваш e-mail")
+            input(type="email" id="email" name="email" value=values.email placeholder="Ваш e-mail")
             label(for="password") Пароль
             input(type='password' id="password" name="password" placeholder="Ваш пароль")
             input(type="submit" id="inside" value='Войти')
     div(id="reg_tab" class="tabcontent")
-        form
+        form(method="post" enctype="multipart/form-data")
             input(type="hidden" name="redirect" value=redirect)
-            input(type="hidden" name="is_reg" value=true)
+            input(type="hidden" name="is_reg" value="true")
             label(for="login") Логин
-            input(type="text" id="login" name="login" placeholder="Ваш логин")
+            input(type="text" id="login" name="login" placeholder="Ваш логин" value=values.login)
             label(for="password2") Пароль
             input(type="password" id="password2" name="password" placeholder="Ваш пароль")
             label(for="email2") E-mail
-            input(type="email" id="email2" name="email" placeholder="Ваш e-mail")
+            input(type="email" id="email2" name="email" placeholder="Ваш e-mail" value=values.email)
             label(for="status") Статус
-            input(type="text" id="status" name="status" placeholder="Ваш статус")
+            input(type="text" id="status" name="status" placeholder="Ваш статус" value=values.status)
+            label(for="avatar") Аватарка, Вова, переделай
+            input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg")
             input(type="submit" id="spo_sub" value='Регистрация')
         div
             h1 Аватарка

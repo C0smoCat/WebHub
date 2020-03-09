@@ -3,14 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const multer = require('multer')({dest: `${__dirname}/uploads`});
 const config = require("./config.js");
 const router = require('./app/index.js');
 const cookieParser = require('cookie-parser');
 const md5File = require('md5-file');
 const fs = require('fs');
 const path = require("path");
-const crypto = require('crypto');
 const mime = require('mime-types');
 
 console.log(`Debug mode: ${config.debug_mode}`);
@@ -77,17 +75,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// let router_api = express.Router();
-// router_api.all('*', multer.single('file'), async function (req, res) {
-//     await route_api(app, dbConnection, req, res);
-// });
 app.use((req, res, next) => {
     router(app, dbConnection, req, res, next);
     next();
 });
 
 app.listen(config.port, () => {
-    console.log(`Web server live on ${config.port}`);
+    console.log(`Web server live on port ${config.port}`);
 });
 
 function ApplyFeatures() {
