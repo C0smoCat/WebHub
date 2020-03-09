@@ -471,11 +471,11 @@ async function Route_Courses(app, db, req, res) {
 }
 
 async function Route_Forum(app, db, req, res) {
-    let search_query = req.query.q || "";
+    let search_query = `%${req.query.q || ""}%`;
     let page = req.query.page ? Number.parseInt(req.query.page) : 1;
     if (page < 1)
         page = 1;
-    let dbThemes = await db.rquery("select * from `forum_themes` where (`title` REGEXP ?) or (`description` REGEXP ?) limit ?,5", [search_query, search_query, (page - 1) * 5]);
+    let dbThemes = await db.rquery("select * from `forum_themes` where (`title` like ?) or (`description` like ?) limit ?,5", [search_query || "%", search_query || "%", (page - 1) * 5]);
     let max_page = Math.ceil(dbThemes.length > 0 ? dbThemes[0].count / 5 : 1);
     let themes = dbThemes.map(v => {
         return {
@@ -490,7 +490,7 @@ async function Route_Forum(app, db, req, res) {
         basedir: path.join(__dirname, "forum"),
         current_page: "forum",
         current_url: req.url,
-        search_query,
+        search_query: req.query.q,
         max_page,
         page: page,
         user: req.user,

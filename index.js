@@ -44,8 +44,14 @@ function getFiles(dir) {
 }
 
 async function a() {
+    let findPath = path.join(__dirname, "public");
+    if (!fs.existsSync(findPath))
+        return;
     console.log(`Заливаем файлы из public в бд...`);
-    let files = getFiles(path.join(__dirname, "public"));
+    let outDir = path.join(__dirname, "hashes");
+    if (!fs.existsSync(outDir))
+        fs.mkdirSync(outDir);
+    let files = getFiles(findPath);
     console.log(`Найдено файлов: ${files.length}`);
     for (let f of files) {
         let file_hash = md5File.sync(f);
