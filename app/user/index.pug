@@ -2,68 +2,99 @@ extends ../layout
 include ../share-mixins.pug
 
 block head
-    title Личная страница - WebHub
+    title= user_page ? `Профиль ${user_page.login} - WebHub` : "Профиль - WebHub"
     style
         include style.css
     script(src="/card3d.js")
     link(rel="stylesheet" href="/card3d.css")
 block content
-    //p TODO
-    div(id="first_block")
-        div
-            img(
-                src=user.avatar
-                style={border: user.is_premium ? "solid 4px gold" : "solid 4px black"},
-            )
-            a(href='/logout')
-                i Выйти
-        div
-            h1=user.login
-            h2=user.status
-            h3 E-mail: #{user.email}
-        div(id="f_b_grid")
-            div(id='top_place')
-                p Место в топе:
-                    h1=user.place_num
+    if error_msg
+        p(
+            class="auth-warning"
+            style={
+                background: "#7b2b18",
+                margin: "10px auto",
+                padding: "15px",
+                "border-radius": "8px",
+                "border-color": "#bb4325",
+                "text-align": "center",
+                "max-width": "1500px"
+            })=error_msg
+    else
+        div(id="first_block")
             div
-                p Баланс: #{user.coins}$
-                    a(href="#")
-                        img(src='/plus.png')
-                a(href="#") Купить
-                    b Premium
-    details
-        summary Настройки аккаунта
-        hr
-        div
-            form(
-                action="/user"
-                method="GET"
-            )
-                label Логин
-                input(type="text" placeholder=user.login)
-                label Статус
-                input(type="text" placeholder=user.status)
-                label E-mail
-                input(type="email" placeholder=user.email)
-                input(type="submit" id="spo_sub" value='Изменить')
+                img(
+                    src=user_page.avatar
+                    style={border: user_page.is_premium ? "solid 4px gold" : "solid 4px black"},
+                )
+                if user_page && user_page.id === user.user_id
+                    a(href='/logout')
+                        i Выйти
             div
-                img(src=user.avatar)
-                button Загрузить
-
-    - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
-        div(class='div_prog')
-            +progress-bar(progress, progress >= 1 ? "#23B45D" : "#ff7700", 40)
-            p Общий прогресс: #{Math.roundN(progress * 100)}%
-        div(id="pro_cur")
-            each lang in langs
+                h1=user_page.login
+                h2=user_page.status
+                if user_page.id === user.user_id
+                    h3 E-mail: #{user.email}
+            div(id="f_b_grid")
+                div(id='top_place')
+                    p Место в топе:
+                        h1=user_page.place_num
                 div
-                    img(src=lang.avatar)
-                    div(class='cur_text')
-                        h1=lang.title
-                        p Пройдено на #{Math.round(lang.progress * 100)}%
-                    +progress-bar(lang.progress, (lang.progress >= 1) ? "#23B45D" : "#F3EB0C")
+                    if user_page.id === user.user_id
+                        p Баланс: #{user.coins}$
+                            a(href="#")
+                                img(src='/plus.png')
+                        a(href="#") Купить
+                            b Premium
+                    else
+                        a(href="#") Подарить
+                            b Premium
+        if user_page.id === user.user_id
+            details(open=!!error_settings_msg)
+                summary Настройки аккаунта
+                hr
+                if error_settings_msg
+                    p(
+                        class="auth-warning"
+                        style={
+                            background: "#7b2b18",
+                            margin: "10px auto",
+                            padding: "15px",
+                            "border-radius": "8px",
+                            "border-color": "#bb4325",
+                            "text-align": "center",
+                            "max-width": "1500px"
+                        })=error_settings_msg
+                div
+                    form(
+                        action="/user"
+                        method="GET"
+                    )
+                        label Логин
+                        input(type="text" placeholder=user.login)
+                        label Статус
+                        input(type="text" placeholder=user.status)
+                        label E-mail
+                        input(type="email" placeholder=user.email)
+                        input(type="submit" id="spo_sub" value='Изменить')
+                    div
+                        img(src=user.avatar)
+                        button Загрузить
 
-    div(id='certificates')
-        each certificate in certificates
-            div(class='certificate atvImg')
-                img(src=certificate class="atvImg-layer")
+        - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
+            div(class='div_prog')
+                +progress-bar(Math.roundN(progress, 4), progress >= 1 ? "#23B45D" : "#ff7700", 40)
+                p Общий прогресс: #{Math.roundN(progress * 100)}%
+            div(id="pro_cur")
+                each lang in langs
+                    div
+                        img(src=lang.avatar)
+                        div(class='cur_text')
+                            h1=lang.title
+                            p Пройдено на #{Math.round(lang.progress * 100)}%
+                        +progress-bar(Math.roundN(lang.progress), (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)
+
+        div(id='certificates')
+            each certificate in certificates
+                div(class='certificate atvImg')
+                    img(src=certificate class="atvImg-layer")

@@ -142,6 +142,13 @@ async function Route(app, db) {
             await ShowError(res, err);
         }
     });
+    app.all("/forum/:theme_id", async function (req, res) {
+        try {
+            await Route_ForumMessages(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
     app.all("/leaderboard", async function (req, res) {
         try {
             await Route_Leaderboard(app, db, req, res);
@@ -451,59 +458,107 @@ async function Route_Courses(app, db, req, res) {
 }
 
 async function Route_Forum(app, db, req, res) {
-    let search_query = req.query.q;
-    let regex = new RegExp(search_query, 'i');
-    let themes = [
-        {
-            avatar: `/logo-cs.png`,
-            title: "C# - лучший язык программирования!",
-            last_message: "Безусловно, C# - это язык, который можно использовать для самых различных целей. Если же вас волнует, насколько он конкурентоспособен, то можем вас уверить: он используется повсеместно. Также стоит принять во внимание, что этот язык достаточно легко выучить.",
-            url: "/forum/1"
-        },
-        {
-            avatar: `/logo-py.png`,
-            title: "Python - лучший язык программирования!",
-            last_message: "В недавнем исследовании касаемо популярности и используемости языков программирования выяснилось, что многие люди используют не Python, а другие языки. Однако большинство опрошенных также признались, что в самом скором времени планируют его изучить – а это уже говорит о многом.",
-            url: "/forum/2"
-        },
-        {
-            avatar: `/logo-java.png`,
-            title: "Java - лучший язык программирования!",
-            last_message: "Java также можно использовать для любых платформ. Он подойдет для разработки приложений для Android и iOS, а также для операционных систем Linux и Mac.",
-            url: "/forum/3"
-        },
-        {
-            avatar: `/logo-php.png`,
-            title: "PHP - лучший язык программирования!",
-            last_message: "Мы прекрасно знаем, что данный язык вряд ли можно назвать таким уж удобным и функциональным – тем более он уж точно не относится к любимчикам программистов. Действительно, можно сказать много всего нехорошего про PHP, однако есть всего один крайне существенный факт, который перекроет любые негативные комментарии касаемо этого языка.",
-            url: "/forum/4"
-        },
-        {
-            avatar: `/logo-swift.png`,
-            title: "Swift - лучший язык программирования!",
-            last_message: "Существует крайне очевидная причина выбрать Swift в качестве следующего языка для изучения. И эта причина – iPhone.",
-            url: "/forum/5"
-        },
-        {
-            avatar: `/logo-kotlin.png`,
-            title: "Kotlin - лучший язык программирования!",
-            last_message: "Многие эксперты в области программирования считают, что большая часть разработок на android будет переведена на этот язык – точно так же, как и разработка с Objective C была переведена на Swift. Поэтому, если вы задумались об изучении нового языка программирования, то Kotlin – это крайне многообещающий вариант.",
-            url: "/forum/6"
-        },
-        {
-            avatar: `/logo-cpp.png`,
-            title: "C++ - лучший язык программирования!",
-            last_message: "Если вы хотите влиться в создание игр виртуальной реальности, то C и C++ предоставят вам прекрасную возможность проявить себя.",
-            url: "/forum/7"
-        }
-    ];
+    let search_query = req.query.q || "";
+    let page = req.query.page ? Number.parseInt(req.query.page) : 1;
+    if (page < 1)
+        page = 1;
+    let dbThemes = await db.rquery("select * from `forum_themes` where (`title` REGEXP ?) or (`description` REGEXP ?) limit ?,5", [search_query, search_query, (page - 1) * 5]);
+    let max_page = Math.ceil(dbThemes.length > 0 ? dbThemes[0].count / 5 : 1);
+    let themes = dbThemes.map(v => {
+        return {
+            avatar: `/images/${v.avatar}`,
+            title: v.title,
+            last_message: v.description,
+            url: `/forum/${v.id}`,
+            create_time: v.create_time
+        };
+    });
     res.render(path.join(__dirname, "forum", "index.pug"), {
         basedir: path.join(__dirname, "forum"),
         current_page: "forum",
         current_url: req.url,
         search_query,
+        max_page,
+        page: page,
         user: req.user,
-        themes: search_query ? themes.filter(v => regex.test(v.title) || regex.test(v.last_message)) : themes
+        themes: themes
+    }, (err, page) => HandleResult(err, page, res));
+}
+
+async function Route_ForumMessages(app, db, req, res) {
+    let theme_id = req.params.theme_id;
+    let error_msg;
+    let result_theme;
+    let theme = await db.rquery(`select t.avatar,
+                                        t.title,
+                                        t.description,
+                                        t.create_time,
+                                        t.created_by,
+                                        u.status,
+                                        u.login,
+                                        (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                        (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                        u.ava_file_id                                                       user_avatar
+                                 from forum_themes t
+                                          inner join users u on t.created_by = u.id
+                                 where t.id = ?`, [theme_id]);
+    if (!theme || theme.length !== 1)
+        error_msg = "Тема не найдена";
+    else {
+        theme = theme[0];
+        let messages = await db.rquery(`select m.id,
+                                               m.created_by                                                        created_by,
+                                               m.create_time,
+                                               m.text,
+                                               u.status,
+                                               u.login,
+                                               (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                               (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                               u.ava_file_id                                                       user_avatar
+                                        from forum_messages m
+                                                 inner join users u on m.created_by = u.id
+                                                 inner join forum_themes t on m.forum_theme_id = t.id
+                                        where t.id = ?`, [theme_id]);
+        result_theme = {
+            id: Number.parseInt(theme_id),
+            title: theme.title,
+            avatar: `/images/${theme.avatar}`,
+            description: theme.description,
+            create_time: theme.create_time,
+            created_by: {
+                id: theme.created_by,
+                url: `/user/${theme.created_by}`,
+                status: theme.status,
+                login: theme.login,
+                is_premium: theme.is_premium,
+                is_online: theme.is_online,
+                avatar: `/images/${theme.user_avatar}`
+            },
+            messages: messages.map(message => {
+                return {
+                    id: message.id,
+                    text: message.text,
+                    create_time: message.create_time,
+                    created_by: {
+                        id: message.created_by,
+                        url: `/user/${message.created_by}`,
+                        status: message.status,
+                        login: message.login,
+                        is_premium: message.is_premium,
+                        is_online: message.is_online,
+                        avatar: `/images/${message.user_avatar}`
+                    }
+                };
+            })
+        };
+    }
+    res.render(path.join(__dirname, "forum_messages", "index.pug"), {
+        basedir: path.join(__dirname, "forum_messages"),
+        current_page: "forum_messages",
+        current_url: req.url,
+        error_msg,
+        theme: result_theme,
+        user: req.user
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -577,7 +632,11 @@ async function Route_Lesson(app, db, req, res) {
 async function Route_Login(app, db, req, res) {
     let auth_error = undefined;
     let isAuthOk = undefined;
-    if (req.query.email && req.query.password && !req.query.is_reg)
+    if (req.user.is_authorised) {
+        res.redirect(req.query.redirect || "/");
+        return;
+    }
+    if (req.query.email || req.query.password)
         [auth_error, isAuthOk] = await TryAuthUser(app, db, req, res, req.query.email, req.query.password);
     if (isAuthOk) {
         res.redirect(req.query.redirect || "/");
@@ -606,35 +665,43 @@ async function Route_Logout(app, db, req, res) {
 }
 
 async function TryAuthUser(app, db, req, res, email, password) {
-    if (3 > email.length || email.length > 50 || 3 > password.length || password.length > 50)
-        return ["Слишком короткий логин или пароль", false];
-    let sqlRes1 = await db.rquery(
-        "SELECT * from `users` WHERE (`email` = ?) AND (`password_hash` = MD5(?)) limit 1",
-        [email, password]);
-    if (sqlRes1.length <= 0)
-        return ["Пользователь не найден", false];
-    let user_id = sqlRes1[0].id;
+    if (3 > email.length || email.length > 50)
+        return ["Слишком короткий логин", false];
+    if (3 > password.length || password.length > 50)
+        return ["Слишком короткий пароль", false];
+    if (req.query.is_reg) {
+        return ["В разработке", false];
+    } else {
+        let sqlRes1 = await db.rquery(
+            "SELECT * from `users` WHERE (`email` = ?) AND (`password_hash` = MD5(?)) limit 1",
+            [email, password]);
+        if (sqlRes1.length <= 0)
+            return ["Пользователь не найден", false];
+        let user_id = sqlRes1[0].id;
 
-    let sqlRes2 = await db.rquery(
-        "SELECT * from `access_tokens` WHERE (`expire_time` > NOW()) AND (`user_id` = ?)",
-        [user_id]);
+        let sqlRes2 = await db.rquery(
+            "SELECT * from `access_tokens` WHERE (`expire_time` > NOW()) AND (`user_id` = ?)",
+            [user_id]);
 
-    if (sqlRes2.length >= 3)
-        return ["Превышен лимит авторизаций", false];
+        if (sqlRes2.length >= 3)
+            return ["Превышен лимит авторизаций", false];
 
-    let token = crypto.createHash('md5').update(`${email} ${Math.random()} ${password} ${Math.random()}`).digest("hex");
-    let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    let client_agent = req.headers['user-agent'] || "unknown";
-    await db.rquery(
-        "INSERT INTO `access_tokens` (`token`, `user_id`, `expire_time`, `client_ip`, `user_client`, `create_time`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? day), ?, ?, NOW())",
-        [token, user_id, 30, client_ip, client_agent]);
-    await db.rquery("update `users` set `last_active`=NOW() where `id`=?", [user_id]);
-    res.cookie('token', token);
-    return [undefined, true];
+        let token = crypto.createHash('md5').update(`${email} ${Math.random()} ${password} ${Math.random()}`).digest("hex");
+        let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        let client_agent = req.headers['user-agent'] || "unknown";
+        await db.rquery(
+            "INSERT INTO `access_tokens` (`token`, `user_id`, `expire_time`, `client_ip`, `user_client`, `create_time`) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ? day), ?, ?, NOW())",
+            [token, user_id, 30, client_ip, client_agent]);
+        await db.rquery("update `users` set `last_active`=NOW() where `id`=?", [user_id]);
+        res.cookie('token', token);
+        return [undefined, true];
+    }
 }
 
 async function Route_User(app, db, req, res) {
     let user_id = req.params.user_id || req.user.id;
+    let error_msg;
+    let langs = [];
     if (!user_id) {
         res.redirect(url.format({
             pathname: "/login",
@@ -643,17 +710,43 @@ async function Route_User(app, db, req, res) {
         return;
     }
 
-    let langs = await db.rquery(`SELECT g.id, g.title, g.background, g.avatar, IF(RAND() < 0.2, 1, RAND()) as progress
+    let user_page = (await db.rquery(`select u.\`id\`,
+                                             u.\`login\`,
+                                             u.\`create_time\`,
+                                             u.\`sex_is_boy\`,
+                                             u.\`ava_file_id\`,
+                                             u.\`status\`,
+                                             u.\`premium_expire\`,
+                                             (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                             (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                             u.\`last_active\`,
+                                             ROUND(RAND() * 900 + 100)                                           place_num,
+                                             ROUND(RAND() * 900 + 100)                                           score
+                                      from \`users\` u
+                                      where u.\`id\` = ?`, [user_id]))[0];
+    if (!user_page) {
+        error_msg = "Пользователь не найден";
+    } else {
+        user_page.avatar = `/images/${user_page.ava_file_id}`;
+
+        langs = await db.rquery(`SELECT g.id,
+                                        g.title,
+                                        g.background,
+                                        g.avatar,
+                                        IF(RAND() < 0.2, 1, RAND()) as progress
                                  from langs g
                                  order by progress desc`);
-    langs.forEach(v => v.avatar = `/images/${v.avatar}`);
-
+        langs.forEach(v => v.avatar = `/images/${v.avatar}`);
+    }
     res.render(path.join(__dirname, "user", "index.pug"), {
         basedir: path.join(__dirname, "user"),
         current_page: "user",
         current_url: req.url,
+        error_settings_msg: Math.random() < 0.3 ? "Тест ошибки" : undefined,
+        error_msg,
         langs,
-        user: Object.assign(req.user, {place_num: Math.randomInt(100, 1000), score: Math.randomInt(1, 16)}),
+        user: req.user,
+        user_page: user_page,
         certificates: ["/visa-bg.jpg", "/visa-bg-2.jpg", "/visa-bg-3.jpg", "/visa-bg-4.jpg"]
     }, (err, page) => HandleResult(err, page, res));
 }

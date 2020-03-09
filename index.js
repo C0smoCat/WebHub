@@ -7,6 +7,11 @@ const multer = require('multer')({dest: `${__dirname}/uploads`});
 const config = require("./config.js");
 const router = require('./app/index.js');
 const cookieParser = require('cookie-parser');
+const md5File = require('md5-file');
+const fs = require('fs');
+const path = require("path");
+const crypto = require('crypto');
+const mime = require('mime-types');
 
 console.log(`Debug mode: ${config.debug_mode}`);
 
@@ -20,7 +25,43 @@ dbConnection.rquery("select (?+?*?) as result", [2, 2, 2])
     .then(result => console.log(`БД работает: 2 + 2 * 2 = ${result[0].result}`))
     .catch(e => console.error(`БД не работает: ${e}`));
 
+process.on('exit', (code) => {
+    dbConnection.close();
+    console.log(`About to exit with code: ${code}`);
+});
+
 ApplyFeatures();
+
+function getFiles(dir) {
+    let result = [];
+    let files = fs.readdirSync(dir);
+    for (let f of files) {
+        let filePath = path.join(dir, f);
+        if (fs.statSync(filePath).isDirectory())
+            result.push(...getFiles(filePath));
+        else
+            result.push(filePath);
+    }
+    return result;
+}
+
+async function a() {
+    console.log(`Заливаем файлы из public в бд...`);
+    let files = getFiles(path.join(__dirname, "public"));
+    console.log(`Найдено файлов: ${files.length}`);
+    for (let f of files) {
+        let file_hash = md5File.sync(f);
+        let file_size = fs.statSync(f).size;
+        let file_type = mime.lookup(f);
+        await dbConnection.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
+            [file_hash, file_size, file_type, f, f]);
+        fs.renameSync(f, path.join(__dirname, "hashes", `${file_hash}.${path.extname(f)}`));
+        console.log(`Залито: ${f}\t->\t${file_hash}\t${file_size}\t${file_type}`);
+    }
+    console.log(`Готово.`);
+}
+
+a();
 
 const app = express();
 

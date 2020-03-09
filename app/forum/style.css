@@ -145,3 +145,25 @@
     text-overflow: ellipsis;
     font-weight: bold;
 }
+
+.more {
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.more > a {
+    text-decoration: none;
+    color: #e2e2e2;
+    font-size: xx-large;
+    font-weight: bold;
+    padding: 3px 20px 2px;
+    margin: 0 5px;
+    border-radius: 15px;
+    border: none;
+    background-color: #353534;
+}
+
+.more > a:active {
+    background-color: #666;
+}

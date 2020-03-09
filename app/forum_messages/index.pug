@@ -1,0 +1,46 @@
+extends ../layout
+
+block head
+    title #{error_msg ? "Форум" : theme.title} - WebHub
+    style
+        include style.css
+
+block content
+    if error_msg
+        p=error_msg
+    else
+        ul
+            li id: #{theme.id}
+            li title: #{theme.title}
+            li description: #{theme.description}
+            li create_time: #{theme.create_time}
+            li avatar:
+                img(src=theme.avatar weight="100px" height="100px")
+            li created_by: #{theme.created_by.id}
+                ul
+                    li created_by: #{theme.created_by.id}
+                    li url: #{theme.created_by.url}
+                    li status: #{theme.created_by.status}
+                    li login: #{theme.created_by.login}
+                    li is_premium: #{theme.created_by.is_premium}
+                    li is_online: #{theme.created_by.is_online}
+                    li avatar:
+                        img(src=theme.created_by.avatar weight="100px" height="100px")
+            li messages (#{theme.messages.length})
+                ul
+                    each message, index in theme.messages
+                        li [#{index}]
+                            ul
+                                li id: #{message.id}
+                                li text: #{message.text}
+                                li create_time: #{message.create_time}
+                                li created_by: #{message.created_by.id}
+                                    ul
+                                        li id: #{message.created_by.id}
+                                        li url: #{message.created_by.url}
+                                        li status: #{message.created_by.status}
+                                        li login: #{message.created_by.login}
+                                        li is_premium: #{message.created_by.is_premium}
+                                        li is_online: #{message.created_by.is_online}
+                                        li avatar:
+                                            img(src=message.created_by.avatar weight="100px" height="100px")

@@ -31,10 +31,18 @@ block content
                 div
                     img(src='/avatars/ava16.png')
                     button Загрузить...
-    each theme, index in themes
-        a(href=theme.url class="theme")
-            div
-                img(src=theme.avatar)
+    if themes.length > 0
+        each theme, index in themes
+            a(href=theme.url class="theme")
                 div
-                    p(style='font-weight: bolder;')=theme.title
-                    p(style='color: #ccc')=theme.last_message
+                    img(src=theme.avatar)
+                    div
+                        p(style='font-weight: bolder;')=theme.title
+                        p(style='color: #ccc')=theme.last_message
+    else
+        p Упс, ничего нет :(
+    div(class='more')
+        if 1 < page
+            a(href=`/forum?q=${search_query}&page=${page - 1}`) <<
+        if page < max_page || 10
+            a(href=`/forum?q=${search_query}&page=${page + 1}`) >>
