@@ -78,6 +78,10 @@
     margin-left: -18px;
 }
 
+.userCom > a {
+    text-decoration: none;
+}
+
 .userAva {
     border-radius: 50%;
     width: 73px;

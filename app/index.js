@@ -88,8 +88,6 @@ module.exports = async function (app, db, req, res, next) {
     console.timeEnd(logTimeLabel);
 };
 
-let langs = [];
-
 async function Route(app, db) {
     app.get(/\.(png|jpg|jpeg)$/, function (req, res) {
         try {
@@ -316,62 +314,6 @@ async function Route_Images(app, db, req, res) {
 }
 
 async function Route_Index(app, db, req, res) {
-    let comments = [
-        {
-            login: "Васян Пупкин",
-            text: "Прошёл 228 курсов мне защло топ сайт",
-            status: "кондитер",
-            avatar: `/avatars/ava13.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Газиз",
-            text: "Мне приснился кошмар где я кодил 5 дней подряд, а на 7 сделал Вовин сапёр.",
-            status: "знаток mail.ru",
-            avatar: `/avatars/ava14.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Azino777",
-            text: "Сайт *****, курсы дешёвые. Можно заработать гораздо больше, всего лишь...",
-            status: "online кино",
-            avatar: `/avatars/ava15.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Данил",
-            text: "Разработчики, добавьте побольше доната и рекламы. И Вова, не ломай сайт.",
-            status: "¯\\_(ツ)_/¯",
-            avatar: `/avatars/ava16.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Габе",
-            text: "Борк-борк!",
-            status: "живой",
-            avatar: `/avatars/ava5.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Bob cotik",
-            text: "Курсы интересный,люди отличные,вообщем всё замечательно,but picture shit poligon",
-            status: "продажный",
-            avatar: `/avatars/ava1.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "ye.sb",
-            text: "свадьба хорошая и конкурсы интересные",
-            status: "самогоногон",
-            avatar: `/avatars/ava17.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Среднекоммент",
-            text: "Википе́дия — общедоступная многоязычная универсальная интернет-энциклопедия со свободным контентом, реализованная на принципах вики. Расположена по адресу www.wikipedia.org. Владелец сайта — американская некоммерческая организация «Фонд Викимедиа», имеющая 37 региональных представительств",
-            status: "тест-тест",
-            avatar: `/avatars/ava4.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }, {
-            login: "Длиннокоммент",
-            text: "В отличие от традиционных энциклопедий, таких, как Encyclopædia Britannica, ни одна статья в Википедии не проходит формального процесса экспертной оценки. Любая статья Википедии может редактироваться как с учётной записи участника, так даже и без регистрации на проекте (за исключением некоторых страниц, подверженных частому вандализму, которые доступны для изменения только определённым категориям участников или, в крайних случаях, только администраторам Википедии), и при этом все внесённые в статью изменения незамедлительно становятся доступными для просмотра любыми пользователями. Поэтому Википедия «не гарантирует истинность» своего содержимого, ведь в любом случае между моментом, когда в статью будет внесена какая-то недостоверная информация, и моментом, когда эта информация будет удалена из статьи другим участником Википедии (более компетентным в данной области знания), пройдёт определённое время. (Естественно, для того, чтобы обнаружить и удалить из статьи явный вандализм, нужно намного меньше времени, чем для того, чтобы освободить статью от недостоверной информации, когда подобная недостоверность не является особо очевидной.) Содержимое Википедии подпадает под действие законов (в частности, авторского права) штата Флорида в США, где находятся серверы Википедии, и нескольких редакционных политик и руководств, которые призваны укрепить идею о том, что Википедия является энциклопедией.",
-            status: "тест-тест",
-            avatar: `/avatars/ava12.png`,
-            is_premium: Math.randomInt(0, 5) === 0,
-        }];
     let recommended_lessons = await db.rquery(`SELECT l.id,
                                                       l.title,
                                                       COALESCE(l.avatar, t.avatar, g.avatar) avatar,
@@ -381,6 +323,31 @@ async function Route_Index(app, db, req, res) {
                                                         inner join langs g on t.lang = g.id
                                                ORDER BY rand()
                                                LIMIT 10`);
+    let comments = await db.rquery(`SELECT c.id,
+                                           c.text,
+                                           c.create_time,
+                                           u.ava_file_id                                                       avatar,
+                                           u.id                                                                user_id,
+                                           u.login,
+                                           u.status,
+                                           (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                           (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online
+                                    FROM user_lessons_comments c
+                                             inner join users u on c.user_id = u.id
+                                    ORDER BY rand()
+                                    LIMIT 3`);
+    comments = comments.map(v => {
+        return {
+            login: v.login,
+            text: v.text,
+            status: v.status,
+            avatar: `/images/${v.avatar}`,
+            is_premium: v.is_premium === 1,
+            user_url: `/user/${v.user_id}`,
+            is_online: v.is_online === 1,
+            create_time: v.create_time
+        }
+    });
     recommended_lessons.forEach(v => v.avatar = `/images/${v.avatar}`);
     let counts = await db.rquery("SELECT (select count(*) from `users`) as users_count, (select count(*) from `users` where (`last_active` IS NOT NULL AND `last_active` >= DATE_SUB(NOW(), INTERVAL ? second))) as online_count, (select count(*) from `lessons`) as lessons_count", 5 * 60);
     res.render(path.join(__dirname, "index", "index.pug"), {
@@ -391,7 +358,7 @@ async function Route_Index(app, db, req, res) {
         count_online: counts[0].online_count,
         count_users: counts[0].users_count,
         count_lessons: counts[0].lessons_count,
-        comments: [Math.randomizeArray(comments), Math.randomizeArray(comments), Math.randomizeArray(comments)],
+        comments: comments,
         user: req.user,
         slider_items: recommended_lessons
     }, (err, page) => HandleResult(err, page, res));
@@ -475,8 +442,8 @@ async function Route_Forum(app, db, req, res) {
     let page = req.query.page ? Number.parseInt(req.query.page) : 1;
     if (page < 1)
         page = 1;
-    let dbThemes = await db.rquery("select * from `forum_themes` where (`title` like ?) or (`description` like ?) limit ?,5", [search_query || "%", search_query || "%", (page - 1) * 5]);
-    let max_page = Math.ceil(dbThemes.length > 0 ? dbThemes[0].count / 5 : 1);
+    let dbThemes = await db.rquery("select * from `forum_themes` where (`title` like ?) or (`description` like ?) limit ?,15", [search_query || "%", search_query || "%", (page - 1) * 15]);
+    let max_page = Math.ceil(dbThemes.length > 0 ? dbThemes[0].count / 15 : 1);
     let themes = dbThemes.map(v => {
         return {
             avatar: `/images/${v.avatar}`,
@@ -713,7 +680,10 @@ async function TryAuthUser(app, db, req, res, email, password) {
         let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW())",
             [req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0]);
 
-        await PushToken(res.insertId);
+        let lessons_themes = await db.rquery("select id from lessons_themes group by lang");
+        let lessons =
+
+            await PushToken(res.insertId);
         return [undefined, true];
     } else {
         let sqlRes1 = await db.rquery(

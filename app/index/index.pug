@@ -5,12 +5,10 @@ block head
     title Главная - WebHub
     style
         include style.css
-    style
-        include tiny-slider.css
+    link(rel="stylesheet" href="tiny-slider.css")
     script
         include script.js
-    script
-        include tiny-slider.js
+    script(src="/tiny-slider.js")
     script(src="/card3d.js")
     link(rel="stylesheet" href="card3d.css")
 
@@ -83,11 +81,12 @@ mixin make-comment(comment)
         div(class='cloud')
             p #{comment.text}
         div(class='userCom')
-            div(
-                class='userAva'
-                style={border: (comment.is_premium ? "2px solid #fdd835" : "2px solid #000")}
-            )
-                img(src=comment.avatar)
-            div(class='userLog')
-                h1 #{comment.login}
-                h3 #{comment.status}
+            a(href=comment.user_url)
+                div(
+                    class='userAva'
+                    style={border: (comment.is_premium ? "2px solid #fdd835" : "2px solid #000")}
+                )
+                    img(src=comment.avatar)
+                div(class='userLog')
+                    h1 #{comment.login}
+                    h3 #{comment.status}
