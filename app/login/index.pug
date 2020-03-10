@@ -31,21 +31,21 @@ block content
             input(type="submit" id="inside" value='Войти')
     div(id="reg_tab" class="tabcontent")
         form(method="post" enctype="multipart/form-data")
-            input(type="hidden" name="redirect" value=redirect)
-            input(type="hidden" name="is_reg" value="true")
-            label(for="login") Логин
-            input(type="text" id="login" name="login" placeholder="Ваш логин" value=values.login)
-            label(for="password2") Пароль
-            input(type="password" id="password2" name="password" placeholder="Ваш пароль")
-            label(for="email2") E-mail
-            input(type="email" id="email2" name="email" placeholder="Ваш e-mail" value=values.email)
-            label(for="status") Статус
-            input(type="text" id="status" name="status" placeholder="Ваш статус" value=values.status)
-            label(for="avatar") Аватарка, Вова, переделай
-            input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg")
-            input(type="submit" id="spo_sub" value='Регистрация')
-        div
-            h1 Аватарка
-            img(src='/images/e9752157de38d306b4301b5b63d7af6e')
-            button Загрузить
+            div
+                input(type="hidden" name="redirect" value=redirect)
+                input(type="hidden" name="is_reg" value="true")
+                label(for="login") Логин
+                input(type="text" id="login" name="login" placeholder="Ваш логин" value=values.login)
+                label(for="password2") Пароль
+                input(type="password" id="password2" name="password" placeholder="Ваш пароль")
+                label(for="email2") E-mail
+                input(type="email" id="email2" name="email" placeholder="Ваш e-mail" value=values.email)
+                label(for="status") Статус
+                input(type="text" id="status" name="status" placeholder="Ваш статус" value=values.status)
+                input(type="submit" id="spo_sub" value='Регистрация')
+            div
+                h1 Аватар
+                img(src='/images/e9752157de38d306b4301b5b63d7af6e')
+                input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg")
+                label(for='avatar' id="avalabel") Загрузить
 

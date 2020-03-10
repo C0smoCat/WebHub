@@ -14,6 +14,9 @@
 
 #reg_tab {
     display: none;
+}
+
+#reg_tab > form {
     grid-template-columns: 50% auto;
     padding: 20px;
 }
@@ -27,13 +30,13 @@
     padding: 20px;
 }
 
-.tabcontent > form > label {
+.tabcontent > form > label, .tabcontent > form > div > label {
     margin: 0;
     font-size: x-large;
     padding-left: 15px;
 }
 
-.tabcontent > form > input {
+.tabcontent > form > input, .tabcontent > form > div > input {
     padding-left: 5px;
     width: 250px;
     height: auto;
@@ -65,27 +68,46 @@
 #inside {
     margin-top: 5px;
 }
-.tabcontent > div {
+
+.tabcontent > form > div {
     margin: 10px auto 0;
     display: block;
 }
 
-.tabcontent > div > img {
-    margin: 0 auto;
+.tabcontent > form > div:last-child {
+    text-align: center;
+}
+
+.tabcontent > form > div:last-child > h1 {
+    margin: 0 0 15px;
+}
+
+.tabcontent > form > div > img {
+    text-align: center;
+    margin: 0 auto -15px;
     width: 180px;
     height: auto;
     border-radius: 50%;
 }
 
-.tabcontent > div > button {
+.tabcontent > form > div > #avalabel {
     display: block;
-    margin: 5px auto 0;
+    margin: 0 auto;
     border: none;
     border-radius: 8px;
-    font-size: medium;
+    font-size: x-large;
+    color: black;
+    padding: 5px 30px;
     width: 180px;
-    height: 25px;
     background-color: #23B45D;
+    text-align: center;
+}
+
+.tabcontent > form > div > #avatar {
+    visibility: hidden;
+    height: 1px;
+    margin: 0;
+    padding: 0;
 }
 
 #buttons {
