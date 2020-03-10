@@ -1,9 +1,20 @@
 doctype html
 html(lang="ru")
     head
+        style.
+            .content-body {
+                max-width: 1500px;
+            }
+
+            @media only screen and (max-width: 1500px) {
+                .content-body {
+                    max-width: 1000px;
+                }
+            }
         meta(charset="utf-8")
         link(rel="shortcut icon" href="/favicon.ico" type="image/x-icon")
         block head
+
     include ./header.pug
     body(style={
         "font-family": "Arial",
@@ -15,7 +26,6 @@ html(lang="ru")
         div(
             class="content-body"
             style={
-                "max-width": "1500px",
                 margin: "auto",
                 padding: "0 15px"
             }

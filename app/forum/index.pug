@@ -12,9 +12,11 @@ block content
         method="GET"
     )
         if user.is_authorised
-            button(type="add") +
+            button(id="add")
+                p(class="add") +
         else
-            a(href="/login?redirect=/forum") +
+            a(href="/login?redirect=/forum")
+                p(class="add") +
         input(type="text" placeholder="Поиск темы" name="q" value=search_query)
         button(type="submit")
             p Поиск
@@ -27,11 +29,11 @@ block content
                     input(type="text")
                     label Ваше сообщение
                     textarea
-                    input(type="submit" id="spo_sub" value='Изменить')
+                    input(type="submit" id="spo_sub" value='Создать')
                 div
                     img(src='/images/e9752157de38d306b4301b5b63d7af6e')
                     input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg")
-                    label(for='avatar' id="avalabel") Загрузить
+                    label(for='avatar' id="avalabel") Изменить
     if themes.length > 0
         each theme, index in themes
             a(href=theme.url class="theme")
