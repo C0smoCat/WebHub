@@ -26,11 +26,12 @@ block content
                     label Тема обсуждения
                     input(type="text")
                     label Ваше сообщение
-                    input(type="textarea")
+                    textarea
                     input(type="submit" id="spo_sub" value='Изменить')
                 div
-                    img(src='/avatars/ava16.png')
-                    button Загрузить...
+                    img(src='/images/e9752157de38d306b4301b5b63d7af6e')
+                    input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg")
+                    label(for='avatar' id="avalabel") Загрузить
     if themes.length > 0
         each theme, index in themes
             a(href=theme.url class="theme")

@@ -10,21 +10,32 @@
     grid-template-columns: 50% auto;
 }
 
-.new_f > div > .lip {
+.lip {
     display: grid;
     padding: 20px;
 }
 
-.new_f > div > .lip > label {
+.lip > label {
     margin: 0;
     font-size: x-large;
     padding-left: 15px;
 }
 
-.new_f > div > .lip > input {
+.lip > textarea {
+    border: none;
+    border-radius: 8px;
+    font-size: x-large;
     padding-left: 5px;
     margin: 0;
-    width: 250px;
+    min-width: 450px;
+    max-width: 450px;
+    min-height: 50px;
+}
+
+.lip > input {
+    padding-left: 5px;
+    margin: 0;
+    width: 450px;
     height: auto;
     border: none;
     border-radius: 8px;
@@ -33,32 +44,51 @@
 
 #spo_sub {
     margin-top: 24px;
-    width: 250px;
+    width: 456px;
     height: 35px;
     background-color: #23B45D;
 }
 
 .new_f > div > div {
-    margin: 30px auto 0;
-    display: block;
+    margin: 0;
+}
+
+.new_f {
+    margin: 10px 0;
+}
+
+.new_f > h1 {
+    text-align: center;
+    margin: 0;
+    padding: 10px 0 0 0;
 }
 
 .new_f > div > div > img {
+    display: block;
     margin: 0 auto;
     width: 180px;
     height: auto;
     border-radius: 50%;
 }
 
-.new_f > div > div > button {
+.new_f > div > div > #avalabel {
     display: block;
-    margin: 5px auto 0;
+    margin: 0 auto;
     border: none;
     border-radius: 8px;
-    font-size: medium;
+    font-size: x-large;
+    color: black;
+    padding: 5px 30px;
     width: 180px;
-    height: 25px;
     background-color: #23B45D;
+    text-align: center;
+}
+
+.new_f > div > div > #avatar {
+    visibility: hidden;
+    height: 1px;
+    margin: 0;
+    padding: 0;
 }
 
 .example {
