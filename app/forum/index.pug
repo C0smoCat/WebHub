@@ -44,5 +44,5 @@ block content
     div(class='more')
         if 1 < page
             a(href=`/forum?q=${search_query}&page=${page - 1}`) <<
-        if page < max_page || 10
+        if themes && themes.length > 0 && page < (max_page || 10)
             a(href=`/forum?q=${search_query}&page=${page + 1}`) >>

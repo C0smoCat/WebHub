@@ -490,7 +490,7 @@ async function Route_Forum(app, db, req, res) {
         basedir: path.join(__dirname, "forum"),
         current_page: "forum",
         current_url: req.url,
-        search_query: req.query.q,
+        search_query: req.query.q || "",
         max_page,
         page: page,
         user: req.user,
@@ -660,11 +660,12 @@ async function Route_Login(app, db, req, res) {
         current_page: "login",
         current_url: req.url,
         auth_error,
-        is_reg: req.query.is_reg === "true",
+        is_reg: req.query.is_reg === "true" || req.body.is_reg === "true",
         values: {
-            login: req.query.login,
-            status: req.query.status,
-            email: req.query.email
+            login: req.body.login,
+            status: req.body.status,
+            email: req.body.email,
+            password: req.body.password
         },
         redirect: req.query.redirect,
         user: req.user
@@ -687,23 +688,33 @@ async function TryAuthUser(app, db, req, res, email, password) {
     if (3 > password.length || password.length > 50)
         return ["Слишком короткий или длинный пароль", false];
     if (req.body.is_reg === "true") {
-        return ["В разработке", false];
+        // return ["В разработке", false];
 
-        // if (req.file && req.file.size > 1024 * 1024) // 1mb
-        //     return ["Файл аватарки слишком большой", false];
-        // if (!req.status.login || 3 > req.body.status.length || req.body.status.length > 50)
-        //     return ["Слишком короткий или длинный статус", false];
-        // if (!req.body.login || 3 > req.body.login.length || req.body.login.length > 50)
-        //     return ["Слишком короткий или длинный логин", false];
-        // let avatar = "e9752157de38d306b4301b5b63d7af6e";
-        // if (req.file) {
-        //     let file_hash = md5File.sync(req.file.path);
-        //     avatar = file_hash;
-        //     await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
-        //         [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
-        // }
-        // await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active) values (?,MD5(?),NOW(),true,?,?,?,interval )",
-        //     [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
+        if (req.file && req.file.size > 1024 * 1024) // 1mb
+            return ["Файл аватарки слишком большой", false];
+        if (!req.body.status || 3 > req.body.status.length || req.body.status.length > 50)
+            return ["Слишком короткий или длинный статус", false];
+        if (!req.body.login || 3 > req.body.login.length || req.body.login.length > 50)
+            return ["Слишком короткий или длинный логин", false];
+
+        let sqlRes1 = await db.rquery(
+            "SELECT * from `users` WHERE `email` = ? limit 1", [email]);
+
+        if (!sqlRes1 || sqlRes1.length !== 0)
+            return ["Email уже зянят", false];
+
+        let avatar = "e9752157de38d306b4301b5b63d7af6e";
+        if (req.file) {
+            let file_hash = md5File.sync(req.file.path);
+            avatar = file_hash;
+            await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
+                [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
+        }
+        let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW())",
+            [req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0]);
+
+        await PushToken(res.insertId);
+        return [undefined, true];
     } else {
         let sqlRes1 = await db.rquery(
             "SELECT * from `users` WHERE (`email` = ?) AND (`password_hash` = MD5(?)) limit 1",
@@ -719,6 +730,11 @@ async function TryAuthUser(app, db, req, res, email, password) {
         if (sqlRes2.length >= 3)
             return ["Превышен лимит авторизаций", false];
 
+        await PushToken(user_id);
+        return [undefined, true];
+    }
+
+    async function PushToken(user_id) {
         let token = crypto.createHash('md5').update(`${email} ${Math.random()} ${password} ${Math.random()}`).digest("hex");
         let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         let client_agent = req.headers['user-agent'] || "unknown";
@@ -727,7 +743,6 @@ async function TryAuthUser(app, db, req, res, email, password) {
             [token, user_id, 30, client_ip, client_agent]);
         await db.rquery("update `users` set `last_active`=NOW() where `id`=?", [user_id]);
         res.cookie('token', token);
-        return [undefined, true];
     }
 }
 
