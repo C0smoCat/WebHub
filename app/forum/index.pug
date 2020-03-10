@@ -6,13 +6,14 @@ block head
         include style.css
 
 block content
+
     form(
         class="example"
         action="/forum"
         method="GET"
     )
         if user.is_authorised
-            button(id="add")
+            button(type='button' id="add" onclick="hide()")
                 p(class="add") +
         else
             a(href="/login?redirect=/forum")
@@ -50,3 +51,5 @@ block content
         a=page
         if themes && themes.length > 0 && page < (max_page || 10)
             a(href=`/forum?q=${search_query}&page=${page + 1}`) >>
+    script
+        include script.js
