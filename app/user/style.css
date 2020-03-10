@@ -12,7 +12,7 @@
     border-radius: 50%;
     display: block;
     width: 180px;
-    height: auto;
+    height: 180px;
 }
 
 #first_block > div > a {
@@ -31,7 +31,6 @@
 }
 
 #first_block > div > h3 {
-    margin: 25px 0 0 0;
     font-size: 14px;
 }
 
@@ -54,11 +53,20 @@
 #f_b_grid > div > a {
     text-decoration: none;
     float: right;
-    color: #e2e2e2;
-    background: linear-gradient(135deg, rgba(255, 141, 0, 1) 0%, rgba(255, 109, 0, 1) 100%);
+    color: #eee;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 200% 100%;
     padding: 10px 30px;
     margin: 0;
     border-radius: 8px;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    filter: drop-shadow(0px 0px 7px #222);
+}
+
+#f_b_grid > div > a:hover {
+    filter: drop-shadow(0px 5px 5px #222);
+    transform: scale(1.05, 1.05) translateY(-2px);
+    background-position: 100%;
 }
 
 #f_b_grid > div > a > b {
@@ -187,24 +195,22 @@ details > div > form > label {
 }
 
 details > div > form > input {
-    padding-left: 5px;
     margin: 0;
-    width: 250px;
     height: auto;
     border: none;
     border-radius: 8px;
     font-size: x-large;
+    padding: 3px 10px;
 }
 
 #spo_sub {
     margin-top: 24px;
-    width: 250px;
     height: 35px;
     background-color: #23B45D;
 }
 
 details > div > div {
-    margin: 30px auto 0;
+    margin: auto auto;
     display: block;
 }
 details > div > div > img {
@@ -221,8 +227,8 @@ details > div > div > button {
     border-radius: 8px;
     font-size: medium;
     width: 180px;
-    height: 25px;
     background-color: #23B45D;
+    padding: 7px;
 }
 
 #certificates {

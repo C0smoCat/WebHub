@@ -16,8 +16,8 @@ block content
             "max-width": "1500px"
         })=auth_error
     div(id='buttons')
-        button(class="tablink" onclick="openCity('auto_tab','reg_but','auto_but')" id="auto_but") Авторизация
-        button(class="tablink" onclick="openCity('reg_tab','auto_but','reg_but')" id="reg_but") Регистрация
+        button(class="tablink" class=is_reg ? undefined : "auto_click" onclick="openCity('auto_tab','reg_but','auto_but')" id="auto_but") Авторизация
+        button(class="tablink" class=is_reg ? "auto_click" : undefined onclick="openCity('reg_tab','auto_but','reg_but')" id="reg_but") Регистрация
     div(id="auto_tab" class="tabcontent")
         form(method="post" enctype="multipart/form-data")
             input(type="hidden" name="redirect" value=redirect)

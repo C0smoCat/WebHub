@@ -235,6 +235,7 @@ CREATE TABLE `user_lessons_comments`
     CONSTRAINT `user_lessons_comments_lesson_id_fk` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`),
     CONSTRAINT `user_lessons_comments_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE = InnoDB
+  AUTO_INCREMENT = 10
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -282,12 +283,11 @@ CREATE TABLE `users`
     `coins`          int(11)      NOT NULL,
     `last_active`    datetime     DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `users_login_uindex` (`login`),
     UNIQUE KEY `users_email_uindex` (`email`),
     KEY `users_files_id_fk` (`ava_file_id`),
     CONSTRAINT `users_files_id_fk` FOREIGN KEY (`ava_file_id`) REFERENCES `files` (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 15
+  AUTO_INCREMENT = 16
   DEFAULT CHARSET = utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE = @OLD_TIME_ZONE */;
@@ -300,4 +300,4 @@ CREATE TABLE `users`
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-09 15:28:25
+-- Dump completed on 2020-03-11  1:12:06

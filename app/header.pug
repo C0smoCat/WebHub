@@ -28,6 +28,7 @@ header(
             height="46px"
         )
     a(href=((current_page === "user" && user_page && user_page.id === user.user_id) || current_page === "login" ? undefined : (user.is_authorised ? `/user/${user.user_id}` : `/login?redirect=${current_url}`)))
+        - let backColor = user.is_premium ? "#fdd835" : "#000";
         img(
             class=((current_page === "user" && user_page && user_page.id === user.user_id) || current_page === "login" ? undefined : "hover-logo")
             src=user.avatar
@@ -35,7 +36,8 @@ header(
                 "border-radius": "50%",
                 margin: "10px",
                 float: "right",
-                border: (user.is_premium ? "2px solid #fdd835" : "2px solid #000")
+                border: `2px solid ${backColor}`,
+                "background-color": backColor
             }
             width="44px"
             height="44px"

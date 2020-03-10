@@ -32,6 +32,8 @@
     min-width: 100%;
     max-width: max-content;
     min-height: 50px;
+    resize: vertical;
+    max-height: 500px;
 }
 
 .lip > input {
@@ -142,12 +144,14 @@ a > .add {
     padding-bottom: 0;
     font-size: 42px;
 }
-.theme{
+
+.theme {
     text-decoration: none;
     color: #e2e2e2;
     display: grid;
     margin: 10px 0;
 }
+
 .theme > div {
     background: #464646;
     border-radius: 8px;
@@ -157,7 +161,7 @@ a > .add {
 
 .theme > div:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    transform: scale(1.03, 1.03) translateY(-5px);
+    transform: scale(1.02, 1.02) translateY(-5px);
     background: linear-gradient(135deg, #ff6d00 0%, #b44b01 100%);
 }
 
@@ -174,7 +178,8 @@ a > .add {
     font-weight: 900;
     font-size: 20px;
 }
-.theme > div > div > p{
+
+.theme > div > div > p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

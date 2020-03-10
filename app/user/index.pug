@@ -13,19 +13,18 @@ block content
             class="auth-warning"
             style={
                 background: "#7b2b18",
-                margin: "10px auto",
-                padding: "15px",
-                "border-radius": "8px",
-                "border-color": "#bb4325",
-                "text-align": "center",
-                "max-width": "1500px"
+                "border-color": "#bb4325"
             })=error_msg
     else
         div(id="first_block")
             div
+                - let backColor = user_page.is_premium ? "gold" : "black";
                 img(
-                    src=user_page.avatar
-                    style={border: user_page.is_premium ? "solid 4px gold" : "solid 4px black"},
+                    src = user_page.avatar
+                    style = {
+                        border: `solid 4px ${backColor}`,
+                        "background-color": backColor
+                    },
                 )
                 if user_page && user_page.id === user.user_id
                     a(href='/logout')
@@ -35,13 +34,15 @@ block content
                 h2=user_page.status
                 if user_page.id === user.user_id
                     h3 E-mail: #{user.email}
+                    if user.is_premium
+                    h3 Премиум до: #{user.premium_expire.toDateString()}
             div(id="f_b_grid")
                 div(id='top_place')
                     p Место в топе:
                         h1=user_page.place_num
                 div
                     if user_page.id === user.user_id
-                        p Баланс: #{user.coins}$
+                        p Баланс: $ #{user.coins}
                             a(href="#")
                                 img(src='/plus.png')
                         a(href="#") Купить
@@ -58,28 +59,26 @@ block content
                         class="auth-warning"
                         style={
                             background: "#7b2b18",
-                            margin: "10px auto",
-                            padding: "15px",
-                            "border-radius": "8px",
-                            "border-color": "#bb4325",
-                            "text-align": "center",
-                            "max-width": "1500px"
+                            margin: "10px",
+                            "border-color": "#bb4325"
                         })=error_settings_msg
                 div
                     form(
                         action="/user"
                         method="GET"
                     )
-                        label Логин
-                        input(type="text" placeholder=user.login)
-                        label Статус
-                        input(type="text" placeholder=user.status)
-                        label E-mail
-                        input(type="email" placeholder=user.email)
-                        input(type="submit" id="spo_sub" value='Изменить')
+                        label(for="login") Логин
+                        input(type="text" id="login" name="login" placeholder="*не менять*" value=user.login)
+                        label(for="password2") Пароль
+                        input(type="password" id="password2" name="password" placeholder="*не менять*")
+                        label(for="email2") E-mail
+                        input(type="email" id="email2" name="email" placeholder="*не менять*" value=user.email)
+                        label(for="status") Статус
+                        input(type="text" id="status" name="status" placeholder="*не менять*" value=user.status)
+                        input(type="submit" id="spo_sub" value='Сохранить')
                     div
                         img(src=user.avatar)
-                        button Загрузить
+                        button Изменить
 
         - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
             div(class='div_prog')
