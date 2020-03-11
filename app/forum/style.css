@@ -31,7 +31,7 @@
     margin: 0;
     min-width: 100%;
     max-width: max-content;
-    min-height: 50px;
+    min-height: 62px;
     resize: vertical;
     max-height: 500px;
 }
@@ -79,7 +79,7 @@
     border-radius: 8px;
     font-size: x-large;
     color: black;
-    height: 31px;
+    height: 32px;
     padding: 4px 30px 0;
     width: 180px;
     background-color: #23B45D;
