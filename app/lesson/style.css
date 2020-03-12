@@ -1,0 +1,41 @@
+.example {
+    margin: 10px 0 20px;
+    display: grid;
+    grid-template-columns: auto 15%;
+    grid-column-gap: 20px;
+}
+
+.example input[type=text] {
+    padding: 10px;
+    font-size: x-large;
+    border: none;
+    color: #e2e2e2;
+    border-radius: 8px;
+    background: #464646;
+}
+
+.example input[type=button] {
+    text-decoration: none;
+    background: #464646;
+    color: #e2e2e2;
+    font-size: x-large;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.example input[type=button] {
+    margin: 0;
+}
+
+.example input[type=button]:hover {
+    background: #464646;
+}
+
+.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}

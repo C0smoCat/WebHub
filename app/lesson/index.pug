@@ -20,7 +20,7 @@ block head
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 10px;
-            background: #fff;
+            background: #353534;
             text-align: justify;
         }
 
@@ -109,6 +109,8 @@ block head
         include github-markdown.css
     style
         include vs2015.css
+    style
+        include style.css
 
 block content
     h1
@@ -124,3 +126,13 @@ block content
             a(href=lesson_prev) Назад
         if lesson_next
             a(href=lesson_next) Вперед
+    form(class="example")
+        input(type='text' placeholder='Напиши коммент')
+        input(type='button' value='Отправить')
+    each comment in comments
+        a(href=comment.user_url)
+            img(src=comment.avatar)
+            h1=comment.login
+            h2=comment.status
+            i=comment.create_time.formatDate()
+            p
