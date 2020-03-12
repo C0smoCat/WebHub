@@ -680,8 +680,8 @@ async function TryAuthUser(app, db, req, res, email, password) {
         let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW())",
             [req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0]);
 
-        let lessons_themes = await db.rquery("select id from lessons_themes group by lang");
-        let lessons =
+        // let lessons_themes = await db.rquery("select id from lessons_themes group by lang");
+        // let lessons =
 
             await PushToken(res.insertId);
         return [undefined, true];
