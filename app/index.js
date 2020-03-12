@@ -592,7 +592,7 @@ async function Route_Lesson(app, db, req, res) {
                                             inner join lessons_themes t on l.lesson_theme_id = t.id
                                             inner join langs g on t.lang = g.id
                                    where l.id = ?`, [id_lesson]))[0];
-    let comments = Math.random() < 0.3 ? [] : (await db.rquery(`SELECT c.id,
+    let comments = Math.random() < 0.1 ? [] : (await db.rquery(`SELECT c.id,
                                                                        c.text,
                                                                        c.create_time,
                                                                        u.ava_file_id                                                       avatar,
