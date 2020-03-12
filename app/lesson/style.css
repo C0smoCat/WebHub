@@ -39,3 +39,31 @@
     clear: both;
     display: table;
 }
+
+.commen {
+    text-decoration: none;
+    color: white;
+}
+
+.commen > div > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    float: left;
+}
+
+.commen > div > div {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: greenyellow;
+    border: solid 2px #202020;
+}
+
+.commen > h1, .commen > h2 {
+    display: inline-block;
+}
+
+.commen > i {
+    display: block;
+}

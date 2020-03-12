@@ -130,9 +130,8 @@ block content
         input(type='text' placeholder='Напиши коммент')
         input(type='button' value='Отправить')
     each comment in comments
-        a(href=comment.user_url)
+        a(href=comment.user_url class='commen')
             - let backColor = comment.is_premium ? "gold" : "black";
-            - let backOnline = comment.is_online ? "block" : "none";
             div
                 img(
                     src = comment.avatar
@@ -142,7 +141,7 @@ block content
                     },
                 )
                 div(style = {
-                    display: '#{backOnline}'
+                    display: comment.is_online ? "block" : "none"
                 }) Online
             h1=comment.login
             h2=comment.status
