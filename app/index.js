@@ -600,11 +600,12 @@ async function Route_Lesson(app, db, req, res) {
                                                                        u.login,
                                                                        u.status,
                                                                        (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                                                       (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online
+                                                                       (u.\`last_active\` IS NOT NULL AND
+                                                                        u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online
                                                                 FROM user_lessons_comments c
                                                                          inner join users u on c.user_id = u.id
                                                                 ORDER BY rand()
-                                                                LIMIT 10`))
+                                                                LIMIT 10`, [5 * 60]))
         .map((v) => {
             return {
                 login: v.login,
