@@ -119,7 +119,7 @@ function ApplyFeatures() {
         }
 
         let hours = Math.floor(diff / 60 * 60 * 1000); // преобразовать разницу в минуты
-        if (hours < 60) {
+        if (hours < 24) {
             return hours + ' час. назад';
         }
 
