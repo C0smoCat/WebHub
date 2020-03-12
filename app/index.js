@@ -595,6 +595,7 @@ async function Route_Lesson(app, db, req, res) {
     let comments = Math.random() < 0.1 ? [] : (await db.rquery(`SELECT c.id,
                                                                        c.text,
                                                                        c.create_time,
+                                                                       c.rating,
                                                                        u.ava_file_id                                                       avatar,
                                                                        u.id                                                                user_id,
                                                                        u.login,
@@ -615,7 +616,8 @@ async function Route_Lesson(app, db, req, res) {
                 is_premium: v.is_premium === 1,
                 user_url: `/user/${v.user_id}`,
                 is_online: v.is_online === 1,
-                create_time: v.create_time
+                create_time: v.create_time,
+                rating: v.rating
             }
         });
     if (!lesson) {
