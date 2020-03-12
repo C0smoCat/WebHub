@@ -592,6 +592,31 @@ async function Route_Lesson(app, db, req, res) {
                                             inner join lessons_themes t on l.lesson_theme_id = t.id
                                             inner join langs g on t.lang = g.id
                                    where l.id = ?`, [id_lesson]))[0];
+    let comments = Math.random() < 0.3 ? [] : (await db.rquery(`SELECT c.id,
+                                                                       c.text,
+                                                                       c.create_time,
+                                                                       u.ava_file_id                                                       avatar,
+                                                                       u.id                                                                user_id,
+                                                                       u.login,
+                                                                       u.status,
+                                                                       (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                                                       (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online
+                                                                FROM user_lessons_comments c
+                                                                         inner join users u on c.user_id = u.id
+                                                                ORDER BY rand()
+                                                                LIMIT 10`))
+        .map((v) => {
+            return {
+                login: v.login,
+                text: v.text,
+                status: v.status,
+                avatar: `/images/${v.avatar}`,
+                is_premium: v.is_premium === 1,
+                user_url: `/user/${v.user_id}`,
+                is_online: v.is_online === 1,
+                create_time: v.create_time
+            }
+        });
     if (!lesson) {
         await Route_Error(res, 404, "Урок не найден");
         return;
@@ -604,6 +629,7 @@ async function Route_Lesson(app, db, req, res) {
         current_page: "lesson",
         current_url: req.url,
         lesson,
+        comments,
         markdown: compiledMd,
         user: req.user
     }, (err, page) => HandleResult(err, page, res));
@@ -683,7 +709,7 @@ async function TryAuthUser(app, db, req, res, email, password) {
         // let lessons_themes = await db.rquery("select id from lessons_themes group by lang");
         // let lessons =
 
-            await PushToken(res.insertId);
+        await PushToken(res.insertId);
         return [undefined, true];
     } else {
         let sqlRes1 = await db.rquery(
