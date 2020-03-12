@@ -617,7 +617,10 @@ async function Route_Lesson(app, db, req, res) {
                 user_url: `/user/${v.user_id}`,
                 is_online: v.is_online === 1,
                 create_time: v.create_time,
-                rating: v.rating
+                rating: v.rating,
+                rating_up_url: v.rating_up_url,
+                rating_down_url: v.rating_down_url,
+                rating_mark_status: v.rating_mark_status
             }
         });
     if (!lesson) {
