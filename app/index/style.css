@@ -176,21 +176,6 @@ body {
 
 .progress-bar > div {
     height: inherit;
-    background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red) repeat-x !important;
-    animation: go 1s linear infinite !important;
-    background-size: 200% 100% !important;
-}
-
-@keyframes go {
-    0% {
-        background-position: 0;
-    }
-    50% {
-        background-position: -100%;
-    }
-    100% {
-        background-position: -200%;
-    }
 }
 
 /* Слайдер (конец) */

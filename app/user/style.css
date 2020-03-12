@@ -152,7 +152,7 @@
     background: #8D8D8D
 }
 .progress-bar > div {
-    height: inherit
+    height: inherit;
 }
 
 details {

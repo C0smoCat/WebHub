@@ -229,6 +229,7 @@ CREATE TABLE `user_lessons_comments`
     `user_id`     int(11)       NOT NULL,
     `lesson_id`   int(11)       NOT NULL,
     `text`        varchar(1024) NOT NULL,
+    `rating`      int(11)       NOT NULL,
     PRIMARY KEY (`id`),
     KEY `user_lessons_comments_lesson_id_fk` (`lesson_id`),
     KEY `user_lessons_comments_users_id_fk` (`user_id`),
@@ -300,4 +301,4 @@ CREATE TABLE `users`
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-11  1:12:06
+-- Dump completed on 2020-03-12 20:48:20

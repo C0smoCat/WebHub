@@ -89,7 +89,7 @@ module.exports = async function (app, db, req, res, next) {
 };
 
 async function Route(app, db) {
-    app.get(/\.(png|jpg|jpeg)$/, function (req, res) {
+    app.get(/\.(png|jpg|jpeg|svg)$/, function (req, res) {
         try {
             let fpath = path.join(__dirname, "public", req.originalUrl);
             if (fs.existsSync(fpath))

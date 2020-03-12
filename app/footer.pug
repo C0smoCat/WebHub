@@ -1,3 +1,31 @@
+style.
+    footer {
+        background-size: 100% 500%;
+        background-image: url(/triangles.svg);
+        animation: go 10s linear infinite;
+    }
+
+    #fa1 {
+        width: inherit;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-size: 100% 500%;
+        background-image: url(/triangles.svg);
+        animation: go 23s linear infinite;
+        transform: scaleX(-1);
+    }
+
+    @keyframes go {
+        0% {
+            background-position: 50% 0;
+        }
+        100% {
+            background-position: 50% 100%;
+        }
+    }
+
 footer(style={
     width: "100%",
     "background-color": "#494949",
@@ -6,6 +34,7 @@ footer(style={
     "text-align": "center",
     display: "inline-block"
 })
+    div(id="fa1")
     img(
         src='/logo2.png'
         width="42.7px"
