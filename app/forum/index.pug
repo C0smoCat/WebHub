@@ -6,7 +6,6 @@ block head
         include style.css
 
 block content
-
     form(
         class="example"
         action="/forum"
@@ -42,7 +41,8 @@ block content
                     img(src=theme.avatar)
                     div
                         p(style='font-weight: bolder;')=theme.title
-                        p(style='color: #ccc')=theme.last_message
+                        div(class="markdown-body")
+                            !=theme.descriptionMd
     else
         p Упс, ничего нет :(
     div(class='more')

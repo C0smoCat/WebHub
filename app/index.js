@@ -10,8 +10,8 @@ const hljs = require('highlight.js');
 const url = require('url');
 const markdown_it_container = require('markdown-it-container');
 const markdown = require('markdown-it')({
-    html: true,
-    linkify: false,
+    html: false,
+    linkify: true,
     typographer: true,
     breaks: true,
     highlight: function (str, lang) {
@@ -448,7 +448,8 @@ async function Route_Forum(app, db, req, res) {
         return {
             avatar: `/images/${v.avatar}`,
             title: v.title,
-            last_message: v.description,
+            description: v.description,
+            descriptionMd: markdown.render(v.description),
             url: `/forum/${v.id}`,
             create_time: v.create_time
         };
@@ -504,6 +505,7 @@ async function Route_ForumMessages(app, db, req, res) {
             title: theme.title,
             avatar: `/images/${theme.avatar}`,
             description: theme.description,
+            descriptionMd: markdown.render(theme.description),
             create_time: theme.create_time,
             created_by: {
                 id: theme.created_by,
@@ -518,6 +520,7 @@ async function Route_ForumMessages(app, db, req, res) {
                 return {
                     id: message.id,
                     text: message.text,
+                    textMd: markdown.render(message.text),
                     create_time: message.create_time,
                     created_by: {
                         id: message.created_by,

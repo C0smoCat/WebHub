@@ -4,43 +4,197 @@ block head
     title #{error_msg ? "Форум" : theme.title} - WebHub
     style
         include style.css
+    style
+        include ../lesson/markdown.css
+    style
+        include ../lesson/vs2015.css
+    style
+        include ../lesson/style.css
+    style.
+        .theme_head {
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            background: linear-gradient(135deg, #b800fb 0%, #9c02cb 100%);
+            padding: 10px;
+            box-shadow: inset 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .theme_head > img {
+            float: left;
+            padding-right: 10px;
+        }
+
+        .message {
+            text-decoration: none;
+            color: #e2e2e2;
+            display: grid;
+            margin: 10px 0;
+        }
+
+        .message > div {
+            background: #464646;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .message > div > img {
+            float: left;
+            width: 80px;
+            height: 80px;
+            margin: 15px;
+            border-radius: 50%;
+        }
+
+        .message > div > div {
+            padding: 0 15px;
+            text-align: left;
+            font-size: 20px;
+        }
+
+        .message > div > div > p {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: bold;
+        }
+
+        .userCom {
+            background: #464646;
+            border-radius: 77px 8px 8px 77px;
+            height: 77px;
+            display: inline-block;
+            margin-right: 30px;
+        }
+
+        .userCom > a {
+            text-decoration: none;
+        }
+
+        .userAva {
+            border-radius: 50%;
+            width: 73px;
+            height: 73px;
+            overflow: hidden;
+            float: left;
+        }
+
+        .userAva > img {
+            height: 73px;
+            width: 73px;
+        }
+
+        .userLog {
+            /*display: flow-root;*/
+        }
+
+        .userLog > h1 {
+            margin: 12px 0 6px 10px;
+            color: #E9E9E9;
+            text-align: left;
+            font-size: 1.2em;
+        }
+
+        .userLog > h3 {
+            margin: 0 0 0 10px;
+            color: #ccc;
+            text-align: left;
+            font-size: 0.8em;
+        }
+
+        .message-cloud {
+            background: #464646;
+            display: inline-block;
+            position: relative;
+            border-radius: 8px;
+            padding: 0 20px;
+        }
+
+        .message-cloud > a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+
+        .message-cloud > a:hover {
+            text-decoration: underline;
+        }
+
+        .message-cloud:before {
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border: 18px solid transparent;
+            border-right-color: #464646;
+            margin-left: -56px;
+            top: 20px;
+        }
+    style.
+        .markdown-body {
+            display: block;
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding: unset;
+            border-radius: unset;
+            margin-bottom: unset;
+            background: unset;
+            text-align: unset;
+            color: unset;
+        }
 
 block content
     if error_msg
         p=error_msg
     else
-        ul
-            li id: #{theme.id}
-            li title: #{theme.title}
-            li description: #{theme.description}
-            li create_time: #{theme.create_time}
-            li avatar:
-                img(src=theme.avatar weight="100px" height="100px")
-            li created_by: #{theme.created_by.id}
-                ul
-                    li created_by: #{theme.created_by.id}
-                    li url: #{theme.created_by.url}
-                    li status: #{theme.created_by.status}
-                    li login: #{theme.created_by.login}
-                    li is_premium: #{theme.created_by.is_premium}
-                    li is_online: #{theme.created_by.is_online}
-                    li avatar:
-                        img(src=theme.created_by.avatar weight="100px" height="100px")
-            li messages (#{theme.messages.length})
-                ul
-                    each message, index in theme.messages
-                        li [#{index}]
-                            ul
-                                li id: #{message.id}
-                                li text: #{message.text}
-                                li create_time: #{message.create_time}
-                                li created_by: #{message.created_by.id}
-                                    ul
-                                        li id: #{message.created_by.id}
-                                        li url: #{message.created_by.url}
-                                        li status: #{message.created_by.status}
-                                        li login: #{message.created_by.login}
-                                        li is_premium: #{message.created_by.is_premium}
-                                        li is_online: #{message.created_by.is_online}
-                                        li avatar:
-                                            img(src=message.created_by.avatar weight="100px" height="100px")
+        div(class="theme_head")
+            h1=theme.title
+            img(src=theme.avatar weight="100px" height="100px")
+            div
+                div(class="markdown-body")
+                    !=theme.descriptionMd
+                p Дата создания: #{theme.create_time.formatDate()}
+        if theme.messages.length > 0
+            each message in theme.messages
+                // Вариант 1
+                a(href=message.url class="message")
+                    div
+                        img(src=message.created_by.avatar)
+                        div
+                            p(style='font-weight: bolder;') #{message.created_by.login} - #{message.created_by.status}
+                            div(style={color: "#ccc"})!=message.text
+                            p(style={
+                                color: "#ccc",
+                                "font-size": "80%"
+                            }) Дата создания: #{message.create_time.formatDate()}
+                // Вариант 2
+                div(id=`msg${message.id}`)
+                    div(class='userCom')
+                        a(href=message.created_by.url)
+                            div(
+                                class='userAva'
+                                style={border: (message.created_by.is_premium ? "2px solid #fdd835" : "2px solid #000")}
+                            )
+                                img(src=message.created_by.avatar)
+                            div(class='userLog')
+                                h1=message.created_by.login
+                                h3=message.created_by.status
+                    div(class='message-cloud')
+                        div(class="markdown-body")
+                            !=message.textMd
+                        a(href=`#msg${message.id}` style={"font-size": "80%"})=message.create_time.formatDate()
+        else
+            p Упс, ничего нет :(
+        div(class='more')
+            if 1 < page
+                a(href=`/forum/${theme.id}?q=${search_query}&page=${page - 1}`) <<
+            if theme.messages && (theme.messages.length >= 15 || page > 1)
+                a=page
+            if theme.messages && theme.messages.length >= 15 && page < (max_page || 10)
+                a(href=`/forum/${theme.id}?q=${search_query}&page=${page + 1}`) >>
