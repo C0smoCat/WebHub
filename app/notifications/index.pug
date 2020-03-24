@@ -9,30 +9,34 @@ block content
     //- Для теста, потом уберем
     -
         let notifications = [
-        {
-        id: 1,
-        is_read: false,
-        title: "Заголовок",
-        text: "Текст уведомления",
-        action_url: "/go/adm" // Ссылка для перехода. Может быть null или undefined
-        }, {
-        id: 5,
-        is_read: true,
-        title: "Заголовок 2",
-        text: "Текст уведомления 2",
-        action_url: "/go/adminer/adm?login=admin&password=admin" // Ссылка для перехода. Может быть null или undefined
-        }, {
-        id: 525,
-        is_read: true,
-        title: "Заголовок 3",
-        text: "Текст уведомления 3",
-        action_url: "/adm/go/adm?l=admin&p=admin" // Ссылка для перехода. Может быть null или undefined
-        }
+            {
+                id: 1,
+                is_read: false,
+                title: "Заголовок",
+                text: "Текст уведомления",
+                action_url: "/go/adm" // Ссылка для перехода. Может быть null или undefined
+            }, {
+                id: 5,
+                is_read: true,
+                title: "Заголовок 2",
+                text: "Текст уведомления 2",
+                action_url: "/go/adminer/adm?login=admin&password=admin" // Ссылка для перехода. Может быть null или undefined
+            }, {
+                id: 525,
+                is_read: true,
+                title: "Заголовок 3",
+                text: "Текст уведомления 3",
+                action_url: "/adm/go/adm?l=admin&p=admin" // Ссылка для перехода. Может быть null или undefined
+            }, {
+                id: 1337,
+                is_read: false,
+                title: "Заголовок 4",
+                text: "Текст уведомления 4",
+                action_url: "/adm/adm/adm?p=dog&l=gabe" // Ссылка для перехода. Может быть null или undefined
+            }
         ];
-
-    // Если уведомления нужны в обратном порядке, раскомментить эту строчку
-    // notifications = notifications.reverse();
-
+        // Если уведомления нужны в обратном порядке, раскомментить эту строчку
+        // notifications = notifications.reverse();
         let only_readed = notifications.filter(v => v.is_read); // массив прочитанных уведомлений
         let only_not_readed = notifications.filter(v => !v.is_read); // массив не прочитанных уведомлений
     //- /Для теста.

@@ -7,6 +7,7 @@
     display: inline-flex;
     text-decoration: none;
 }
+
 #language > a > div {
     margin: 5px;
     padding: 20px 10px 10px;
@@ -17,7 +18,7 @@
     border-radius: 8px;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #464646 0%, #464646 100%);
+    background: linear-gradient(135deg, #464646, #464646);
 }
 
 #language > a > div > img {

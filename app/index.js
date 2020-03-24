@@ -181,7 +181,7 @@ async function Route(app, db) {
             await ShowError(res, err);
         }
     });
-    app.post('/login', multer.single('avatar'), async function (req, res) {
+    app.post("/login", multer.single("avatar"), async function (req, res) {
         try {
             await Route_Login(app, db, req, res);
         } catch (err) {
@@ -212,6 +212,13 @@ async function Route(app, db) {
     app.get("/lessons/:id_lesson", async function (req, res) {
         try {
             await Route_Lesson(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
+    app.get("/lessons/:id_lesson/complete", async function (req, res) {
+        try {
+            await Route_Lesson_Complete(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
@@ -324,15 +331,34 @@ async function Route_Images(app, db, req, res) {
 }
 
 async function Route_Index(app, db, req, res) {
-    let recommended_lessons = await db.rquery(`SELECT l.id,
-                                                      l.title,
-                                                      COALESCE(l.avatar, t.avatar, g.avatar) avatar,
-                                                      IF(RAND() < 0.2, 1, RAND())            progress
-                                               FROM lessons l
-                                                        inner join lessons_themes t on l.lesson_theme_id = t.id
-                                                        inner join langs g on t.lang = g.id
-                                               ORDER BY rand()
-                                               LIMIT 10`);
+    let recommended_lessons = req.user.is_authorised ?
+        await db.rquery(`SELECT l.id,
+                                l.title,
+                                COALESCE(l.avatar, t.avatar, g.avatar) avatar,
+                                ulp.progress                           progress,
+                                utp.is_available                       theme_is_avaliable,
+                                utp.is_exam_complete                   is_exam_complete
+                         FROM lessons l
+                                  inner join lessons_themes t on l.lesson_theme_id = t.id
+                                  inner join langs g on t.lang = g.id
+                                  left outer join user_lesson_progress ulp on l.id = ulp.lesson_id and ulp.user_id = ?
+                                  left outer join user_theme_progress utp
+                                                  on t.id = utp.lessons_theme_id and utp.user_id = ?
+                         WHERE utp.is_available is not null
+                           AND utp.is_available is true
+                         ORDER BY rand()
+                         LIMIT 10`, [req.user.user_id, req.user.user_id]) :
+        await db.rquery(`SELECT l.id,
+                                l.title,
+                                COALESCE(l.avatar, t.avatar, g.avatar) avatar,
+                                0                                      progress,
+                                false                                  theme_is_avaliable,
+                                false                                  is_exam_complete
+                         FROM lessons l
+                                  inner join lessons_themes t on l.lesson_theme_id = t.id
+                                  inner join langs g on t.lang = g.id
+                         ORDER BY rand()
+                         LIMIT 10`, []);
     let comments = await db.rquery(`SELECT c.id,
                                            c.text,
                                            c.create_time,
@@ -358,7 +384,10 @@ async function Route_Index(app, db, req, res) {
             create_time: v.create_time
         }
     });
-    recommended_lessons.forEach(v => v.avatar = `/images/${v.avatar}`);
+    recommended_lessons.forEach(v => {
+        v.avatar = `/images/${v.avatar}`;
+        v.is_lock = (v.theme_is_avaliable || 0) !== 1
+    });
     let counts = await db.rquery("SELECT (select count(*) from `users`) as users_count, (select count(*) from `users` where (`last_active` IS NOT NULL AND `last_active` >= DATE_SUB(NOW(), INTERVAL ? second))) as online_count, (select count(*) from `lessons`) as lessons_count", 5 * 60);
     res.render(path.join(__dirname, "index", "index.pug"), {
         basedir: path.join(__dirname, "index"),
@@ -376,9 +405,9 @@ async function Route_Index(app, db, req, res) {
 
 async function Route_Course(app, db, req, res) {
     let lang_id = req.params.lang_id;
+    let user_id = req.user.is_authorised ? req.user.user_id : 0;
     let course = await db.rquery(`SELECT l.\`title\`                            lesson_title,
                                          l.\`id\`                               lesson_id,
-                                         IF(RAND() < 0.2, 1, RAND())            lesson_progress,
                                          COALESCE(l.avatar, t.avatar, g.avatar) lesson_avatar,
                                          t.\`title\`                            theme_title,
                                          t.\`id\`                               theme_id,
@@ -386,11 +415,17 @@ async function Route_Course(app, db, req, res) {
                                          g.\`title\`                            lang_title,
                                          g.\`background\`                       lang_background,
                                          g.\`id\`                               lang_id,
-                                         g.avatar                               lang_avatar
+                                         g.avatar                               lang_avatar,
+                                         ulp.progress                           lesson_progress,
+                                         utp.is_available                       theme_is_avaliable,
+                                         utp.is_exam_complete                   is_exam_complete
                                   FROM langs g
                                            inner join lessons_themes t on g.id = t.lang
                                            inner join lessons l on t.id = l.lesson_theme_id
-                                  where g.id = ?`, [lang_id]);
+                                           left outer join user_lesson_progress ulp on l.id = ulp.lesson_id and ulp.user_id = ?
+                                           left outer join user_theme_progress utp
+                                                           on t.id = utp.lessons_theme_id and utp.user_id = ?
+                                  where g.id = ?`, [user_id, user_id, lang_id]);
     if (!course || course.length <= 0) {
         res.redirect('/courses');
         return;
@@ -408,6 +443,9 @@ async function Route_Course(app, db, req, res) {
                 prev.push({
                     title: now.theme_title,
                     id: now.theme_id,
+                    is_lock: (now.theme_is_avaliable || 0) !== 1,
+                    is_exam_complete: (now.is_exam_complete || 0) === 1,
+                    exam_url: `/gabe/${lang_id}/${themeIndex + 1}`,
                     url: `/courses/${lang_id}#${themeIndex + 1}`,
                     avatar: `/images/${now.theme_avatar}`,
                     lessons: []
@@ -416,7 +454,7 @@ async function Route_Course(app, db, req, res) {
             prev[themeIndex].lessons.push({
                 title: now.lesson_title,
                 id: now.lesson_id,
-                progress: now.lesson_progress,
+                progress: now.lesson_progress || 0,
                 url: `/lessons/${now.lesson_id}`,
                 avatar: `/images/${now.lesson_avatar}`
             });
@@ -594,17 +632,24 @@ async function Route_Sandbox(app, db, req, res) {
 
 async function Route_Lesson(app, db, req, res) {
     let id_lesson = req.params.id_lesson;
-    let lesson = (await db.rquery(`SELECT l.\`title\` as lesson_title,
-                                          l.\`id\`       lesson_id,
+    let user_id = req.user.is_authorised ? req.user.user_id : 0;
+    let lesson = (await db.rquery(`SELECT l.\`title\`          lesson_title,
+                                          l.\`id\`             lesson_id,
                                           l.\`markdown\`,
-                                          t.\`title\` as theme_title,
-                                          t.\`id\`    as theme_id,
-                                          g.\`title\` as lang_title,
-                                          g.\`id\`    as lang_id
+                                          t.\`title\`          theme_title,
+                                          t.\`id\`             theme_id,
+                                          g.\`title\`          lang_title,
+                                          g.\`id\`             lang_id,
+                                          ulp.progress         progress,
+                                          utp.is_available     is_available,
+                                          utp.is_exam_complete is_exam_complete
                                    FROM lessons l
                                             inner join lessons_themes t on l.lesson_theme_id = t.id
                                             inner join langs g on t.lang = g.id
-                                   where l.id = ?`, [id_lesson]))[0];
+                                            left outer join user_lesson_progress ulp on l.id = ulp.lesson_id and ulp.user_id = ?
+                                            left outer join user_theme_progress utp
+                                                            on t.id = utp.lessons_theme_id and utp.user_id = ?
+                                   where l.id = ?`, [user_id, user_id, id_lesson]))[0];
     let comments = Math.random() < 0.1 ? [] : (await db.rquery(`SELECT c.id,
                                                                        c.text,
                                                                        c.create_time,
@@ -642,6 +687,9 @@ async function Route_Lesson(app, db, req, res) {
     }
     lesson.lang_url = `/courses/${lesson.lang_id}`;
     lesson.theme_url = `/courses/${lesson.lang_id}#part${lesson.theme_id}`;
+    lesson.is_available = (lesson.is_available || 0) === 1;
+    lesson.is_exam_complete = (lesson.is_exam_complete || 0) === 1;
+    lesson.progress = lesson.progress || 0;
     let compiledMd = markdown.render(lesson.markdown);
     res.render(path.join(__dirname, "lesson", "index.pug"), {
         basedir: path.join(__dirname, "lesson"),
@@ -652,6 +700,32 @@ async function Route_Lesson(app, db, req, res) {
         markdown: compiledMd,
         user: req.user
     }, (err, page) => HandleResult(err, page, res));
+}
+
+async function Route_Lesson_Complete(app, db, req, res) {
+    let id_lesson = req.params.id_lesson;
+    if (!req.user || !req.user.is_authorised) {
+        res.redirect("/login");
+        return;
+    }
+    let lesson = (await db.rquery(`SELECT t.\`id\`             theme_id,
+                                          g.\`id\`             lang_id,
+                                          ulp.progress         user_lesson_progress,
+                                          utp.is_available     user_theme_is_avaliable,
+                                          utp.is_exam_complete user_theme_is_exam_complete
+                                   FROM lessons l
+                                            inner join lessons_themes t on l.lesson_theme_id = t.id
+                                            inner join langs g on t.lang = g.id
+                                            left outer join user_lesson_progress ulp on l.id = ulp.lesson_id and ulp.user_id = ?
+                                            left outer join user_theme_progress utp
+                                                            on t.id = utp.lessons_theme_id and utp.user_id = ?
+                                   where l.id = ?`, [req.user.user_id, req.user.user_id, id_lesson]))[0];
+    if (!lesson)
+        await Route_Error(res, 404, "Урок не найден");
+    else if ((lesson.user_theme_is_avaliable || 0) === 1 && lesson.user_lesson_progress < 1)
+        await db.rquery(`INSERT INTO user_lesson_progress(user_id, lesson_id, progress)
+                         VALUES (?, ?, 1)`, [req.user.user_id, id_lesson]);
+    res.redirect(`/courses/${lesson.lang_id}#part${lesson.theme_id}`);
 }
 
 async function Route_Login(app, db, req, res) {
@@ -700,8 +774,6 @@ async function TryAuthUser(app, db, req, res, email, password) {
     if (3 > password.length || password.length > 50)
         return ["Слишком короткий или длинный пароль", false];
     if (req.body.is_reg === "true") {
-        // return ["В разработке", false];
-
         if (req.file && req.file.size > 1024 * 1024) // 1mb
             return ["Файл аватарки слишком большой", false];
         if (!req.body.status || 3 > req.body.status.length || req.body.status.length > 50)
@@ -725,10 +797,13 @@ async function TryAuthUser(app, db, req, res, email, password) {
         let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW())",
             [req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0]);
 
-        // let lessons_themes = await db.rquery("select id from lessons_themes group by lang");
-        // let lessons =
-
         await PushToken(res.insertId);
+        let welcome_lessons = await db.rquery(`select id
+                                               from lessons_themes
+                                               group by lang
+                                               order by id`);
+        let dbreq = `insert into user_theme_progress(user_id, lessons_theme_id, is_available, is_exam_complete) VALUES ${welcome_lessons.map(v => `(${res.insertId},${v.id},true,false)`).join(", ")}`;
+        await db.rquery(dbreq);
         return [undefined, true];
     } else {
         let sqlRes1 = await db.rquery(
@@ -781,16 +856,19 @@ async function Route_User(app, db, req, res) {
                                              u.\`status\`,
                                              u.\`premium_expire\`,
                                              (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                             (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                             (u.\`last_active\` IS NOT NULL AND
+                                              u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
                                              u.\`last_active\`,
                                              ROUND(RAND() * 900 + 100)                                           place_num,
                                              ROUND(RAND() * 900 + 100)                                           score
                                       from \`users\` u
-                                      where u.\`id\` = ?`, [user_id]))[0];
+                                      where u.\`id\` = ?`, [5 * 60, user_id]))[0];
     if (!user_page) {
         error_msg = "Пользователь не найден";
     } else {
         user_page.avatar = `/images/${user_page.ava_file_id}`;
+        user_page.is_online = user_page.is_online === 1;
+        user_page.is_premium = user_page.is_premium === 1;
 
         langs = await db.rquery(`SELECT g.id,
                                         g.title,
@@ -799,7 +877,10 @@ async function Route_User(app, db, req, res) {
                                         IF(RAND() < 0.2, 1, RAND()) as progress
                                  from langs g
                                  order by progress desc`);
-        langs.forEach(v => v.avatar = `/images/${v.avatar}`);
+        langs.forEach(v => {
+            v.avatar = `/images/${v.avatar}`;
+            v.url = `/courses/${v.id}`;
+        });
     }
     res.render(path.join(__dirname, "user", "index.pug"), {
         basedir: path.join(__dirname, "user"),
@@ -824,6 +905,14 @@ async function Route_About(app, db, req, res) {
 }
 
 async function Route_Notifications(app, db, req, res) {
+    if (!req.user || !req.user.is_authorised) {
+        res.redirect(url.format({
+            pathname: "/login",
+            query: {"redirect": `/notifications`}
+        }));
+        return;
+    }
+
     res.render(path.join(__dirname, "notifications", "index.pug"), {
         basedir: path.join(__dirname, "notifications"),
         current_page: "notifications",

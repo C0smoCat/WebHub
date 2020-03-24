@@ -2,7 +2,7 @@ extends ../layout.pug
 include ../share-mixins.pug
 
 block head
-    title= `Курсы по ${course.lang_title} - WebHub`
+    title= `Курсы по ${course.title} - WebHub`
     style
         include style.css
     script
@@ -33,7 +33,7 @@ block content
                     "text-align": "center",
                     color: "#eee"
                 }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
-        each theme,index in course.themes
+        each theme, index in course.themes
             hr
             - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);
             ul(id=`part${theme.id}`)
@@ -44,9 +44,9 @@ block content
                         if user.is_authorised && !theme.is_lock
                             +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")
                     a(
-                        href=(theme.is_complete && theme.exam_url)
-                        class=(!theme.is_complete && "disabled")
-                        style={background: (theme.is_complete ? (theme.is_exam_complete ? "#23B45D" : "#ff7700") : "#8D8D8D")}
+                        href=(themeProgress >= 1 && theme.exam_url)
+                        class=(themeProgress < 1 && "disabled")
+                        style={background: (themeProgress >= 1 ? (theme.is_exam_complete ? "#23B45D" : "#ff7700") : "#8D8D8D")}
                     ) Экзамен
                 ul
                     - let is_long_array = theme.lessons.length > 6;

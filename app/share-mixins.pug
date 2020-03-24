@@ -2,7 +2,6 @@ mixin lesson(is_lock, lesson, is_extended)
     a(href=(user.is_authorised ? (!is_lock && `/lessons/${lesson.id}`) : `/login?redirect=/lessons/${lesson.id}`) class=(is_extended && "extended-lesson"))
         div(class="lessor" class=(is_lock && "disabled"))
             img(src=lesson.avatar width="100px" height="100px")
-            //- img(src=(!user.is_authorised || !is_lock) ? lesson.avatar : "/lock.png" width="100px" height="100px")
             li #{lesson.title}
             if (user.is_authorised && !is_lock)
                 +progress-bar(lesson.progress, lesson.progress >= 1 ? "#23B45D" : "#F3EB0C", 10)

@@ -18,28 +18,38 @@ block content
         a=lesson.lesson_title
     div(class="markdown-body")
         !=markdown
-    div(class='more')
-        if lesson_prev
-            a(href=lesson_prev) Назад
-        if lesson_next
-            a(href=lesson_next) Вперед
+    if user.is_authorised && lesson.is_available
+        if lesson.progress >= 1
+            a(id="complete_lesson")
+                p(style={background: "#23B45D"}) Урок пройден
+        else
+            a(id="complete_lesson" href=`/lessons/${lesson.lesson_id}/complete`)
+                p Завершить урок
+    else
+        a(id="complete_lesson")
+            p(style={background: "#8D8D8D"}) Прохождение недоступно
+    if lesson_prev || lesson_next
+        div(class='more')
+            if lesson_prev
+                a(href=lesson_prev) << Назад
+            if lesson_next
+                a(href=lesson_next) Пропустить >>
     form(class="example")
         input(type='text' placeholder='Напиши коммент')
         input(type='button' value='Отправить')
     each comment in comments
         a(href=comment.user_url class='commen')
             - let backColor = comment.is_premium ? "gold" : "black";
-            div
+            div(style={position: "relative"})
                 img(
                     src = comment.avatar
                     style = {
                         border: `solid 4px ${backColor}`,
                         "background-color": backColor
-                    },
+                    }
                 )
-                div(style = {
-                    display: comment.is_online ? "block" : "none"
-                }) Online
+                if comment.is_online
+                    div(class="online_status")
             h1=comment.login
             h2=comment.status
             i=comment.create_time.formatDate()

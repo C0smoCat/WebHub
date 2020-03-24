@@ -17,15 +17,17 @@ block content
             })=error_msg
     else
         div(id="first_block")
-            div
+            div(style={position: "relative"})
                 - let backColor = user_page.is_premium ? "gold" : "black";
                 img(
                     src = user_page.avatar
                     style = {
                         border: `solid 4px ${backColor}`,
                         "background-color": backColor
-                    },
+                    }
                 )
+                if user_page.is_online
+                    div(class="online_status")
                 if user_page && user_page.id === user.user_id
                     a(href='/logout')
                         i Выйти
@@ -86,12 +88,13 @@ block content
                 p Общий прогресс: #{Math.roundN(progress * 100)}%
             div(id="pro_cur")
                 each lang in langs
-                    div
-                        img(src=lang.avatar)
-                        div(class='cur_text')
-                            h1=lang.title
-                            p Пройдено на #{Math.round(lang.progress * 100)}%
-                        +progress-bar(Math.roundN(lang.progress), (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)
+                    a(href=lang.url)
+                        div
+                            img(src=lang.avatar)
+                            div(class='cur_text')
+                                h1=lang.title
+                                p Пройдено на #{Math.round(lang.progress * 100)}%
+                            +progress-bar(Math.roundN(lang.progress), (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)
 
         div(id='certificates')
             each certificate in certificates
