@@ -172,6 +172,28 @@ CREATE TABLE `lessons_themes`
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `notifications`
+--
+
+DROP TABLE IF EXISTS `notifications`;
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notifications`
+(
+    `id`         int(11)       NOT NULL AUTO_INCREMENT,
+    `user_id`    int(11)       NOT NULL,
+    `title`      varchar(200)  NOT NULL,
+    `text`       varchar(2048) NOT NULL,
+    `action_url` varchar(1024)          DEFAULT NULL,
+    `is_read`    tinyint(1)    NOT NULL DEFAULT 0,
+    PRIMARY KEY (`id`),
+    KEY `notifications_users_id_fk` (`user_id`),
+    CONSTRAINT `notifications_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `user_certificates`
 --
 
@@ -301,4 +323,4 @@ CREATE TABLE `users`
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-22  2:10:07
+-- Dump completed on 2020-03-24 13:16:29

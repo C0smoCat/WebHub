@@ -237,6 +237,13 @@ async function Route(app, db) {
             await ShowError(res, err);
         }
     });
+    app.get("/notifications", async function (req, res) {
+        try {
+            await Route_Notifications(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
     app.all(/(go|adm|adminer|phpmyadmin)\/?(go|adm|adminer|phpmyadmin)?\/?(go|adm|adminer|phpmyadmin)?\/?/, async function (req, res) {
         try {
             await RouteAdminer(app, db, req, res);
@@ -269,7 +276,7 @@ async function AuthUser(app, db, req, res, next) {
                                                  t.\`client_ip\`,
                                                  t.\`user_client\`,
                                                  t.\`create_time\`                                                   token_create_time,
-                                                 u.\`id\` as                                                         user_id,
+                                                 u.\`id\`                                                            user_id,
                                                  u.\`login\`,
                                                  u.\`password_hash\`,
                                                  u.\`create_time\`,
@@ -281,9 +288,11 @@ async function AuthUser(app, db, req, res, next) {
                                                  (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
                                                  (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
                                                  u.\`coins\`,
-                                                 u.\`last_active\`
+                                                 u.\`last_active\`,
+                                                 count(n.id)                                                         notifications_unread_count
                                           from \`access_tokens\` t
                                                    inner join users u on t.user_id = u.id
+                                                   inner join notifications n on u.id = n.user_id and not n.is_read
                                           where t.\`token\` = ?`, [req.cookies.token]))[0];
         if (user_info && user_info.expire_time >= Date.now()) {
             await db.rquery(`update \`users\`
@@ -291,6 +300,7 @@ async function AuthUser(app, db, req, res, next) {
                              where \`id\` = ?`, [user_info.user_id]);
             user = user_info;
             user.is_authorised = true;
+            user.notifications_unread_count = Math.random() < 0.5 ? Math.randomInt(1, 21) : 0;
             user.avatar = `/images/${user.ava_file_id}`;
         }
     }
@@ -808,6 +818,15 @@ async function Route_About(app, db, req, res) {
     res.render(path.join(__dirname, "about", "index.pug"), {
         basedir: path.join(__dirname, "about"),
         current_page: "about",
+        current_url: req.url,
+        user: req.user
+    }, (err, page) => HandleResult(err, page, res));
+}
+
+async function Route_Notifications(app, db, req, res) {
+    res.render(path.join(__dirname, "notifications", "index.pug"), {
+        basedir: path.join(__dirname, "notifications"),
+        current_page: "notifications",
         current_url: req.url,
         user: req.user
     }, (err, page) => HandleResult(err, page, res));

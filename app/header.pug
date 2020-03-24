@@ -74,6 +74,8 @@ header(
                 a(class=current_page === "play" ? "active" : "" href="/play") Играть
             li
                 a(class=current_page === "leaderboard" ? "active" : "" href="/leaderboard") Топ
+            li
+                a(class=current_page === "notifications" ? "active" : "" href="/notifications")=user.notifications_unread_count > 0 ? `Увд: ${user.notifications_unread_count}` : "Уведомления"
 if !user.is_authorised && current_page !== "login"
     p(class="auth-warning")
         a(href=`/login?is_reg=true&redirect=${current_url}`) Зарегистрируйтесь
