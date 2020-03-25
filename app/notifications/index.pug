@@ -6,49 +6,24 @@ block head
         include style.css
 
 block content
-    //- Для теста, потом уберем
-    -
-        let notifications = [
-            {
-                id: 1,
-                is_read: false,
-                title: "Заголовок",
-                text: "Текст уведомления",
-                action_url: "/go/adm" // Ссылка для перехода. Может быть null или undefined
-            }, {
-                id: 5,
-                is_read: true,
-                title: "Заголовок 2",
-                text: "Текст уведомления 2",
-                action_url: "/go/adminer/adm?login=admin&password=admin" // Ссылка для перехода. Может быть null или undefined
-            }, {
-                id: 525,
-                is_read: true,
-                title: "Заголовок 3",
-                text: "Текст уведомления 3",
-                action_url: "/adm/go/adm?l=admin&p=admin" // Ссылка для перехода. Может быть null или undefined
-            }, {
-                id: 1337,
-                is_read: false,
-                title: "Заголовок 4",
-                text: "Текст уведомления 4",
-                action_url: "/adm/adm/adm?p=dog&l=gabe" // Ссылка для перехода. Может быть null или undefined
-            }
-        ];
-        // Если уведомления нужны в обратном порядке, раскомментить эту строчку
-        // notifications = notifications.reverse();
-        let only_readed = notifications.filter(v => v.is_read); // массив прочитанных уведомлений
-        let only_not_readed = notifications.filter(v => !v.is_read); // массив не прочитанных уведомлений
-    //- /Для теста.
+    - notifications.forEach(v => v.text = v.text.replace(/\n/g,"<br>"));
 
-    //- Дальше - релизная часть
+    // Если уведомления нужны в обратном порядке, раскомментить эту строчку
+    // - notifications = notifications.reverse();
+
+    // Список только прочитанных уведомлений, раскомментить эту строчку
+    - let only_readed = notifications.filter(v => v.is_read);
+
+    // Список только НЕ прочитанных уведомлений, раскомментить эту строчку
+    - let only_not_readed = notifications.filter(v => !v.is_read);
+
     if (notifications && notifications.length > 0)
         p=`Всего: ${notifications.length}, новых: ${only_not_readed.length}, прочитанных: ${only_readed.length}`
         each notification, index in notifications
             a(href=notification.action_url class="notification")
                 div
                     h1=notification.title
-                    h3=notification.text
+                    p!=notification.text
                     if !notification.is_read
                         p [Новое!]
     else

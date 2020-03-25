@@ -170,7 +170,7 @@ CREATE TABLE `notifications` (
   PRIMARY KEY (`id`),
   KEY `notifications_users_id_fk` (`user_id`),
   CONSTRAINT `notifications_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,7 +254,7 @@ CREATE TABLE `user_theme_progress` (
   KEY `user_theme_progress_users_id_fk` (`user_id`),
   CONSTRAINT `user_theme_progress_lessons_theme_id_fk_2` FOREIGN KEY (`lessons_theme_id`) REFERENCES `lessons_themes` (`id`),
   CONSTRAINT `user_theme_progress_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,11 +276,12 @@ CREATE TABLE `users` (
   `premium_expire` datetime DEFAULT NULL,
   `coins` int(11) NOT NULL,
   `last_active` datetime DEFAULT NULL,
+  `score` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_uindex` (`email`),
   KEY `users_files_id_fk` (`ava_file_id`),
   CONSTRAINT `users_files_id_fk` FOREIGN KEY (`ava_file_id`) REFERENCES `files` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -292,4 +293,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-25  2:07:46
+-- Dump completed on 2020-03-25 21:01:28

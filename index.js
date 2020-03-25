@@ -81,10 +81,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-    router(app, dbConnection, req, res, next);
-    next();
-});
+router(app, dbConnection);
+// app.use((req, res, next) => {
+//     router(app, dbConnection, req, res, next);
+//     next();
+// });
 
 app.listen(config.port, () => {
     console.log(`Web server live on port ${config.port}`);

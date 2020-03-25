@@ -8,6 +8,10 @@ const crypto = require('crypto');
 const multer = require('multer')({dest: `${__dirname}/uploads`});
 const hljs = require('highlight.js');
 const url = require('url');
+const mailgun = require("mailgun-js")({
+    apiKey: "3ea64f08474d44e45ba13a1c8eca168d-ed4dc7c4-1e5e8080",
+    domain: "sandbox7d6130cb6fc64b84a26b073abad812fa.mailgun.org"
+});
 const markdown_it_container = require('markdown-it-container');
 const markdown = require('markdown-it')({
     html: false,
@@ -76,19 +80,7 @@ const markdown = require('markdown-it')({
         }
     });
 
-module.exports = async function (app, db, req, res, next) {
-    let logTimeLabel = `timelog Обработка запроса ${req.originalUrl} от ${req.connection.remoteAddress}`;
-    console.time(logTimeLabel);
-    try {
-        await Route(app, db, req, res, next);
-    } catch (e) {
-        await Route_Error(res, 500, "Ошибка сервера", e);
-        console.error(e);
-    }
-    console.timeEnd(logTimeLabel);
-};
-
-async function Route(app, db) {
+module.exports = async function Route(app, db) {
     app.get(/\.(png|jpg|jpeg|svg)$/, function (req, res) {
         try {
             let fpath = path.join(__dirname, "public", req.originalUrl);
@@ -261,7 +253,7 @@ async function Route(app, db) {
     app.all("*", async function (req, res) {
         await Route_Error(res, 404, "Страница не найдена", "");
     });
-}
+};
 
 async function ShowError(res, err) {
     console.error(err);
@@ -708,7 +700,8 @@ async function Route_Lesson_Complete(app, db, req, res) {
         res.redirect("/login");
         return;
     }
-    let lesson = (await db.rquery(`SELECT t.\`id\`             theme_id,
+    let lesson = (await db.rquery(`SELECT l.\`title\`          lesson_title,
+                                          t.\`id\`             theme_id,
                                           g.\`id\`             lang_id,
                                           ulp.progress         user_lesson_progress,
                                           utp.is_available     user_theme_is_avaliable,
@@ -722,9 +715,15 @@ async function Route_Lesson_Complete(app, db, req, res) {
                                    where l.id = ?`, [req.user.user_id, req.user.user_id, id_lesson]))[0];
     if (!lesson)
         await Route_Error(res, 404, "Урок не найден");
-    else if ((lesson.user_theme_is_avaliable || 0) === 1 && lesson.user_lesson_progress < 1)
+    else if ((lesson.user_theme_is_avaliable || 0) === 1 && lesson.user_lesson_progress < 1) {
         await db.rquery(`INSERT INTO user_lesson_progress(user_id, lesson_id, progress)
                          VALUES (?, ?, 1)`, [req.user.user_id, id_lesson]);
+        await db.rquery(`insert into notifications(user_id, title, text, action_url)
+                         VALUES (?, ?, ?, ?)`, [user_id, "Начисление рейтинга", `За прохождение урока "${lesson.lesson_title}" вам начислено ${10} рейтинга`, `/lessons/${id_lesson}`]);
+        await db.rquery(`UPDATE users u
+                         SET u.score = u.score + ?
+                         where u.id = ?`, [10, req.user.user_id]);
+    }
     res.redirect(`/courses/${lesson.lang_id}#part${lesson.theme_id}`);
 }
 
@@ -802,8 +801,24 @@ async function TryAuthUser(app, db, req, res, email, password) {
                                                from lessons_themes
                                                group by lang
                                                order by id`);
-        let dbreq = `insert into user_theme_progress(user_id, lessons_theme_id, is_available, is_exam_complete) VALUES ${welcome_lessons.map(v => `(${res.insertId},${v.id},true,false)`).join(", ")}`;
-        await db.rquery(dbreq);
+        await db.rquery(`insert into user_theme_progress(user_id, lessons_theme_id, is_available, is_exam_complete) VALUES ${welcome_lessons.map(v => `(${res.insertId},${v.id},true,false)`).join(", ")}`);
+
+        let code = `${Math.randomInt(0, 10)}${Math.randomInt(0, 10)}${Math.randomInt(0, 10)}${Math.randomInt(0, 10)}`;
+        let login = req.body.login;
+        let rend = pug.renderFile(path.join(__dirname, "/mail/index.pug"), {
+            code,
+            login
+        });
+        const data = {
+            from: "Web Hub <webhub@sandbox7d6130cb6fc64b84a26b073abad812fa.mailgun.org>",
+            to: email,
+            subject: `Код: ${code}`,
+            html: rend
+        };
+        mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+        });
+
         return [undefined, true];
     } else {
         let sqlRes1 = await db.rquery(
@@ -821,6 +836,12 @@ async function TryAuthUser(app, db, req, res, email, password) {
             return ["Превышен лимит авторизаций", false];
 
         await PushToken(user_id);
+        let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        let client_agent = req.headers['user-agent'] || "unknown";
+        await db.rquery(`insert into notifications(user_id, title, text, action_url)
+                         VALUES (?, ?, ?, ?)`,
+            [user_id, "Авторизация в аккаунт", `Кто-то авторизировался в вашем аккаунте\nIP адрес: ${client_ip}\nUser-agent: ${client_agent}`, null]);
+
         return [undefined, true];
     }
 
@@ -913,12 +934,21 @@ async function Route_Notifications(app, db, req, res) {
         return;
     }
 
+    let notifications = await db.rquery(`select id, title, text, action_url, is_read
+                                         from notifications
+                                         where user_id = ?`, [req.user.user_id]);
+
     res.render(path.join(__dirname, "notifications", "index.pug"), {
         basedir: path.join(__dirname, "notifications"),
         current_page: "notifications",
         current_url: req.url,
+        notifications,
         user: req.user
     }, (err, page) => HandleResult(err, page, res));
+
+    await db.rquery(`update notifications
+                     set is_read = true
+                     where id in ?`, [[notifications.filter(v => !v.action_url).map(v => v.id)]]);
 }
 
 async function RouteAdminer(app, db, req, res) {
@@ -940,7 +970,7 @@ async function Route_Error(res, error_code, error_msg, error_desc = "", error_bt
 async function HandleResult(err, page, res) {
     if (err) {
         console.error(err);
-        await Route_Error(res, err.code, "Ну чё, сломал?", err.message);
+        await Route_Error(res, 418, "Ну чё, сломал?", err.message);
     } else
         res.end(page);
 }

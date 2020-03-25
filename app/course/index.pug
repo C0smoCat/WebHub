@@ -13,7 +13,13 @@ block head
 block content
     div(id="courses")
         if user.is_authorised
-            - let allProgress = course.themes.reduce((total, current) => total += current.lessons.reduce((total1, current1) => total1 += current1.progress, 0) / (current.lessons.length || 1), 0) / course.themes.length;
+            -
+                let allProgress = course.themes
+                    .reduce((total, current) =>
+                        total += current.lessons.reduce((total1, current1) =>
+                            total1 += current1.progress
+                        , 0) / (current.lessons.length || 1)
+                , 0) / course.themes.length;
             div(style={
                 width: "100%",
                 height: "40px",

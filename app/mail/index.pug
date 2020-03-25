@@ -1,0 +1,25 @@
+doctype html
+html(lang="ru")
+    head
+        style.
+            .content-body {
+                max-width: 1500px;
+            }
+        meta(charset="utf-8")
+    body
+        style.
+            .content-body {
+                margin: auto;
+                padding: 10px 15px;
+                border-radius: 8px;
+                font-family: Arial,serif;
+                background-color: #202020;
+                color: #eee;
+                text-align: center;
+            }
+        div(class="content-body")
+            h1 Подтверждение регистрации
+            h3 Здравствуйте, #{login}!
+            p Ваш e-mail был использован для регистрации на сайте WebHub.
+            p Код для подтверждения:
+            h1(style={"letter-spacing": "10px"})=code
