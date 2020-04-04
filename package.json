@@ -15,7 +15,6 @@
     "express": "^4.17.1",
     "highlight.js": "^9.18.1",
     "jstransformer-markdown-it": "^2.1.0",
-    "mailgun-js": "^0.22.0",
     "markdown-it": "latest",
     "markdown-it-attrs": "^3.0.2",
     "markdown-it-header-sections": "^1.0.0",

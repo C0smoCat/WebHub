@@ -80,6 +80,7 @@ mixin make-comment(comment)
     div(class="comm")
         div(class='cloud')
             p #{comment.text}
+            a(href=(user.is_authorised ? `/lessons/${comment.lesson_id}` : `/login?redirect=/lessons/${comment.lesson_id}`))=comment.title
         div(class='userCom')
             a(href=comment.user_url)
                 div(

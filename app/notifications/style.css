@@ -5,6 +5,10 @@
     margin: 10px;
 }
 
+.unread {
+    border: solid 4px #FF6D00;
+}
+
 .more {
     display: block;
     margin: 20px auto;

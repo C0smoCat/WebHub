@@ -2,12 +2,10 @@ extends ../layout
 
 block head
     title #{error_msg ? "Форум" : theme.title} - WebHub
+    link(rel="stylesheet" href="/markdown.css")
+    link(rel="stylesheet" href="/vs2015.css")
     style
         include style.css
-    style
-        include ../lesson/markdown.css
-    style
-        include ../lesson/vs2015.css
     style
         include ../lesson/style.css
     style.
@@ -147,6 +145,12 @@ block head
             background: unset;
             text-align: unset;
             color: unset;
+        }
+
+        .markdown-body img {
+            width: 100%;
+            max-width: 300px;
+            max-height: 300px;
         }
 
 block content

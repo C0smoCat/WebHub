@@ -37,11 +37,12 @@ block content
                 if user_page.id === user.user_id
                     h3 E-mail: #{user.email}
                     if user.is_premium
-                    h3 Премиум до: #{user.premium_expire.toDateString()}
+                        h3 Премиум до: #{user.premium_expire.toDateString()}
             div(id="f_b_grid")
                 div(id='top_place')
                     p Место в топе:
                         h1=user_page.place_num
+                    h3 Рейтинг: #{user_page.score}
                 div
                     if user_page.id === user.user_id
                         p Баланс: $ #{user.coins}

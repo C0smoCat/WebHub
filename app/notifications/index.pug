@@ -11,21 +11,20 @@ block content
     // Если уведомления нужны в обратном порядке, раскомментить эту строчку
     // - notifications = notifications.reverse();
 
-    // Список только прочитанных уведомлений, раскомментить эту строчку
+    // Список только прочитанных уведомлений
     - let only_readed = notifications.filter(v => v.is_read);
 
-    // Список только НЕ прочитанных уведомлений, раскомментить эту строчку
+    // Список только НЕ прочитанных уведомлений
     - let only_not_readed = notifications.filter(v => !v.is_read);
 
     if (notifications && notifications.length > 0)
         p=`Всего: ${notifications.length}, новых: ${only_not_readed.length}, прочитанных: ${only_readed.length}`
         each notification, index in notifications
             a(href=notification.action_url class="notification")
-                div
+                div(class=notification.is_read ? "" : "unread")
                     h1=notification.title
                     p!=notification.text
-                    if !notification.is_read
-                        p [Новое!]
+                    i=notification.create_time.formatDate()
     else
         p Упс, ничего нет :(
 

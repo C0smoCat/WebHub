@@ -60,7 +60,7 @@
     margin: 20px 0 20px 0;
     color: #e2e2e2;
     position: relative;
-    padding: 1px 15px;
+    padding: 15px;
     background-color: #464646;
     border-radius: 8px;
 }
@@ -76,6 +76,19 @@
     border-top-color: #464646;
     left: 25%;
     margin-left: -18px;
+}
+
+.cloud > p {
+    margin-top: 0;
+}
+
+.cloud > a {
+    color: #aaa;
+    text-decoration: none;
+}
+
+.cloud > a:hover {
+    text-decoration: underline;
 }
 
 .userCom > a {

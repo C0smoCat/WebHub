@@ -114,12 +114,12 @@ function ApplyFeatures() {
             return sec + ' сек. назад';
         }
 
-        let min = Math.floor(diff / 60 * 1000); // преобразовать разницу в минуты
+        let min = Math.floor(diff / (60 * 1000)); // преобразовать разницу в минуты
         if (min < 60) {
             return min + ' мин. назад';
         }
 
-        let hours = Math.floor(diff / 60 * 60 * 1000); // преобразовать разницу в минуты
+        let hours = Math.floor(diff / (60 * 60 * 1000)); // преобразовать разницу в минуты
         if (hours < 24) {
             return hours + ' час назад';
         }

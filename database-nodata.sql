@@ -1,13 +1,13 @@
--- MariaDB dump 10.17  Distrib 10.5.0-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.17  Distrib 10.5.2-MariaDB, for Win32 (AMD64)
 --
 -- Host: localhost    Database: webhub
 -- ------------------------------------------------------
--- Server version	10.5.0-MariaDB
+-- Server version	10.5.2-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -69,7 +69,7 @@ CREATE TABLE `forum_messages` (
   KEY `forum_messages_users_id_fk` (`created_by`),
   CONSTRAINT `forum_messages_forum_theme_id_fk` FOREIGN KEY (`forum_theme_id`) REFERENCES `forum_themes` (`id`),
   CONSTRAINT `forum_messages_users_id_fk` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,13 +164,15 @@ CREATE TABLE `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `title` varchar(200) NOT NULL,
+  `create_time` datetime NOT NULL,
   `text` varchar(2048) NOT NULL,
   `action_url` varchar(1024) DEFAULT NULL,
   `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `auto_read` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `notifications_users_id_fk` (`user_id`),
   CONSTRAINT `notifications_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +213,7 @@ CREATE TABLE `user_lesson_progress` (
   KEY `user_lesson_progress_users_id_fk` (`user_id`),
   CONSTRAINT `user_lesson_progress_lesson_id_fk` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`),
   CONSTRAINT `user_lesson_progress_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +235,7 @@ CREATE TABLE `user_lessons_comments` (
   KEY `user_lessons_comments_users_id_fk` (`user_id`),
   CONSTRAINT `user_lessons_comments_lesson_id_fk` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`),
   CONSTRAINT `user_lessons_comments_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +278,8 @@ CREATE TABLE `users` (
   `premium_expire` datetime DEFAULT NULL,
   `coins` int(11) NOT NULL,
   `last_active` datetime DEFAULT NULL,
-  `score` int(11) NOT NULL DEFAULT 0,
+  `score` int(11) NOT NULL,
+  `last_score_update` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_uindex` (`email`),
   KEY `users_files_id_fk` (`ava_file_id`),
@@ -293,4 +296,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-25 21:01:28
+-- Dump completed on 2020-04-04 19:32:30

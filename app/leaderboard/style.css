@@ -24,8 +24,19 @@
 }
 
 .leader, .not_leader {
+    background: #353534;
+    margin-bottom: 5px;
+    padding: 0 30px;
+    border-radius: 8px;
+
     display: grid;
     grid-template-columns: 15% max-content auto 15%;
+    color: #e2e2e2;
+    text-decoration: none;
+}
+
+.not_leader {
+    border: solid 4px #FF6D00;
 }
 
 .leader > h1, .not_leader > h1 {
@@ -66,13 +77,6 @@
     font-weight: bold;
     margin: 45px 0;
     text-align: right;
-}
-
-.not_leader {
-    background: #353534;
-    margin-bottom: 30px;
-    padding: 0 30px;
-    border-radius: 8px;
 }
 
 .more {

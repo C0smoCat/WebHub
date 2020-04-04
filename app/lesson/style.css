@@ -14,7 +14,7 @@
     background: #464646;
 }
 
-.example input[type=button] {
+.example input[type=submit] {
     text-decoration: none;
     background: #464646;
     color: #e2e2e2;
@@ -24,13 +24,10 @@
     border-radius: 8px;
     cursor: pointer;
     text-align: center;
-}
-
-.example input[type=button] {
     margin: 0;
 }
 
-.example input[type=button]:hover {
+.example input[type=submit]:hover {
     background: #464646;
 }
 
@@ -184,7 +181,7 @@ h1 > a[href]:hover {
     width: auto;
     padding: 10px;
     border-radius: 8px;
-    background: linear-gradient(135deg, rgba(255, 141, 0, 1), rgba(255, 109, 0, 1));
-    color: #e2e2e2;
+    background: linear-gradient(135deg, #FF8D00, #FF6D00);
+    color: #eee;
     font-size: x-large;
 }

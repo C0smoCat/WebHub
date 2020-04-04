@@ -2,12 +2,19 @@ extends ../layout
 
 block head
     title #{lesson.lesson_title} - WebHub
-    style
-        include markdown.css
-    style
-        include vs2015.css
+    link(rel="stylesheet" href="/markdown.css")
+    link(rel="stylesheet" href="/vs2015.css")
     style
         include style.css
+    style.
+        .comment_status {
+            color: inherit;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 1500px;
+        }
 
 block content
     h1
@@ -34,23 +41,28 @@ block content
                 a(href=lesson_prev) << Назад
             if lesson_next
                 a(href=lesson_next) Пропустить >>
-    form(class="example")
-        input(type='text' placeholder='Напиши коммент')
-        input(type='button' value='Отправить')
-    each comment in comments
-        a(href=comment.user_url class='commen')
-            - let backColor = comment.is_premium ? "gold" : "black";
-            div(style={position: "relative"})
-                img(
-                    src = comment.avatar
-                    style = {
-                        border: `solid 4px ${backColor}`,
-                        "background-color": backColor
-                    }
-                )
-                if comment.is_online
-                    div(class="online_status")
-            h1=comment.login
-            h2=comment.status
-            i=comment.create_time.formatDate()
-            p=comment.text
+    if comment_status
+        p(class="comment_status" style={"background-color": comment_ok ? "#183b7b" : "#7b2b18"})=comment_status
+    form(class="example" method="get")
+        input(type='text' name="comment_text" placeholder='Ваш комментарий')
+        input(type='submit' value='Отправить')
+    if (comments && comments.length > 0)
+        each comment in comments
+            a(id=`comment_${comment.id}` href=comment.user_url class='commen')
+                - let backColor = comment.is_premium ? "gold" : "black";
+                div(style={position: "relative"})
+                    img(
+                        src = comment.avatar
+                        style = {
+                            border: `solid 4px ${backColor}`,
+                            "background-color": backColor
+                        }
+                    )
+                    if comment.is_online
+                        div(class="online_status")
+                h1=comment.login
+                h2=comment.status
+                i=comment.create_time.formatDate()
+                p=comment.text
+    else
+        p Напишите первый комментарий!

@@ -1,7 +1,8 @@
-- const backgroud = "/slider.jpg";//Math.randomizeArray(["/slider.jpg", "/udishka.png", "/vasyan.jpeg"]);
+- const background = "/slider.jpg";//Math.randomizeArray(["/slider.jpg", "/udishka.png", "/vasyan.jpeg"]);
+- const backgroundText = Math.randomizeArray(["Большая шапка!", "Ваши деньги - наши деньги", "Купите премиум.", "Топ курсы"]);
 header(
     style={
-        background: "url(" + backgroud + ") no-repeat",
+        background: "url(" + background + ") no-repeat",
         "background-color": "#494949",
         display: "flow-root",
         "background-size": "100%",
@@ -18,7 +19,7 @@ header(
             color: "white",
             width: "100%"
         })
-            p(style={"text-align": "center"}) Большая шапка!
+            p(style={"text-align": "center"})=backgroundText
 
     a(href='/')
         img(
@@ -75,7 +76,9 @@ header(
             li
                 a(class=current_page === "leaderboard" ? "active" : "" href="/leaderboard") Топ
             li
-                a(class=current_page === "notifications" ? "active" : "" href="/notifications")=user.notifications_unread_count > 0 ? `Увд: ${user.notifications_unread_count}` : "Уведомления"
+                a(id="notification" class="fas fa-bell" class=current_page === "notifications" ? "notification active" : "notification" href="/notifications")
+                    if user.notifications_unread_count > 0
+                        span=user.notifications_unread_count
 if !user.is_authorised && current_page !== "login"
     p(class="auth-warning")
         a(href=`/login?is_reg=true&redirect=${current_url}`) Зарегистрируйтесь
@@ -96,6 +99,21 @@ style.
         border-color: #2860c8;
         text-align: center;
         max-width: 1500px;
+    }
+
+    #notification {
+        position: relative;
+    }
+
+    #notification > span {
+        position: absolute;
+        top: -0px;
+        right: -0px;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        font-size: 60%;
     }
 
     .hover-logo {
