@@ -56,12 +56,20 @@ block head
             font-weight: bold;
         }
 
+        .userCom:hover {
+            border-radius: 77px 8px 8px 77px;
+            width: 300px;
+        }
+
         .userCom {
             background: #464646;
-            border-radius: 77px 8px 8px 77px;
             height: 77px;
             display: inline-block;
             margin-right: 30px;
+            border-radius: 77px;
+            width: 77px;
+            overflow: hidden;
+            transition-duration: 0.3s;
         }
 
         .userCom > a {
@@ -82,7 +90,10 @@ block head
         }
 
         .userLog {
-            /*display: flow-root;*/
+            display: flow-root;
+            float: left;
+            overflow: hidden;
+            padding-right: 10px;
         }
 
         .userLog > h1 {

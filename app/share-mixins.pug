@@ -24,3 +24,26 @@ mixin progress-bar(percent, color, height)
                 background: color
             }
         )
+
+mixin user-avatar(user, clss, size)
+    div(class=clss class="user-avatar")
+        - let backColor = user.is_admin ? "#07c" : (user.is_premium ? "gold" : false);
+        img(
+            src = user.avatar
+            style = {
+                border: size ? `solid ${Math.ceil(size * 0.02)}px ${backColor ? backColor : "black"}` : false,
+                "background-color": backColor ? backColor : ""
+            }
+            width = size ? `${size}px` : false
+            height = size ? `${size}px` : false
+        )
+        if user.is_online
+            div(
+                style = size ? {
+                    width: `${Math.ceil(size * 0.13)}px`,
+                    height: `${Math.ceil(size * 0.13)}px`,
+                    top: `${Math.ceil(size * 0.8)}px`,
+                    left: `${Math.ceil(size * 0.8)}px`,
+                    border: `solid ${Math.ceil(size * 0.01)}px #202020`
+                } : false
+            )

@@ -6,12 +6,12 @@ header(
         "background-color": "#494949",
         display: "flow-root",
         "background-size": "100%",
-        "min-height": (is_big_topnav || false) ? "400px" : "0",
+        "min-height": is_big_topnav ? "400px" : "0",
         "background-repeat-y": "repeat",
         position: "relative",
         "box-shadow": is_big_topnav ? "inset 0 70px 20px #0005" : "inset 0 1000px 0px #0005"
     })
-    if (is_big_topnav || false)
+    if (is_big_topnav)
         div(style={
             position: "absolute",
             bottom: "0px",
@@ -29,20 +29,7 @@ header(
             height="46px"
         )
     a(href=((current_page === "user" && user_page && user_page.id === user.user_id) || current_page === "login" ? undefined : (user.is_authorised ? `/user/${user.user_id}` : `/login?redirect=${current_url}`)))
-        - let backColor = user.is_premium ? "#fdd835" : "#000";
-        img(
-            class=((current_page === "user" && user_page && user_page.id === user.user_id) || current_page === "login" ? undefined : "hover-logo")
-            src=user.avatar
-            style={
-                "border-radius": "50%",
-                margin: "10px",
-                float: "right",
-                border: `2px solid ${backColor}`,
-                "background-color": backColor
-            }
-            width="44px"
-            height="44px"
-        )
+        +user-avatar(user, "user-top-avatar", 44)
     if user.is_authorised
         div(style={
             float: "right",
@@ -75,6 +62,9 @@ header(
                 a(class=current_page === "play" ? "active" : "" href="/play") Играть
             li
                 a(class=current_page === "leaderboard" ? "active" : "" href="/leaderboard") Топ
+            if user.is_admin
+                li
+                    a(class=current_page === "admin" ? "active" : "" href="/admin") Админка
             li
                 a(id="notification" class="fas fa-bell" class=current_page === "notifications" ? "notification active" : "notification" href="/notifications")
                     if user.notifications_unread_count > 0
@@ -122,7 +112,13 @@ style.
         float: left;
     }
 
-    .hover-logo:hover {
+    .user-top-avatar {
+        transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        margin: 10px;
+        float: right;
+    }
+
+    .hover-logo:hover, .user-top-avatar:hover {
         filter: drop-shadow(0px 0px 5px #222);
         transform: scale(1.1, 1.1)
     }

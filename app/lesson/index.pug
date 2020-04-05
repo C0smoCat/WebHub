@@ -50,16 +50,7 @@ block content
         each comment in comments
             a(id=`comment_${comment.id}` href=comment.user_url class='commen')
                 - let backColor = comment.is_premium ? "gold" : "black";
-                div(style={position: "relative"})
-                    img(
-                        src = comment.avatar
-                        style = {
-                            border: `solid 4px ${backColor}`,
-                            "background-color": backColor
-                        }
-                    )
-                    if comment.is_online
-                        div(class="online_status")
+                +user-avatar(comment, "comment-avatar", 100)
                 h1=comment.login
                 h2=comment.status
                 i=comment.create_time.formatDate()

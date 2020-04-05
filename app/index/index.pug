@@ -83,11 +83,7 @@ mixin make-comment(comment)
             a(href=(user.is_authorised ? `/lessons/${comment.lesson_id}` : `/login?redirect=/lessons/${comment.lesson_id}`))=comment.title
         div(class='userCom')
             a(href=comment.user_url)
-                div(
-                    class='userAva'
-                    style={border: (comment.is_premium ? "2px solid #fdd835" : "2px solid #000")}
-                )
-                    img(src=comment.avatar)
+                +user-avatar(comment, "comment-avatar", 73)
                 div(class='userLog')
                     h1 #{comment.login}
                     h3 #{comment.status}

@@ -17,6 +17,7 @@
     "jstransformer-markdown-it": "^2.1.0",
     "markdown-it": "latest",
     "markdown-it-attrs": "^3.0.2",
+    "markdown-it-container": "^2.0.0",
     "markdown-it-header-sections": "^1.0.0",
     "markdown-it-toc-and-anchor": "^4.2.0",
     "md5-file": "^4.0.0",
@@ -24,8 +25,5 @@
     "multer": "^1.4.2",
     "mysql2": "^2.1.0",
     "pug": "^2.0.4"
-  },
-  "devDependencies": {
-    "markdown-it-container": "^2.0.0"
   }
 }

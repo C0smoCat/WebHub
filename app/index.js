@@ -133,6 +133,13 @@ module.exports = async function Route(app, db) {
             await ShowError(res, err);
         }
     });
+    app.get("/admin", async function (req, res, next) {
+        try {
+            await Route_Admin(app, db, req, res, next);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
     app.get("/", async function (req, res) {
         try {
             await Route_Index(app, db, req, res);
@@ -294,10 +301,10 @@ async function AuthUser(app, db, req, res, next) {
                                                  u.\`email\`,
                                                  u.\`premium_expire\`,
                                                  (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                                 (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                                 u.is_admin,
                                                  u.\`coins\`,
                                                  u.\`last_active\`,
-                                                 u.\`score\`                                                         rating,
+                                                 u.\`score\`                                                         score,
                                                  count(n.id)                                                         notifications_unread_count
                                           from \`access_tokens\` t
                                                    inner join users u on t.user_id = u.id
@@ -306,7 +313,8 @@ async function AuthUser(app, db, req, res, next) {
         if (user_info && user_info.expire_time >= Date.now()) {
             user = user_info;
             user.is_premium = user.is_premium === 1;
-            user.is_online = user.is_online === 1;
+            user.is_admin = user.is_admin === 1;
+            user.is_online = true;
             if (Date.now() - user.last_active.getTime() > 24 * 60 * 60 * 1000) {
                 let bonusRating = 10;
                 if (user.is_premium) {
@@ -343,6 +351,19 @@ async function Route_Images(app, db, req, res) {
         .status(200)
         .contentType(sqlRes[0].file_type)
         .send(sqlRes[0].file_data);
+}
+
+async function Route_Admin(app, db, req, res, next) {
+    if (!req.user.is_authorised || !req.user.is_admin) {
+        next();
+        return;
+    }
+    res.render(path.join(__dirname, "admin", "index.pug"), {
+        basedir: path.join(__dirname, "admin"),
+        current_page: "admin",
+        current_url: req.url,
+        user: req.user
+    }, (err, page) => HandleResult(err, page, res));
 }
 
 async function Route_Index(app, db, req, res) {
@@ -382,19 +403,22 @@ async function Route_Index(app, db, req, res) {
                                                 u.id                                                            user_id,
                                                 u.login,
                                                 u.status,
+                                                u.is_admin,
                                                 (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                                (u.\`last_active\` is not null AND u.\`last_active\` > NOW())       is_online,
+                                                (u.\`last_active\` IS NOT NULL AND
+                                                   u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))         is_online,
                                                 l.title
                                          FROM user_lessons_comments c
                                                   inner join users u on c.user_id = u.id
                                                   inner join lessons l on c.lesson_id = l.id
                                          ORDER BY rand()
-                                         LIMIT 3`);
+                                         LIMIT 3`, [5 * 60]);
     comments.forEach(v => {
         v.avatar = `/images/${v.avatar}`;
         v.is_premium = v.is_premium === 1;
         v.user_url = `/user/${v.user_id}`;
         v.is_online = v.is_online === 1;
+        v.is_admin = v.is_admin === 1;
     });
     recommended_lessons.forEach(v => {
         v.avatar = `/images/${v.avatar}`;
@@ -744,6 +768,7 @@ async function Route_Lesson(app, db, req, res) {
                                                  u.id                                                                user_id,
                                                  u.login,
                                                  u.status,
+                                                 u.is_admin,
                                                  (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
                                                  (u.\`last_active\` IS NOT NULL AND
                                                      u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))        is_online
@@ -761,6 +786,7 @@ async function Route_Lesson(app, db, req, res) {
             status: v.status,
             avatar: `/images/${v.avatar}`,
             is_premium: v.is_premium === 1,
+            is_admin: v.is_admin === 1,
             user_url: `/user/${v.user_id}`,
             is_online: v.is_online === 1,
             create_time: v.create_time,
@@ -892,7 +918,7 @@ async function TryAuthUser(app, db, req, res, email, password) {
             await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
                 [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
         }
-        let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active, score, last_score_update) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW(),0,NOW())",
+        let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active, score, last_score_update, is_admin) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW(),0,NOW(),false)",
             [req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0]);
 
         await PushToken(res.insertId);
@@ -955,6 +981,8 @@ async function Route_User(app, db, req, res) {
                                                   u.\`sex_is_boy\`,
                                                   u.\`ava_file_id\`,
                                                   u.\`status\`,
+                                                  u.\`email\`,
+                                                  u.\`is_admin\`,
                                                   u.\`premium_expire\`,
                                                   (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
                                                   (u.\`last_active\` IS NOT NULL AND
@@ -969,6 +997,7 @@ async function Route_User(app, db, req, res) {
     } else {
         user_page.avatar = `/images/${user_page.ava_file_id}`;
         user_page.is_online = user_page.is_online === 1;
+        user_page.is_admin = user_page.is_admin === 1;
         user_page.is_premium = user_page.is_premium === 1;
 
         langs = await db.rquery(`SELECT g.id,

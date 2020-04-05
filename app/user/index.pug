@@ -17,27 +17,16 @@ block content
             })=error_msg
     else
         div(id="first_block")
-            div(style={position: "relative"})
-                - let backColor = user_page.is_premium ? "gold" : "black";
-                img(
-                    src = user_page.avatar
-                    style = {
-                        border: `solid 4px ${backColor}`,
-                        "background-color": backColor
-                    }
-                )
-                if user_page.is_online
-                    div(class="online_status")
-                if user_page && user_page.id === user.user_id
-                    a(href='/logout')
-                        i Выйти
+            +user-avatar(user_page, undefined, 180)
             div
                 h1=user_page.login
                 h2=user_page.status
                 if user_page.id === user.user_id
-                    h3 E-mail: #{user.email}
-                    if user.is_premium
-                        h3 Премиум до: #{user.premium_expire.toDateString()}
+                    h3 E-mail: #{user_page.email}
+                if user_page.is_premium && (user_page.id === user.user_id || user.is_admin)
+                    h3 Премиум до: #{user.premium_expire.toDateString()}
+                if user_page.is_admin
+                    h3 Администратор
             div(id="f_b_grid")
                 div(id='top_place')
                     p Место в топе:
@@ -53,10 +42,21 @@ block content
                     else
                         a(href="#") Подарить
                             b Premium
-        if user_page.id === user.user_id
+            if user_page && user_page.id === user.user_id
+                a(href='/logout')
+                    i Выйти
+        if user_page.id === user.user_id || user.is_admin
             details(open=!!error_settings_msg)
                 summary Настройки аккаунта
                 hr
+                if user_page.id !== user.user_id
+                    p(
+                        class="auth-warning"
+                        style={
+                            background: "#183b7b",
+                            margin: "10px",
+                            "border-color": "#2860c8"
+                        }) Вы редактируйте чужой аккаунт
                 if error_settings_msg
                     p(
                         class="auth-warning"
@@ -70,17 +70,22 @@ block content
                         action="/user"
                         method="GET"
                     )
-                        label(for="login") Логин
-                        input(type="text" id="login" name="login" placeholder="*не менять*" value=user.login)
+                        if user_page.login
+                            label(for="login") Логин
+                            input(type="text" id="login" name="login" placeholder="*не менять*" value=user_page.login)
+
                         label(for="password2") Пароль
                         input(type="password" id="password2" name="password" placeholder="*не менять*")
-                        label(for="email2") E-mail
-                        input(type="email" id="email2" name="email" placeholder="*не менять*" value=user.email)
-                        label(for="status") Статус
-                        input(type="text" id="status" name="status" placeholder="*не менять*" value=user.status)
+                        if user_page.email
+                            label(for="email2") E-mail
+                            input(type="email" id="email2" name="email" placeholder="*не менять*" value=user_page.email)
+                        if user_page.status
+                            label(for="status") Статус
+                            input(type="text" id="status" name="status" placeholder="*не менять*" value=user_page.status)
+                        input(type="number" name="user_id" value=user_page.id hidden)
                         input(type="submit" id="spo_sub" value='Сохранить')
                     div
-                        img(src=user.avatar)
+                        img(src=user_page.avatar)
                         button Изменить
 
         - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;

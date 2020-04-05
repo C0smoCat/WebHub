@@ -114,16 +114,19 @@
 
 .cur_text {
     padding-top: 33px;
+    color: #eee;
 }
 
 .cur_text > h1 {
     font-size: xx-large;
     margin: 0;
+    text-decoration: none;
 }
 
 .cur_text > p {
     font-size: large;
     margin: 0;
+    text-decoration: none;
 }
 
 .div_prog {
