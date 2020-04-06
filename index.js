@@ -10,6 +10,7 @@ const md5File = require('md5-file');
 const fs = require('fs');
 const path = require("path");
 const mime = require('mime-types');
+const mysqlAdmin = require('node-mysql-admin');
 
 console.log(`Debug mode: ${config.debug_mode}`);
 
@@ -82,10 +83,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 router(app, dbConnection);
-// app.use((req, res, next) => {
-//     router(app, dbConnection, req, res, next);
-//     next();
-// });
+
+app.use(mysqlAdmin(app));
 
 app.listen(config.port, () => {
     console.log(`Web server live on port ${config.port}`);

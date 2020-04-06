@@ -90,8 +90,12 @@ const markdown = require('markdown-it')({
     });
 
 module.exports = async function Route(app, db) {
-    app.get(/\.(png|jpg|jpeg|svg)$/, function (req, res) {
+    app.get(/\.(png|jpg|jpeg|svg)$/, function (req, res, next) {
         try {
+            if (/^\/myadmin/.test(req.url)) {
+                next();
+                return;
+            }
             let fpath = path.join(__dirname, "public", req.originalUrl);
             if (fs.existsSync(fpath))
                 res.sendFile(fpath);
@@ -101,8 +105,12 @@ module.exports = async function Route(app, db) {
             res.sendStatus(500);
         }
     });
-    app.get(/.*\.\w{2,5}$/, function (req, res) {
+    app.get(/.*\.\w{2,5}$/, function (req, res, next) {
         try {
+            if (/^\/myadmin/.test(req.url)) {
+                next();
+                return;
+            }
             let fpath = path.join(__dirname, "public", req.originalUrl);
             if (fs.existsSync(fpath))
                 res.sendFile(fpath);
@@ -129,13 +137,6 @@ module.exports = async function Route(app, db) {
     app.all("*", async function (req, res, next) {
         try {
             await AuthUser(app, db, req, res, next);
-        } catch (err) {
-            await ShowError(res, err);
-        }
-    });
-    app.get("/admin", async function (req, res, next) {
-        try {
-            await Route_Admin(app, db, req, res, next);
         } catch (err) {
             await ShowError(res, err);
         }
@@ -259,14 +260,22 @@ module.exports = async function Route(app, db) {
             await ShowError(res, err);
         }
     });
-    app.all(/(go|adm|adminer|phpmyadmin)\/?(go|adm|adminer|phpmyadmin)?\/?(go|adm|adminer|phpmyadmin)?\/?/, async function (req, res) {
+    app.all(/^\/(go|myadmin|adm|adminer|phpmyadmin)\/?(go|myadmin|adm|adminer|phpmyadmin)?\/?(go|myadmin|adm|adminer|phpmyadmin)?\/?/, async function (req, res, next) {
         try {
+            if (/^\/myadmin/.test(req.url) && req.user.is_authorised && req.user.is_admin) {
+                next();
+                return;
+            }
             await RouteAdminer(app, db, req, res);
         } catch (err) {
             await ShowError(res, err);
         }
     });
-    app.all("*", async function (req, res) {
+    app.all("*", async function (req, res, next) {
+        if (/^\/myadmin/.test(req.url) && req.user.is_authorised && req.user.is_admin) {
+            next();
+            return;
+        }
         await Route_Error(res, 404, "Страница не найдена", undefined, "/", "На главную");
     });
 };
@@ -351,19 +360,6 @@ async function Route_Images(app, db, req, res) {
         .status(200)
         .contentType(sqlRes[0].file_type)
         .send(sqlRes[0].file_data);
-}
-
-async function Route_Admin(app, db, req, res, next) {
-    if (!req.user.is_authorised || !req.user.is_admin) {
-        next();
-        return;
-    }
-    res.render(path.join(__dirname, "admin", "index.pug"), {
-        basedir: path.join(__dirname, "admin"),
-        current_page: "admin",
-        current_url: req.url,
-        user: req.user
-    }, (err, page) => HandleResult(err, page, res));
 }
 
 async function Route_Index(app, db, req, res) {
