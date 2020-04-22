@@ -324,7 +324,7 @@ async function AuthUser(app, db, req, res, next) {
             user.is_premium = user.is_premium === 1;
             user.is_admin = user.is_admin === 1;
             user.is_online = true;
-            if (Date.now() - user.last_active.getTime() > 24 * 60 * 60 * 1000) {
+            if (user.last_active && Date.now() - user.last_active.getTime() > 24 * 60 * 60 * 1000) {
                 let bonusRating = 10;
                 if (user.is_premium) {
                     bonusRating = 25;
