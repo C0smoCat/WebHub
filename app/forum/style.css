@@ -174,13 +174,17 @@ a > .add {
 
 .theme > div > div {
     padding: 0 15px;
+    white-space: nowrap;
+}
+
+.theme > div > div > div > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .theme > div > div > p {
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: bold;
     text-align: left;
     font-size: 20px;
 }

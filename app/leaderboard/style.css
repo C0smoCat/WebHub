@@ -1,3 +1,7 @@
+.content-body > a {
+    text-decoration: none;
+}
+
 #header_led {
     display: flow-root;
 }

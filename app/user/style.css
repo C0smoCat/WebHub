@@ -88,6 +88,10 @@
     text-align: center;
 }
 
+#pro_cur > a {
+    text-decoration: none;
+}
+
 #pro_cur > a > div {
     width: 370px;
     margin: 0 10px 20px;
@@ -108,13 +112,15 @@
 }
 
 #pro_cur > a > div > img {
-    width: 130px;
-    height: auto;
+    height: 130px;
+    width: auto;
 }
 
 .cur_text {
-    padding-top: 33px;
     color: #eee;
+    text-align: left;
+    display: block;
+    margin: auto 0 auto 15px;
 }
 
 .cur_text > h1 {
@@ -156,6 +162,7 @@
     left: 0;
     background: #8D8D8D
 }
+
 .progress-bar > div {
     height: inherit;
 }
@@ -173,6 +180,7 @@ summary {
     cursor: pointer;
     padding: 8px 10px;
 }
+
 details > hr {
     border: none;
     border-radius: 8px;
@@ -217,6 +225,7 @@ details > div > div {
     margin: auto auto;
     display: block;
 }
+
 details > div > div > img {
     margin: 0 auto;
     width: 180px;
