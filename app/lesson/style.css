@@ -40,10 +40,13 @@
 .commen {
     text-decoration: none;
     color: white;
+    display: block;
 }
 
 .commen > div > img {
+    grid-area: img;
     float: left;
+    margin-right: 10px;
 }
 
 .online_status {
@@ -58,11 +61,17 @@
 }
 
 .commen > h1, .commen > h2 {
-    display: inline-block;
+    display: block;
+    margin: 0;
 }
 
-.commen > i {
-    display: block;
+.commen > h2 {
+    font-size: large;
+    font-style: italic;
+}
+
+.commen > p {
+    display: grid;
 }
 
 .note {

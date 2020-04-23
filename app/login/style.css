@@ -56,7 +56,7 @@
 
 #spo_sub, #inside {
     margin-top: 24px;
-    width: 250px;
+    width: 256px;
     height: 35px;
     background-color: #23B45D;
     padding-left: 5px;
@@ -71,15 +71,16 @@
 
 .tabcontent > form > div {
     margin: 10px auto 0;
-    display: block;
+    display: grid;
 }
 
 .tabcontent > form > div:last-child {
     text-align: center;
+    grid-template-rows: auto 180px auto 35px;
 }
 
 .tabcontent > form > div:last-child > h1 {
-    margin: 0 0 15px;
+    margin: 0;
 }
 
 .tabcontent > form > div > img {
@@ -92,13 +93,13 @@
 
 .tabcontent > form > div > #avalabel {
     display: block;
-    margin: 5px auto 0;
+    margin: 0 auto;
     border: none;
     border-radius: 8px;
-    font-size: medium;
+    font-size: x-large;
     width: 180px;
     background-color: #23B45D;
-    padding: 7px;
+    padding: 4px;
     color: buttontext;
 }
 
