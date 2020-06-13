@@ -643,7 +643,6 @@ async function Route_Leaderboard(app, db, req, res) {
                                                    AND
                                                 u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
                                                # ROW_NUMBER() OVER (ORDER BY score)                                  place_num,
-                                               ROW_NUMBER() place_num,
                                                u.score                                                             score
                                         from \`users\` u
                                         order by score desc
