@@ -630,7 +630,8 @@ async function Route_ForumMessages(app, db, req, res) {
 }
 
 async function Route_Leaderboard(app, db, req, res) {
-    let user = req.user.is_authorised ? (await db.rquery(`select ROW_NUMBER() OVER (ORDER BY score) place_num
+    let user = req.user.is_authorised ? (await db.rquery(`select 5 place_num
+                                                              # ROW_NUMBER() OVER (ORDER BY score) place_num
                                                           from \`users\` u
                                                           where u.\`id\` = ?`, [req.user.user_id]))[0] : {};
     let leaderboard = (await db.rquery(`select u.\`id\`,
