@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.5.2-MariaDB, for Win32 (AMD64)
+-- MariaDB dump 10.17  Distrib 10.5.3-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: webhub
 -- ------------------------------------------------------
--- Server version	10.5.2-MariaDB
+-- Server version	10.5.3-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -125,6 +125,8 @@ CREATE TABLE `lessons` (
   `title` varchar(100) NOT NULL,
   `avatar` char(32) DEFAULT NULL,
   `markdown` text NOT NULL,
+  `next_lesson_id` int(11) DEFAULT NULL,
+  `prev_lesson_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `lesson_files_id_fk` (`avatar`),
   KEY `lesson_lessons_theme_id_fk` (`lesson_theme_id`),
@@ -172,7 +174,7 @@ CREATE TABLE `notifications` (
   PRIMARY KEY (`id`),
   KEY `notifications_users_id_fk` (`user_id`),
   CONSTRAINT `notifications_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +215,7 @@ CREATE TABLE `user_lesson_progress` (
   KEY `user_lesson_progress_users_id_fk` (`user_id`),
   CONSTRAINT `user_lesson_progress_lesson_id_fk` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`),
   CONSTRAINT `user_lesson_progress_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,4 +299,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-06 22:01:42
+-- Dump completed on 2020-06-13 14:20:20

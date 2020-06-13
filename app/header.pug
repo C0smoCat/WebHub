@@ -1,15 +1,10 @@
-- const background = "/slider.jpg";//Math.randomizeArray(["/slider.jpg", "/udishka.png", "/vasyan.jpeg"]);
-- const backgroundText = Math.randomizeArray(["Большая шапка!", "Ваши деньги - наши деньги", "Купите премиум.", "Топ курсы"]);
+- const background = "/slider.jpg";
+- const backgroundText = "Учитесь с нами";
 header(
     style={
-        background: "url(" + background + ") no-repeat",
-        "background-color": "#494949",
-        display: "flow-root",
-        "background-size": "100%",
-        "min-height": is_big_topnav ? "400px" : "0",
-        "background-repeat-y": "repeat",
-        position: "relative",
-        "box-shadow": is_big_topnav ? "inset 0 70px 20px #0005" : "inset 0 1000px 0px #0005"
+        "background-image": "url(" + background + ")",
+        "min-height": is_big_topnav && "400px",
+        "box-shadow": is_big_topnav && "inset 0 70px 20px #0005"
     })
     if (is_big_topnav)
         div(style={
@@ -36,8 +31,11 @@ header(
             margin: "10px"
         })
             img(src="/plus.png"
-                height="46px"
-                width="46px"
+                height="26px"
+                width="26px"
+                style={
+                    margin: "5px 0"
+                }
             )
             p(style={
                 float: "right",
@@ -75,75 +73,3 @@ if !user.is_authorised && current_page !== "login"
         = " или "
         a(href=`/login?is_reg=false&redirect=${current_url}`) авторизируйтесь
         = ", пожалуйста"
-style.
-    .auth-warning > a {
-        color: inherit;
-    }
-
-    .auth-warning {
-        color: inherit;
-        background: #183b7b;
-        margin: 10px auto;
-        padding: 15px;
-        border-radius: 8px;
-        border-color: #2860c8;
-        text-align: center;
-        max-width: 1500px;
-    }
-
-    #notification {
-        position: relative;
-    }
-
-    #notification > span {
-        position: absolute;
-        top: -0px;
-        right: -0px;
-        padding: 5px 10px;
-        border-radius: 50%;
-        background: red;
-        color: white;
-        font-size: 60%;
-    }
-
-    .hover-logo {
-        transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        margin: 10px;
-        float: left;
-    }
-
-    .user-top-avatar {
-        transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        margin: 10px;
-        float: right;
-    }
-
-    .hover-logo:hover, .user-top-avatar:hover {
-        filter: drop-shadow(0px 0px 5px #222);
-        transform: scale(1.1, 1.1)
-    }
-
-    .topnav {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    }
-
-    .topnav > li > a {
-        float: left;
-        display: inline-block;
-        color: #ddd;
-        text-align: center;
-        padding: 16px;
-        text-decoration: none;
-        font-size: 32px;
-    }
-
-    .topnav > li > .active {
-        text-decoration: underline;
-    }
-
-    .topnav > li > a:hover {
-        color: #fff;
-    }

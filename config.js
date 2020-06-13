@@ -6,7 +6,7 @@ module.exports = {
         host: "localhost",
         user: "root",
         database: "webhub",
-        password: "",
+        password: "1234",
         port: 3306,
         charset: "UTF8_GENERAL_CI",
         debug: false

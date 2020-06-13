@@ -328,9 +328,13 @@ async function AuthUser(app, db, req, res, next) {
                 let bonusRating = 10;
                 if (user.is_premium) {
                     bonusRating = 25;
-                    await db.rquery(`UPDATE users u SET u.score = u.score + ? where u.id = ?`, [bonusRating, user.user_id]);
+                    await db.rquery(`UPDATE users u
+                                     SET u.score = u.score + ?
+                                     where u.id = ?`, [bonusRating, user.user_id]);
                 } else {
-                    await db.rquery(`UPDATE users u SET u.score = u.score + ? where u.id = ?`, [bonusRating, user.user_id]);
+                    await db.rquery(`UPDATE users u
+                                     SET u.score = u.score + ?
+                                     where u.id = ?`, [bonusRating, user.user_id]);
                 }
                 await PushNotification(db, user.user_id, "Ежедневный вход", `Вам начислено ${bonusRating} рейтинга за то, что вы с нами! Ваш текущий рейтинг: ${user.rating + bonusRating}.`);
             }
@@ -392,23 +396,23 @@ async function Route_Index(app, db, req, res) {
                          ORDER BY rand()
                          LIMIT 10`, []);
     let comments = await db.rquery(`SELECT c.id,
-                                                c.text,
-                                                c.create_time,
-                                                u.ava_file_id                                                   avatar,
-                                                c.lesson_id,
-                                                u.id                                                            user_id,
-                                                u.login,
-                                                u.status,
-                                                u.is_admin,
-                                                (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                                (u.\`last_active\` IS NOT NULL AND
-                                                   u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))         is_online,
-                                                l.title
-                                         FROM user_lessons_comments c
-                                                  inner join users u on c.user_id = u.id
-                                                  inner join lessons l on c.lesson_id = l.id
-                                         ORDER BY rand()
-                                         LIMIT 3`, [5 * 60]);
+                                           c.text,
+                                           c.create_time,
+                                           u.ava_file_id                                                       avatar,
+                                           c.lesson_id,
+                                           u.id                                                                user_id,
+                                           u.login,
+                                           u.status,
+                                           u.is_admin,
+                                           (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                           (u.\`last_active\` IS NOT NULL AND
+                                            u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
+                                           l.title
+                                    FROM user_lessons_comments c
+                                             inner join users u on c.user_id = u.id
+                                             inner join lessons l on c.lesson_id = l.id
+                                    ORDER BY rand()
+                                    LIMIT 3`, [5 * 60]);
     comments.forEach(v => {
         v.avatar = `/images/${v.avatar}`;
         v.is_premium = v.is_premium === 1;
@@ -477,7 +481,7 @@ async function Route_Course(app, db, req, res) {
                     id: now.theme_id,
                     is_lock: (now.theme_is_avaliable || 0) !== 1,
                     is_exam_complete: (now.is_exam_complete || 0) === 1,
-                    exam_url: `/gabe/${lang_id}/${themeIndex + 1}`,
+                    exam_url: `/exam/${lang_id}/${themeIndex + 1}`,
                     url: `/courses/${lang_id}#${themeIndex + 1}`,
                     avatar: `/images/${now.theme_avatar}`,
                     lessons: []
@@ -626,20 +630,24 @@ async function Route_ForumMessages(app, db, req, res) {
 }
 
 async function Route_Leaderboard(app, db, req, res) {
-    let user = req.user.is_authorised ? (await db.rquery(`select ROW_NUMBER() OVER (ORDER BY score) place_num from \`users\` u where u.\`id\` = ?`, [req.user.user_id]))[0] : {};
+    let user = req.user.is_authorised ? (await db.rquery(`select ROW_NUMBER() OVER (ORDER BY score) place_num
+                                                          from \`users\` u
+                                                          where u.\`id\` = ?`, [req.user.user_id]))[0] : {};
     let leaderboard = (await db.rquery(`select u.\`id\`,
-                                         u.\`login\`,
-                                         u.\`ava_file_id\`,
-                                         u.\`status\`,
-                                         u.\`score\`,
-                                         (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                         (u.\`last_active\` IS NOT NULL
-                                             AND u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))  is_online,
-                                         ROW_NUMBER() OVER (ORDER BY score)                              place_num,
-                                         u.score                                                         score
-                                  from \`users\` u
-                                  order by score desc
-                                  limit 200`, [5 * 60]));
+                                               u.\`login\`,
+                                               u.\`ava_file_id\`,
+                                               u.\`status\`,
+                                               u.\`score\`,
+                                               (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                               (u.\`last_active\` IS NOT NULL
+                                                   AND
+                                                u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
+                                               # ROW_NUMBER() OVER (ORDER BY score)                                  place_num,
+                                               ROW_NUMBER() place_num,
+                                               u.score                                                             score
+                                        from \`users\` u
+                                        order by score desc
+                                        limit 200`, [5 * 60]));
     leaderboard.forEach(v => {
         v.avatar = `/images/${v.ava_file_id}`;
         v.is_premium = v.is_premium === 1;
@@ -705,7 +713,11 @@ async function Route_Lesson(app, db, req, res) {
                 }
             }));
         } else {
-            let is_dublicate_comment = await db.rquery(`SELECT c.id FROM user_lessons_comments c where \`text\` = ? and user_id = ? and lesson_id = ?`, [text, user_id, id_lesson]);
+            let is_dublicate_comment = await db.rquery(`SELECT c.id
+                                                        FROM user_lessons_comments c
+                                                        where \`text\` = ?
+                                                          and user_id = ?
+                                                          and lesson_id = ?`, [text, user_id, id_lesson]);
             if (is_dublicate_comment && is_dublicate_comment.length > 0) {
                 res.redirect(url.format({
                     pathname: `/lessons/${id_lesson}`,
@@ -716,7 +728,8 @@ async function Route_Lesson(app, db, req, res) {
                     hash: `comment_${is_dublicate_comment[0].id}`
                 }));
             } else {
-                let result = await db.rquery(`insert into user_lessons_comments(create_time, user_id, lesson_id, text, rating) values (now(), ?, ?, ?, 0)`, [user_id, id_lesson, text]);
+                let result = await db.rquery(`insert into user_lessons_comments(create_time, user_id, lesson_id, text, rating)
+                                              values (now(), ?, ?, ?, 0)`, [user_id, id_lesson, text]);
                 if (result.insertId) {
                     res.redirect(url.format({
                         pathname: `/lessons/${id_lesson}`,
@@ -741,6 +754,9 @@ async function Route_Lesson(app, db, req, res) {
     }
     let lesson = (await db.rquery(`SELECT l.\`title\`          lesson_title,
                                           l.\`id\`             lesson_id,
+                                          l.\`next_lesson_id\` next_lesson_id,
+                                          l.\`prev_lesson_id\` prev_lesson_id,
+                                          l.\`id\`             lesson_id,
                                           l.\`markdown\`,
                                           t.\`title\`          theme_title,
                                           t.\`id\`             theme_id,
@@ -757,22 +773,22 @@ async function Route_Lesson(app, db, req, res) {
                                                             on t.id = utp.lessons_theme_id and utp.user_id = ?
                                    where l.id = ?`, [user_id, user_id, id_lesson]))[0];
     let comments = (await db.rquery(`SELECT c.id,
-                                                 c.text,
-                                                 c.create_time,
-                                                 c.rating,
-                                                 u.ava_file_id                                                       avatar,
-                                                 u.id                                                                user_id,
-                                                 u.login,
-                                                 u.status,
-                                                 u.is_admin,
-                                                 (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                                 (u.\`last_active\` IS NOT NULL AND
-                                                     u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))        is_online
-                                          FROM user_lessons_comments c
-                                                   inner join users u on c.user_id = u.id
-                                          WHERE c.lesson_id = ?
-                                          ORDER BY c.rating
-                                          LIMIT 100`,
+                                            c.text,
+                                            c.create_time,
+                                            c.rating,
+                                            u.ava_file_id                                                       avatar,
+                                            u.id                                                                user_id,
+                                            u.login,
+                                            u.status,
+                                            u.is_admin,
+                                            (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                            (u.\`last_active\` IS NOT NULL AND
+                                             u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online
+                                     FROM user_lessons_comments c
+                                              inner join users u on c.user_id = u.id
+                                     WHERE c.lesson_id = ?
+                                     ORDER BY c.rating
+                                     LIMIT 100`,
         [5 * 60, id_lesson]));
     comments = comments.map((v) => {
         return {
@@ -960,7 +976,7 @@ async function TryAuthUser(app, db, req, res, email, password) {
 }
 
 async function Route_User(app, db, req, res) {
-    let user_id = req.params.user_id || req.user.id;
+    let user_id = req.params.user_id || req.user.id || req.user.user_id;
     let error_msg;
     let langs = [];
     if (!user_id) {
@@ -972,22 +988,23 @@ async function Route_User(app, db, req, res) {
     }
 
     let user_page = (await db.rquery(`select u.\`id\`,
-                                                  u.\`login\`,
-                                                  u.\`create_time\`,
-                                                  u.\`sex_is_boy\`,
-                                                  u.\`ava_file_id\`,
-                                                  u.\`status\`,
-                                                  u.\`email\`,
-                                                  u.\`is_admin\`,
-                                                  u.\`premium_expire\`,
-                                                  (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
-                                                  (u.\`last_active\` IS NOT NULL AND
-                                                   u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))         is_online,
-                                                  u.\`last_active\`,
-                                                  ROW_NUMBER() OVER (ORDER BY score)                              place_num,
-                                                  u.score                                                         score
-                                           from \`users\` u
-                                           where u.\`id\` = ?`, [5 * 60, user_id]))[0];
+                                             u.\`login\`,
+                                             u.\`create_time\`,
+                                             u.\`sex_is_boy\`,
+                                             u.\`ava_file_id\`,
+                                             u.\`status\`,
+                                             u.\`email\`,
+                                             u.\`is_admin\`,
+                                             u.\`premium_expire\`,
+                                             (u.\`premium_expire\` is not null AND u.\`premium_expire\` > NOW()) is_premium,
+                                             (u.\`last_active\` IS NOT NULL AND
+                                              u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
+                                             u.\`last_active\`,
+                                             # ROW_NUMBER() OVER (ORDER BY score)                              place_num,
+                                             5                                                                   place_num,
+                                             u.score                                                             score
+                                      from \`users\` u
+                                      where u.\`id\` = ?`, [5 * 60, user_id]))[0];
     if (!user_page) {
         error_msg = "Пользователь не найден";
     } else {
@@ -1012,7 +1029,8 @@ async function Route_User(app, db, req, res) {
         basedir: path.join(__dirname, "user"),
         current_page: "user",
         current_url: req.url,
-        error_settings_msg: Math.random() < 0.3 ? "Тест ошибки" : undefined,
+        // error_settings_msg: Math.random() < 0.3 ? "Тест ошибки" : undefined,
+        error_settings_msg: undefined,
         error_msg,
         langs,
         user: req.user,
@@ -1039,9 +1057,18 @@ async function Route_Notifications(app, db, req, res) {
         return;
     }
 
-    let notifications = await db.rquery(`select id, user_id, title, create_time, text, action_url, is_read, auto_read
+    let notifications = await db.rquery(`select id,
+                                                user_id,
+                                                title,
+                                                create_time,
+                                                text,
+                                                action_url,
+                                                is_read,
+                                                auto_read
                                          from notifications
-                                         where user_id = ? order by create_time desc limit 100`, [req.user.user_id]);
+                                         where user_id = ?
+                                         order by create_time desc
+                                         limit 100`, [req.user.user_id]);
 
     res.render(path.join(__dirname, "notifications", "index.pug"), {
         basedir: path.join(__dirname, "notifications"),
@@ -1058,7 +1085,7 @@ async function Route_Notifications(app, db, req, res) {
 
 async function PushNotification(db, user_id, title, text, action_url = null, auto_read = true) {
     await db.rquery(`insert into notifications(user_id, title, create_time, text, action_url, is_read, auto_read)
-                         VALUES (?, ?, NOW(), ?, ?, false, ?)`, [user_id, title, text, action_url, auto_read]);
+                     VALUES (?, ?, NOW(), ?, ?, false, ?)`, [user_id, title, text, action_url, auto_read]);
 }
 
 async function RouteAdminer(app, db, req, res) {

@@ -29,6 +29,11 @@ block head
             margin: 10px 0;
         }
 
+        .message-new {
+            text-decoration: none;
+            margin: 10px 0;
+        }
+
         .message > div {
             background: #464646;
             border-radius: 8px;
@@ -70,6 +75,7 @@ block head
             width: 77px;
             overflow: hidden;
             transition-duration: 0.3s;
+            float: left;
         }
 
         .userCom > a {
@@ -177,19 +183,7 @@ block content
                 p Дата создания: #{theme.create_time.formatDate()}
         if theme.messages.length > 0
             each message in theme.messages
-                // Вариант 1
-                a(href=message.url class="message")
-                    div
-                        img(src=message.created_by.avatar)
-                        div
-                            p(style='font-weight: bolder;') #{message.created_by.login} - #{message.created_by.status}
-                            div(style={color: "#ccc"})!=message.text
-                            p(style={
-                                color: "#ccc",
-                                "font-size": "80%"
-                            }) Дата создания: #{message.create_time.formatDate()}
-                // Вариант 2
-                div(id=`msg${message.id}`)
+                div.message-new(id=`msg${message.id}`)
                     div(class='userCom')
                         a(href=message.created_by.url)
                             div(

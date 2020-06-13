@@ -1,0 +1,189 @@
+/*header*/
+
+header {
+    background-repeat-y: repeat;
+    position: relative;
+    background-color: #494949;
+    display: flow-root;
+    background-size: 100%;
+    min-height: 0;
+    box-shadow: inset 0 1000px 0 #0005;
+    background-repeat: no-repeat;
+}
+
+.auth-warning > a {
+    color: inherit;
+}
+
+.auth-warning {
+    color: inherit;
+    background: #183b7b;
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 8px;
+    border-color: #2860c8;
+    text-align: center;
+    max-width: 1500px;
+}
+
+#notification {
+    position: relative;
+}
+
+#notification > span {
+    position: absolute;
+    top: -0px;
+    right: -0px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 60%;
+}
+
+.hover-logo {
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin: 10px;
+    float: left;
+}
+
+.user-top-avatar {
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin: 10px;
+    float: right;
+}
+
+.hover-logo:hover, .user-top-avatar:hover {
+    filter: drop-shadow(0px 0px 5px #222);
+    transform: scale(1.1, 1.1)
+}
+
+.topnav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.topnav > li > a {
+    float: left;
+    display: inline-block;
+    color: #ddd;
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+    font-size: 32px;
+}
+
+.topnav > li > .active {
+    text-decoration: underline;
+}
+
+.topnav > li > a:hover {
+    color: #fff;
+}
+
+/*layout*/
+
+.content-body {
+    max-width: 1500px;
+}
+
+.user-avatar {
+    position: relative;
+}
+
+.user-avatar > img {
+    border-radius: 50%;
+    display: block;
+    background-color: black;
+    border: solid 2px black;
+}
+
+.user-avatar > div {
+    border-radius: 50%;
+    background-color: #ADFF2F;
+    position: absolute;
+    border: solid 2px #202020;
+}
+
+@media only screen and (max-width: 1500px) {
+    .content-body {
+        max-width: 1000px;
+    }
+}
+
+/*footer*/
+
+body {
+    font-family: Arial;
+    background-color: #202020;
+    color: #eee;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+    background-size: 100% 500%;
+    background-image: url(/triangles.svg);
+    animation: go 10s linear infinite;
+    width: 100%;
+    background-color: #494949;
+    position: relative;
+    float: bottom;
+    text-align: center;
+    display: inline-block;
+}
+
+footer > img {
+    margin: 20px;
+    float: left;
+}
+
+footer > h2 {
+    margin: 22px 0 0;
+    float: left;
+    text-align: left;
+}
+
+footer > h2 > a {
+    text-decoration: none;
+    color: white;
+}
+
+footer > p {
+    color: white;
+    margin-top: 28px;
+    display: inline-block;
+}
+
+footer > div:not(#fa1) {
+    margin: 22px 20px 18px 20px;
+    float: right;
+}
+
+footer > div:not(#fa1) > a {
+    margin: 0 5px;
+}
+
+#fa1 {
+    width: inherit;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-size: 100% 500%;
+    background-image: url(/triangles.svg);
+    animation: go 23s linear infinite;
+    transform: scaleX(-1);
+    pointer-events: none;
+}
+
+@keyframes go {
+    0% {
+        background-position: 50% 0;
+    }
+    100% {
+        background-position: 50% 100%;
+    }
+}

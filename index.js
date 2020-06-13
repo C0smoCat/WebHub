@@ -10,7 +10,13 @@ const md5File = require('md5-file');
 const fs = require('fs');
 const path = require("path");
 const mime = require('mime-types');
-const mysqlAdmin = require('node-mysql-admin');
+let mysqlAdmin;
+
+try {
+    mysqlAdmin = require('node-mysql-admin');
+} catch (e) {
+    console.error(`Модуль mysqlAdmin не подгружен: ${e}`);
+}
 
 console.log(`Debug mode: ${config.debug_mode}`);
 
@@ -84,7 +90,8 @@ app.use(cookieParser());
 
 router(app, dbConnection);
 
-app.use(mysqlAdmin(app));
+if (mysqlAdmin)
+    app.use(mysqlAdmin(app));
 
 app.listen(config.port, () => {
     console.log(`Web server live on port ${config.port}`);

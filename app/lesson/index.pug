@@ -35,12 +35,12 @@ block content
     else
         a(id="complete_lesson")
             p(style={background: "#8D8D8D"}) Прохождение недоступно
-    if lesson_prev || lesson_next
+    if lesson.prev_lesson_id || lesson.next_lesson_id
         div(class='more')
-            if lesson_prev
-                a(href=lesson_prev) << Назад
-            if lesson_next
-                a(href=lesson_next) Пропустить >>
+            if lesson.prev_lesson_id
+                a(href=`/lessons/${lesson.prev_lesson_id}`) << Назад
+            if lesson.next_lesson_id
+                a(href=`/lessons/${lesson.next_lesson_id}`) Пропустить >>
     if comment_status
         p(class="comment_status" style={"background-color": comment_ok ? "#183b7b" : "#7b2b18"})=comment_status
     form(class="example" method="get")

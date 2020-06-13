@@ -14,9 +14,16 @@
 }
 
 .some-big-thing {
-    height: inherit;
     font-weight: bold;
     padding: 1px;
+    height: 100%;
+    border-radius: 5px;
+    transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.some-big-thing:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transform: scale(1.03, 1.03) translateY(-5px);
 }
 
 .some-big-thing > h1 {
@@ -123,10 +130,6 @@
 }
 
 /* Медиа, для слепых было написано (Конец) */
-
-body {
-    background: #99aeff;
-}
 
 /* Слайдер (начало) */
 .tns-item {

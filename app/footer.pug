@@ -1,69 +1,14 @@
-style.
-    footer {
-        background-size: 100% 500%;
-        background-image: url(/triangles.svg);
-        animation: go 10s linear infinite;
-    }
-
-    #fa1 {
-        width: inherit;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
-        background-size: 100% 500%;
-        background-image: url(/triangles.svg);
-        animation: go 23s linear infinite;
-        transform: scaleX(-1);
-        pointer-events: none;
-    }
-
-    @keyframes go {
-        0% {
-            background-position: 50% 0;
-        }
-        100% {
-            background-position: 50% 100%;
-        }
-    }
-
-footer(style={
-    width: "100%",
-    "background-color": "#494949",
-    position: "relative",
-    float: "bottom",
-    "text-align": "center",
-    display: "inline-block"
-})
+footer
     div(id="fa1")
     img(
         src='/logo2.png'
         width="42.7px"
         height="35px"
-        style={
-            margin: "20px",
-            float: "left"
-        }
     )
-    h2(style={
-        "margin": "0",
-        "margin-top": "22px",
-        float: "left",
-        "text-align": "left"
-    })
-        a(href='/about' style={
-            "text-decoration": "none",
-            color: "white"
-        }) О нас
-    p(style={
-        color: "white",
-        "margin-top": "28px",
-        display: "inline-block"
-    }) Copyright © 2019-2020 Powered by Donat
-    div(style={
-        margin: "22px 20px 18px 20px",
-        float: "right"
-    })
+    h2
+        a(href='/about') О нас
+    p Copyright © 2019-2020
+    div
         a(href='#')
             img(
                 src='/vk.png'
