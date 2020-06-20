@@ -1,8 +1,8 @@
--- MariaDB dump 10.17  Distrib 10.5.3-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.17  Distrib 10.5.2-MariaDB, for Win32 (AMD64)
 --
 -- Host: localhost    Database: webhub
 -- ------------------------------------------------------
--- Server version	10.5.3-MariaDB
+-- Server version	10.5.2-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -174,7 +174,7 @@ CREATE TABLE `notifications` (
   PRIMARY KEY (`id`),
   KEY `notifications_users_id_fk` (`user_id`),
   CONSTRAINT `notifications_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,12 +189,13 @@ CREATE TABLE `user_certificates` (
   `user_id` int(11) NOT NULL,
   `create_date` datetime NOT NULL,
   `image_id` char(32) NOT NULL,
+  `reason` varchar(512) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_certificates_files_id_fk` (`image_id`),
   KEY `user_certificates_users_id_fk` (`user_id`),
   CONSTRAINT `user_certificates_files_id_fk` FOREIGN KEY (`image_id`) REFERENCES `files` (`id`),
   CONSTRAINT `user_certificates_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +259,7 @@ CREATE TABLE `user_theme_progress` (
   KEY `user_theme_progress_users_id_fk` (`user_id`),
   CONSTRAINT `user_theme_progress_lessons_theme_id_fk_2` FOREIGN KEY (`lessons_theme_id`) REFERENCES `lessons_themes` (`id`),
   CONSTRAINT `user_theme_progress_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +288,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_uindex` (`email`),
   KEY `users_files_id_fk` (`ava_file_id`),
   CONSTRAINT `users_files_id_fk` FOREIGN KEY (`ava_file_id`) REFERENCES `files` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -299,4 +300,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-13 14:20:20
+-- Dump completed on 2020-06-21  3:57:57
