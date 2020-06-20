@@ -10,7 +10,12 @@ block head
             !=`#lang-${lang.id}:hover{background:${lang.background};}`
 
 block content
-    div(id="language")
+    if user.is_authorised
+        - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
+        div.div_prog
+            +progress-bar(Math.roundN(progress, 4), progress >= 1 ? "#23B45D" : "#ff7700", 40)
+            p Общий прогресс: #{Math.roundN(progress * 100)}%
+    div#language
         each lang in langs
             a(href=`/courses/${lang.id}`)
                 div(id=`lang-${lang.id}`)

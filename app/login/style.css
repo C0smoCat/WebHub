@@ -36,7 +36,7 @@
     padding-left: 15px;
 }
 
-.tabcontent > form > input, .tabcontent > form > div > input {
+.tabcontent > form input, .tabcontent > form > div input {
     padding-left: 5px;
     width: 250px;
     height: auto;
@@ -123,4 +123,39 @@
     border: none;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 320px;
+    background-color: #505050;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -165px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #505050 transparent transparent transparent;
 }

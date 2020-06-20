@@ -5,7 +5,7 @@ const fs = require('fs');
 const express = require('express');
 const md5File = require('md5-file');
 const crypto = require('crypto');
-const multer = require('multer')({dest: `${__dirname}/uploads`});
+const multer = require('multer')({ dest: `${__dirname}/uploads` });
 const hljs = require('highlight.js');
 const url = require('url');
 const markdown_it_container = require('markdown-it-container');
@@ -325,18 +325,11 @@ async function AuthUser(app, db, req, res, next) {
             user.is_admin = user.is_admin === 1;
             user.is_online = true;
             if (user.last_active && Date.now() - user.last_active.getTime() > 24 * 60 * 60 * 1000) {
-                let bonusRating = 10;
-                if (user.is_premium) {
-                    bonusRating = 25;
-                    await db.rquery(`UPDATE users u
+                let bonusRating = user.is_premium ? 25 : 10;
+                await db.rquery(`UPDATE users u
                                      SET u.score = u.score + ?
                                      where u.id = ?`, [bonusRating, user.user_id]);
-                } else {
-                    await db.rquery(`UPDATE users u
-                                     SET u.score = u.score + ?
-                                     where u.id = ?`, [bonusRating, user.user_id]);
-                }
-                await PushNotification(db, user.user_id, "Ежедневный вход", `Вам начислено ${bonusRating} рейтинга за то, что вы с нами! Ваш текущий рейтинг: ${user.rating + bonusRating}.`);
+                await PushNotification(db, user.user_id, "Ежедневный вход", `Вам начислено ${bonusRating} рейтинга за то, что вы с нами! Ваш текущий рейтинг: ${+user.score + bonusRating}.`);
             }
 
             await db.rquery(`update \`users\`
@@ -508,9 +501,18 @@ async function Route_Course(app, db, req, res) {
 }
 
 async function Route_Courses(app, db, req, res) {
-    let langs = await db.rquery(`SELECT g.id, g.title, g.background, g.avatar, IF(RAND() < 0.2, 1, RAND()) as progress
-                                 from langs g
-                                 order by progress desc`);
+    let langs = await db.rquery(`select g.id,
+                                             g.avatar,
+                                             g.title,
+                                             g.background,
+                                             (IFNULL(sum(p.progress), 0) / COUNT(*)) progress
+                                      FROM lessons l
+                                               left join lessons_themes t on l.lesson_theme_id = t.id
+                                               left join user_lesson_progress p on l.id = p.lesson_id
+                                               join langs g on t.lang = g.id
+                                      where (p.user_id = ? or p.lesson_id is null)
+                                      group by t.lang
+                                      order by progress desc`, [req.user && req.user.is_authorised ? req.user.user_id : 0]);
     langs.forEach(v => v.avatar = `/images/${v.avatar}`);
     res.render(path.join(__dirname, "courses", "index.pug"), {
         basedir: path.join(__dirname, "courses"),
@@ -630,10 +632,6 @@ async function Route_ForumMessages(app, db, req, res) {
 }
 
 async function Route_Leaderboard(app, db, req, res) {
-    let user = req.user.is_authorised ? (await db.rquery(`select 5 place_num
-                                                              # ROW_NUMBER() OVER (ORDER BY score) place_num
-                                                          from \`users\` u
-                                                          where u.\`id\` = ?`, [req.user.user_id]))[0] : {};
     let leaderboard = (await db.rquery(`select u.\`id\`,
                                                u.\`login\`,
                                                u.\`ava_file_id\`,
@@ -643,17 +641,22 @@ async function Route_Leaderboard(app, db, req, res) {
                                                (u.\`last_active\` IS NOT NULL
                                                    AND
                                                 u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
-                                               # ROW_NUMBER() OVER (ORDER BY score)                                  place_num,
-                                               u.score                                                             score
+                                               u.score                                                             score,
+                                               u.is_admin
                                         from \`users\` u
                                         order by score desc
                                         limit 200`, [5 * 60]));
-    leaderboard.forEach(v => {
+
+    leaderboard.forEach((v, i) => {
         v.avatar = `/images/${v.ava_file_id}`;
         v.is_premium = v.is_premium === 1;
         v.url = `/user/${v.id}`;
         v.is_online = v.is_online === 1;
+        v.place_num = i + 1;
     });
+
+    let user = req.user.is_authorised ? leaderboard.find(v => v.id === req.user.user_id) : {};
+
     res.render(path.join(__dirname, "leaderboard", "index.pug"), {
         basedir: path.join(__dirname, "leaderboard"),
         current_page: "leaderboard",
@@ -856,7 +859,7 @@ async function Route_Lesson_Complete(app, db, req, res) {
         await db.rquery(`INSERT INTO user_lesson_progress(user_id, lesson_id, progress)
                          VALUES (?, ?, 1)`, [req.user.user_id, id_lesson]);
         let bonusRating = 10;
-        await PushNotification(db, req.user.user_id, "Начисление рейтинга", `За прохождение урока "${lesson.lesson_title}" вам начислено ${bonusRating} рейтинга. Ваш текущий рейтинг: ${req.user.rating + bonusRating}.`, `/lessons/${id_lesson}`);
+        await PushNotification(db, req.user.user_id, "Начисление рейтинга", `За прохождение урока "${lesson.lesson_title}" вам начислено ${bonusRating} рейтинга. Ваш текущий рейтинг: ${+req.user.score + bonusRating}.`, `/lessons/${id_lesson}`);
         await db.rquery(`UPDATE users u
                          SET u.score = u.score + ?
                          where u.id = ?`, [10, req.user.user_id]);
@@ -924,20 +927,23 @@ async function TryAuthUser(app, db, req, res, email, password) {
             return ["Email уже зянят", false];
 
         let avatar = "e9752157de38d306b4301b5b63d7af6e";
+
         if (req.file) {
-            let file_hash = md5File.sync(req.file.path);
-            avatar = file_hash;
-            await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
-                [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
+            try {
+                let file_hash = md5File.sync(req.file.path);
+                await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
+                    [file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path]);
+                avatar = file_hash;
+            } catch (e) {
+                console.error(`Не удалось добавить аватар пользователя в БД: ${e}`);
+            }
         }
+
         let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active, score, last_score_update, is_admin) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW(),0,NOW(),false)",
             [req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0]);
 
         await PushToken(res.insertId);
-        let welcome_lessons = await db.rquery(`select id
-                                               from lessons_themes
-                                               group by lang
-                                               order by id`);
+        let welcome_lessons = await db.rquery(`select min(t.id) id from lessons_themes t group by t.lang`);
         await db.rquery(`insert into user_theme_progress(user_id, lessons_theme_id, is_available, is_exam_complete) VALUES ${welcome_lessons.map(v => `(${res.insertId},${v.id},true,false)`).join(", ")}`);
 
         return [undefined, true];
@@ -959,7 +965,7 @@ async function TryAuthUser(app, db, req, res, email, password) {
         await PushToken(user_id);
         let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         let client_agent = req.headers['user-agent'] || "unknown";
-        await PushNotification(db, user_id, "Авторизация в аккаунт", `Кто-то авторизировался в вашем аккаунте\nIP адрес: ${client_ip}\nUser-agent: ${client_agent}`);
+        await PushNotification(db, user_id, "Авторизация в аккаунт", `Кто-то авторизировался в вашем аккаунте. Мы хотим убедиться, что это были Вы.\nIP адрес: ${client_ip}\nUser-agent: ${client_agent}`);
         return [undefined, true];
     }
 
@@ -979,10 +985,11 @@ async function Route_User(app, db, req, res) {
     let user_id = req.params.user_id || req.user.id || req.user.user_id;
     let error_msg;
     let langs = [];
+    let certificates = [];
     if (!user_id) {
         res.redirect(url.format({
             pathname: "/login",
-            query: {"redirect": `/user`}
+            query: { "redirect": `/user` }
         }));
         return;
     }
@@ -1000,11 +1007,13 @@ async function Route_User(app, db, req, res) {
                                              (u.\`last_active\` IS NOT NULL AND
                                               u.\`last_active\` >= DATE_SUB(NOW(), INTERVAL ? second))           is_online,
                                              u.\`last_active\`,
-                                             # ROW_NUMBER() OVER (ORDER BY score)                              place_num,
-                                             5                                                                   place_num,
+                                             0                                                                   place_num,
                                              u.score                                                             score
                                       from \`users\` u
                                       where u.\`id\` = ?`, [5 * 60, user_id]))[0];
+    let users_ids = await db.rquery(`select u.id from users u order by u.score desc`);
+    user_page.place_num = users_ids.findIndex(v => v.id === user_page.id) + 1;
+
     if (!user_page) {
         error_msg = "Пользователь не найден";
     } else {
@@ -1013,16 +1022,26 @@ async function Route_User(app, db, req, res) {
         user_page.is_admin = user_page.is_admin === 1;
         user_page.is_premium = user_page.is_premium === 1;
 
-        langs = await db.rquery(`SELECT g.id,
-                                        g.title,
-                                        g.background,
-                                        g.avatar,
-                                        IF(RAND() < 0.2, 1, RAND()) as progress
-                                 from langs g
-                                 order by progress desc`);
+        langs = await db.rquery(`select g.id,
+                                             g.avatar,
+                                             g.title,
+                                             g.background,
+                                             (IFNULL(sum(p.progress), 0) / COUNT(*)) progress
+                                      FROM lessons l
+                                               left join lessons_themes t on l.lesson_theme_id = t.id
+                                               left join user_lesson_progress p on l.id = p.lesson_id
+                                               join langs g on t.lang = g.id
+                                      where (p.user_id = ? or p.lesson_id is null)
+                                      group by t.lang
+                                      order by progress desc`, [user_page.id]);
         langs.forEach(v => {
             v.avatar = `/images/${v.avatar}`;
             v.url = `/courses/${v.id}`;
+        });
+
+        certificates = await db.rquery(`select * from user_certificates where user_id = ?`, [user_page.id]);
+        certificates.forEach(v => {
+            v.image = `/images/${v.image_id}`;
         });
     }
     res.render(path.join(__dirname, "user", "index.pug"), {
@@ -1035,7 +1054,7 @@ async function Route_User(app, db, req, res) {
         langs,
         user: req.user,
         user_page: user_page,
-        certificates: ["/visa-bg.jpg", "/visa-bg-2.jpg", "/visa-bg-3.jpg", "/visa-bg-4.jpg"]
+        certificates
     }, (err, page) => HandleResult(err, page, res));
 }
 
@@ -1052,7 +1071,7 @@ async function Route_Notifications(app, db, req, res) {
     if (!req.user || !req.user.is_authorised) {
         res.redirect(url.format({
             pathname: "/login",
-            query: {"redirect": `/notifications`}
+            query: { "redirect": `/notifications` }
         }));
         return;
     }

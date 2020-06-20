@@ -5,8 +5,6 @@ block head
     title= user_page ? `Профиль ${user_page.login} - WebHub` : "Профиль - WebHub"
     style
         include style.css
-    script(src="/card3d.js")
-    link(rel="stylesheet" href="/card3d.css")
 block content
     if error_msg
         p(
@@ -88,21 +86,33 @@ block content
                         img(src=user_page.avatar)
                         button Изменить
 
-        - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
-            div(class='div_prog')
-                +progress-bar(Math.roundN(progress, 4), progress >= 1 ? "#23B45D" : "#ff7700", 40)
-                p Общий прогресс: #{Math.roundN(progress * 100)}%
-            div(id="pro_cur")
-                each lang in langs
-                    a(href=lang.url)
-                        div
-                            img(src=lang.avatar)
-                            div(class='cur_text')
-                                h1=lang.title
-                                p Пройдено на #{Math.round(lang.progress * 100)}%
-                            +progress-bar(Math.roundN(lang.progress), (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)
-
-        div(id='certificates')
+        div#certificates
             each certificate in certificates
-                div(class='certificate atvImg')
-                    img(src=certificate class="atvImg-layer")
+                div.certificate.cover.atvImg(id=`certificate-${certificate.id}`)
+                    img.atvImg-layer.atvImg-rendered-layer(src=certificate.image)
+                    div.atvImg-layer.atvImg-rendered-layer.certificate-text
+                        div
+                            h1 Сертификат
+                            p Выдан участнику
+                            h3=user_page.login
+                            if certificate.reason
+                                p за
+                                h3=certificate.reason
+                            if certificate.create_time
+                                pre=certificate.create_time.formatDate()
+            script(src="/card3d.js")
+            link(rel="stylesheet" href="/card3d.css")
+
+        - let progress = langs.reduce((prev, now) => now.progress + prev, 0) / langs.length;
+        div.div_prog
+            +progress-bar(Math.roundN(progress, 4), progress >= 1 ? "#23B45D" : "#ff7700", 40)
+            p Общий прогресс: #{Math.roundN(progress * 100)}%
+        div#pro_cur
+            each lang in langs
+                a(href=lang.url)
+                    div
+                        img(src=lang.avatar)
+                        div.cur_text
+                            h1=lang.title
+                            p Пройдено на #{Math.round(lang.progress * 100)}%
+                        +progress-bar(Math.roundN(lang.progress), (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)

@@ -256,9 +256,13 @@ details > div > div > button {
     border-radius: 8px;
 }
 
-.certificate > img {
-    width: 500px;
-    height: 300px;
+.certificate-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.certificate-text > div {
+    font-size: larger;
 }
 
 .online_status {

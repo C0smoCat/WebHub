@@ -1,3 +1,8 @@
+.notification[href] {
+    text-decoration: none;
+    color: #4c7be4;
+}
+
 .notification > div {
     background: #464646;
     border-radius: 8px;

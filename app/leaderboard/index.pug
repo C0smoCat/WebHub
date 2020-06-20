@@ -9,18 +9,12 @@ block content
     div(id='header_led')
         h1 Топ пользователей
         select
-            option За неделю
-            option За месяц
-            option За год
+            option За всё время
     each leader, place_num in leaderboard
         a(href = leader.url)
-            div(class='leader')
+            div.leader(class=user.is_authorised && (leader.id === user.id) && 'not_leader')
                 h1= place_num + 1
-                //- h1= leader.place_num
-                img(
-                    src=leader.avatar
-                    style={border: leader.is_premium ? "solid 3px gold" : "solid 3px black"},
-                )
+                +user-avatar(leader, undefined, 100)
                 div
                     h3=leader.login
                     p=leader.status
@@ -33,10 +27,7 @@ block content
     if user.is_authorised
         div(class='not_leader')
             h1=user.place_num
-            img(
-                src=user.avatar
-                style={border: user.is_premium ? "solid 3px gold" : "solid 3px black"},
-            )
+            +user-avatar(user, undefined, 100)
             div
                 h3=user.login
                 p=user.status

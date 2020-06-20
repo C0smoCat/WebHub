@@ -24,15 +24,16 @@ function atvImg() {
         let layersHTML = d.createElement('div');
         let layers = [];
 
-        thisImg.id = `atvImg__${l}`;
+        // thisImg.id = `atvImg__${l}`;
         containerHTML.className = 'atvImg-container';
         shineHTML.className = 'atvImg-shine';
         layersHTML.className = 'atvImg-layers';
 
         for (let i = 0; i < totalLayerElems; i++)
-            while (thisImg.childNodes.length > 0)
+            while (thisImg.childNodes.length > 0) {
+                layers.push(thisImg.childNodes[0]);
                 layersHTML.appendChild(thisImg.childNodes[0]);
-
+            }
         containerHTML.appendChild(layersHTML);
         containerHTML.appendChild(shineHTML);
         thisImg.appendChild(containerHTML);
@@ -101,6 +102,12 @@ function atvImg() {
 
         shine.style.background = `linear-gradient(${angle}deg, rgba(255,255,255,${(pageY - offsets.top - bdst) / h * 0.4}) 0%,rgba(255,255,255,0) 80%)`;
         shine.style.transform = `translateX(${offsetX * totalLayers}` - 0.1 + 'px) translateY(' + (offsetY * totalLayers) - 0.1 + 'px)';
+
+        let revNum = totalLayers;
+        for (let ly = 0; ly < totalLayers; ly++) {
+            layers[ly].style.transform = 'translateX(' + (offsetX * revNum) * ((ly * 2.5) / wMultiple) + 'px) translateY(' + (offsetY * totalLayers) * ((ly * 2.5) / wMultiple) + 'px)';
+            revNum--;
+        }
     }
 
     function processEnter(e, elem) {

@@ -2,7 +2,7 @@ extends ../layout.pug
 include ../share-mixins.pug
 
 block head
-    title= `Курсы по ${course.title} - WebHub`
+    title= `Уроки по ${course.title} - WebHub`
     style
         include style.css
     script
@@ -38,7 +38,7 @@ block content
                     right: 0,
                     "text-align": "center",
                     color: "#eee"
-                }) Общий прогресс: #{Math.roundN(allProgress * 100)}%
+                }) Прогресс курса: #{Math.roundN(allProgress * 100)}%
         each theme, index in course.themes
             hr
             - let themeProgress = theme.lessons.reduce((total, current) => total += current.progress, 0) / (theme.lessons.length || 1);

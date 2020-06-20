@@ -39,7 +39,9 @@ block content
                 label(for="email2") E-mail
                 input(type="email" id="email2" name="email" placeholder="Ваш e-mail" value=values.email)
                 label(for="status") Статус
-                input(type="text" id="status" name="status" placeholder="Ваш статус" value=values.status)
+                div.tooltip
+                    input(type="text" id="status" name="status" placeholder="Ваш статус" value=values.status)
+                    span.tooltiptext Статус – это короткая фраза, устанавливаемая рядом с ником (именем) и отражающая текущее состояние пользователя.
                 input(type="submit" id="spo_sub" value='Регистрация')
             div
                 h1 Аватар
