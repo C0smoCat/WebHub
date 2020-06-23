@@ -253,6 +253,13 @@ module.exports = async function Route(app, db) {
             await ShowError(res, err);
         }
     });
+    app.get("/terms", async function (req, res) {
+        try {
+            await Route_Terms(app, db, req, res);
+        } catch (err) {
+            await ShowError(res, err);
+        }
+    });
     app.get("/notifications", async function (req, res) {
         try {
             await Route_Notifications(app, db, req, res);
@@ -1062,6 +1069,15 @@ async function Route_About(app, db, req, res) {
     res.render(path.join(__dirname, "about", "index.pug"), {
         basedir: path.join(__dirname, "about"),
         current_page: "about",
+        current_url: req.url,
+        user: req.user
+    }, (err, page) => HandleResult(err, page, res));
+}
+
+async function Route_Terms(app, db, req, res) {
+    res.render(path.join(__dirname, "terms", "index.pug"), {
+        basedir: path.join(__dirname, "terms"),
+        current_page: "terms",
         current_url: req.url,
         user: req.user
     }, (err, page) => HandleResult(err, page, res));

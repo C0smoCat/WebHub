@@ -7,14 +7,13 @@ block head
         include style.css
 block content
     if error_msg
-        p(
-            class="auth-warning"
+        p.auth-warning(
             style={
                 background: "#7b2b18",
                 "border-color": "#bb4325"
             })=error_msg
     else
-        div(id="first_block")
+        #first_block
             +user-avatar(user_page, undefined, 180)
             div
                 h1=user_page.login
@@ -25,7 +24,7 @@ block content
                     h3 Премиум до: #{user.premium_expire.toDateString()}
                 if user_page.is_admin
                     h3 Администратор
-            div(id="f_b_grid")
+            #f_b_grid
                 div(id='top_place')
                     p Место в топе:
                         h1=user_page.place_num
@@ -48,16 +47,14 @@ block content
                 summary Настройки аккаунта
                 hr
                 if user_page.id !== user.user_id
-                    p(
-                        class="auth-warning"
+                    p.auth-warning(
                         style={
                             background: "#183b7b",
                             margin: "10px",
                             "border-color": "#2860c8"
                         }) Вы редактируйте чужой аккаунт
                 if error_settings_msg
-                    p(
-                        class="auth-warning"
+                    p.auth-warning(
                         style={
                             background: "#7b2b18",
                             margin: "10px",
@@ -93,13 +90,13 @@ block content
                     div.atvImg-layer.atvImg-rendered-layer.certificate-text
                         div
                             h1 Сертификат
-                            p Выдан участнику
+                            p Выдан пользователю
                             h3=user_page.login
                             if certificate.reason
                                 p за
                                 h3=certificate.reason
-                            if certificate.create_time
-                                pre=certificate.create_time.formatDate()
+                            if certificate.create_date
+                                pre=certificate.create_date.formatDate()
             script(src="/card3d.js")
             link(rel="stylesheet" href="/card3d.css")
 

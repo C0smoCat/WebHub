@@ -48,6 +48,14 @@ block content
                 img(id="avatar-preview" src='/images/e9752157de38d306b4301b5b63d7af6e')
                 input(type="file" id="avatar" name="avatar" accept="image/png,image/jpeg" onchange="updateAvatar(this)")
                 label(for='avatar' id="avalabel") Загрузить
+        p(style="margin: 0 15px 15px 15px; text-align: center;")
+            | Авторизируясь на сайте Вы принимаете наши
+            |
+            a(href="/terms#user") Пользовательское соглашение
+            |
+            | и
+            |
+            a(href="/terms#privacy") Политику конфиденциальности
     script
         include script.js
 
