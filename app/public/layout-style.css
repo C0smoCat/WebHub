@@ -117,14 +117,18 @@ header {
     }
 }
 
-/*footer*/
-
 body {
     font-family: Arial;
     background-color: #202020;
     color: #eee;
     margin: 0;
     padding: 0;
+}
+
+/*footer*/
+
+#footer-push {
+    margin-bottom: 100px;
 }
 
 footer {
@@ -137,6 +141,9 @@ footer {
     float: bottom;
     text-align: center;
     display: inline-block;
+
+    position: fixed;
+    bottom: 0;
 }
 
 footer > img {

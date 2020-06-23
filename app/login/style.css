@@ -159,3 +159,11 @@
     border-style: solid;
     border-color: #505050 transparent transparent transparent;
 }
+
+a {
+    color: #7391ff;
+}
+
+a:visited {
+    color: #d9a1ff;
+}

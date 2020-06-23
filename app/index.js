@@ -970,9 +970,6 @@ async function TryAuthUser(app, db, req, res, email, password) {
             return ["Превышен лимит авторизаций", false];
 
         await PushToken(user_id);
-        let client_ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        let client_agent = req.headers['user-agent'] || "unknown";
-        await PushNotification(db, user_id, "Авторизация в аккаунт", `Кто-то авторизировался в вашем аккаунте. Мы хотим убедиться, что это были Вы.\nIP адрес: ${client_ip}\nUser-agent: ${client_agent}`);
         return [undefined, true];
     }
 
