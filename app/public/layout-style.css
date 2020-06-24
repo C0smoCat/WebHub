@@ -118,17 +118,19 @@ header {
 }
 
 body {
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     background-color: #202020;
     color: #eee;
     margin: 0;
     padding: 0;
+    position: relative;
+    min-height: 100vh;
 }
 
 /*footer*/
 
 #footer-push {
-    margin-bottom: 100px;
+    padding-bottom: 100px;
 }
 
 footer {
@@ -141,8 +143,7 @@ footer {
     float: bottom;
     text-align: center;
     display: inline-block;
-
-    position: fixed;
+    position: absolute;
     bottom: 0;
 }
 
