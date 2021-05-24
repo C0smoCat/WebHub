@@ -446,11 +446,11 @@ SELECT l.title                                as lesson_title,
        utp.is_available                       as theme_is_avaliable,
        utp.is_exam_complete                   as is_exam_complete
 FROM langs g
-         inner join lessons_themes t on g.id = t.lang
-         inner join lessons l on t.id = l.lesson_theme_id
-         left outer join user_lesson_progress ulp on l.id = ulp.lesson_id and ulp.user_id = $1
-         left outer join user_theme_progress utp on t.id = utp.lessons_theme_id and utp.user_id = $2
-where g.id = $3`, [ user_id, user_id, lang_id ]);
+         join lessons_themes t on g.id = t.lang
+         join lessons l on t.id = l.lesson_theme_id
+         left join user_theme_progress utp on t.id = utp.lessons_theme_id and utp.user_id = $1
+         left join user_lesson_progress ulp on l.id = ulp.lesson_id and ulp.user_id = utp.user_id
+where g.id = $2`, [ user_id, lang_id ]);
     if (!course || course.length <= 0) {
         res.redirect("/courses");
         return;
@@ -468,8 +468,8 @@ where g.id = $3`, [ user_id, user_id, lang_id ]);
                 prev.push({
                     title: now.theme_title,
                     id: now.theme_id,
-                    is_lock: (now.theme_is_avaliable || 0) === false,
-                    is_exam_complete: (now.is_exam_complete || 0) === true,
+                    is_lock: !now.theme_is_avaliable,
+                    is_exam_complete: !!now.is_exam_complete,
                     exam_url: `/exam/${ lang_id }/${ themeIndex + 1 }`,
                     url: `/courses/${ lang_id }#${ themeIndex + 1 }`,
                     avatar: `/images/${ now.theme_avatar }`,
@@ -925,20 +925,21 @@ async function TryAuthUser(app, db, req, res, email, password) {
         if (req.file) {
             try {
                 let file_hash = md5File.sync(req.file.path);
-                await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES (?,?,?,LOAD_FILE(?)) ON DUPLICATE KEY UPDATE file_data = LOAD_FILE(?)",
-                    [ file_hash, req.file.size, req.file.mimetype, req.file.path, req.file.path ]);
+                const file_data = fs.readFileSync(req.file.path);
+                await db.rquery("INSERT INTO files(id, file_size, file_type, file_data) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING",
+                    [ file_hash, req.file.size, req.file.mimetype, file_data ]);
                 avatar = file_hash;
             } catch (e) {
                 console.error(`Не удалось добавить аватар пользователя в БД: ${ e }`);
             }
         }
 
-        let res = await db.rquery("insert into `users`(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active, score, last_score_update, is_admin) values (?,MD5(?),NOW(),?,?,?,?,DATE_ADD(NOW(), INTERVAL ? day),?,NOW(),0,NOW(),false)",
+        let res = await db.rquery1("insert into users(login, password_hash, create_time, sex_is_boy, ava_file_id, status, email, premium_expire, coins, last_active, score, last_score_update, is_admin) values ($1,MD5($2),NOW(),$3,$4,$5,$6,(NOW() + $7 * INTERVAL '1 day'),$8,NOW(),0,NOW(),false) returning id",
             [ req.body.login, password, Math.random() < 0.5, avatar, req.body.status, email, 3, 0 ]);
 
-        await PushToken(res.insertId);
+        await PushToken(res.id);
         let welcome_lessons = await db.rquery(`select min(t.id) id from lessons_themes t group by t.lang`);
-        await db.rquery(`insert into user_theme_progress(user_id, lessons_theme_id, is_available, is_exam_complete) VALUES ${ welcome_lessons.map(v => `(${ res.insertId },${ v.id },true,false)`).join(", ") }`);
+        await db.rquery(`insert into user_theme_progress(user_id, lessons_theme_id, is_available, is_exam_complete) VALUES ${ welcome_lessons.map(v => `(${ res.id },${ v.id },true,false)`).join(",") }`);
 
         return [ undefined, true ];
     } else {
@@ -985,7 +986,7 @@ async function Route_User(app, db, req, res) {
         return;
     }
 
-    let user_page = (await db.rquery(`select u.id,
+    let user_page = await db.rquery1(`select u.id,
        u.login,
        u.create_time,
        u.sex_is_boy,
@@ -999,13 +1000,13 @@ async function Route_User(app, db, req, res) {
        u.last_active,
        0 as place_num,
        u.score as score
-       from users u where u.id = $2`, [ 5 * 60, user_id ]))[0];
+       from users u where u.id = $2`, [ 5 * 60, user_id ]);
     let users_ids = await db.rquery(`select u.id from users u order by u.score desc`);
-    user_page.place_num = users_ids.findIndex(v => v.id === user_page.id) + 1;
 
     if (!user_page) {
         error_msg = "Пользователь не найден";
     } else {
+        user_page.place_num = users_ids.findIndex(v => v.id === user_page.id) + 1;
         user_page.avatar = `/images/${ user_page.ava_file_id }`;
         user_page.is_online = user_page.is_online === 1;
         user_page.is_admin = user_page.is_admin === 1;

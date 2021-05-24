@@ -32,7 +32,7 @@ pgClient.rquery = async (sql, params) => {
         const res = await pgClient.query(sql, params);
         return res.rows;
     }catch (e) {
-        console.error(e);
+        console.error("db error: " + e);
         return [];
     }
 };
