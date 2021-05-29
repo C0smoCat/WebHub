@@ -45,7 +45,7 @@ block content
             ul(id=`part${theme.id}`)
                 div(class="theme")
                     div(onclick="extendedLessonClick(this)" class=(theme.is_lock && "disabled"))
-                        img(src=((!user.is_authorised || !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px")
+                        img(src=((!user.is_authorised || !theme.is_lock) ? theme.avatar : "/lock.png") width="200px" height="200px" loading="lazy")
                         li #{theme.title}
                         if user.is_authorised && !theme.is_lock
                             +progress-bar(themeProgress, (themeProgress >= 1) ? "#23B45D" : "#F3EB0C")

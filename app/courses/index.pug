@@ -19,7 +19,7 @@ block content
         each lang in langs
             a(href=`/courses/${lang.id}`)
                 div(id=`lang-${lang.id}`)
-                    img(src=lang.avatar)
+                    img(src=lang.avatar loading="lazy")
                     h1=lang.title
                     if user.is_authorised
                         +progress-bar(lang.progress, (lang.progress >= 1) ? "#23B45D" : "#F3EB0C", 10)

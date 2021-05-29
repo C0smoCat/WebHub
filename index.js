@@ -1,5 +1,6 @@
 "use strict";
 
+const compression = require("compression");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { Client } = require("pg");
@@ -12,12 +13,6 @@ const path = require("path");
 const mime = require("mime-types");
 let mysqlAdmin;
 
-try {
-    mysqlAdmin = require("node-mysql-admin");
-} catch (e) {
-    console.error(`Модуль mysqlAdmin не подгружен: ${ e }`);
-}
-
 console.log(`Debug mode: ${ config.debug_mode }`);
 
 const pgClient = new Client(config.databaseConfig || {
@@ -28,10 +23,10 @@ const pgClient = new Client(config.databaseConfig || {
 });
 
 pgClient.rquery = async (sql, params) => {
-    try{
+    try {
         const res = await pgClient.query(sql, params);
         return res.rows;
-    }catch (e) {
+    } catch (e) {
         console.error("db error: " + e);
         return [];
     }
@@ -102,6 +97,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(compression());
 
 router(app, pgClient);
 
